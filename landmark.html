@@ -390,14 +390,24 @@ function render(){
     <div class="br2"><div class="bl2">${TIPOS_LABELS[i]}</div>
     <div class="bt"><div class="bf" style="width:${(tc[tp]/mx)*100}%"></div></div>
     <div class="bv">${tc[tp]} uds</div></div>`).join('');
-  document.getElementById('pR').innerHTML=PRICE_RANGES.map(d=>`
-    <div class="prr"><div class="prh"><span class="prt">${d.t}</span><span class="prv">${d.min}M–${d.max}M</span></div>
-    <div class="prtr"><div class="prf" style="margin-left:${(d.min/d.scale)*100}%;width:${((d.max-d.min)/d.scale)*100}%"></div></div></div>`).join('');
+  document.getElementById('pR').innerHTML=(()=>{
+    const absMax = Math.max(...PRICE_RANGES.map(d=>d.max));
+    return PRICE_RANGES.map(d=>`
+      <div class="prr">
+        <div class="prh">
+          <span class="prt">Tipo ${d.t}</span>
+          <span class="prv">${d.min.toFixed(1)}M – ${d.max.toFixed(1)}M MXN</span>
+        </div>
+        <div class="prtr">
+          <div class="prf" style="margin-left:${(d.min/absMax)*100}%;width:${((d.max-d.min)/absMax)*100}%"></div>
+        </div>
+      </div>`).join('');
+  })();
   document.getElementById('hM').innerHTML=PISOS.map(p=>{
     const us=filtered.filter(u=>u.p===p);
     if(!us.length)return'';
     return`<div class="hr2"><div class="hl">${plbl(p)}</div><div class="hcs">${us.map(u=>`<div class="hc ${ns(u.s).toLowerCase()}"
-      onmouseenter="showTip(event,'${u.n} · ${u.t}<br>${u.s}<br>${GET_PRICE(u)?fmtF(GET_PRICE(u)):'Sin precio'}')"
+      data-n="${u.n}" data-t="${u.t}" data-s="${u.s}" data-p="${GET_PRICE(u)?fmtF(GET_PRICE(u)):'Sin precio'}" data-m="${u.tot||u.m2||0}" onmouseenter="showTipEl(event,this)" 
       onmouseleave="hideTip()"></div>`).join('')}</div></div>`;
   }).join('');
   const pp=PISOS.map(p=>{
@@ -406,13 +416,18 @@ function render(){
   }).filter(x=>x.avg>0);
   const mpx=Math.max(...pp.map(x=>x.avg),1);
   document.getElementById('bP').innerHTML=pp.map(x=>`
-    <div class="br2"><div class="bl2">${plbl(x.p)}</div>
-    <div class="bt"><div class="bf" style="width:${(x.avg/mpx)*100}%"></div></div>
-    <div class="bv">${fmt(x.avg)}</div></div>`).join('');
+    <div class="br2">
+      <div class="bl2">${plbl(x.p)}</div>
+      <div class="bt"><div class="bf" style="width:${(x.avg/mpx)*100}%"></div></div>
+      <div class="bv" style="color:var(--ac2);font-weight:600">${fmtF(Math.round(x.avg))}</div>
+    </div>`).join('');
   document.getElementById('cnt').textContent=filtered.length;
   document.getElementById('tb').innerHTML=filtered.map(u=>BUILD_ROW(u)).join('');
 }
 
+function showTipEl(e,el){
+  showTip(e,'<strong>'+el.dataset.n+' &middot; '+el.dataset.t+'</strong><br>'+el.dataset.s+'<br>'+el.dataset.p+'<br>'+el.dataset.m+' m²');
+}
 function showTip(e,h){const t=document.getElementById('tip');t.innerHTML=h;t.style.display='block';t.style.left=(e.clientX+14)+'px';t.style.top=(e.clientY-10)+'px';}
 function hideTip(){document.getElementById('tip').style.display='none';}
 document.addEventListener('mousemove',e=>{const t=document.getElementById('tip');if(t.style.display==='block'){t.style.left=(e.clientX+14)+'px';t.style.top=(e.clientY-10)+'px';}});
