@@ -267,6 +267,7 @@ const fmt=v=>v?'$'+(v/1e6).toFixed(2)+'M':'—';
 const fmtF=v=>'$'+v.toLocaleString('es-MX');
 const ns=s=>(s||'').toUpperCase().replace('RESERVADA','RESERVADO').replace('VENDIDA','VENDIDO').replace('DISPONIBLE','DISP');
 const GET_PRICE=u=>u.p1||u.precio||u.m2||0;
+const PRICE_RANGES=[{t:'1A',min:2.8,max:3.2},{t:'1B',min:3.3,max:3.9},{t:'1C',min:3.8,max:4.7},{t:'2A',min:6.4,max:8.1}];
 const plbl=p=>p==='PB'?'P.Baja':p==='PH'?'PH':'Nivel '+p;
 
 // Build filters
