@@ -266,7 +266,7 @@ let data=[...RAW], filtered=[...RAW];
 const fmt=v=>v?'$'+(v/1e6).toFixed(2)+'M':'—';
 const fmtF=v=>'$'+v.toLocaleString('es-MX');
 const ns=s=>(s||'').toUpperCase().replace('RESERVADA','RESERVADO').replace('VENDIDA','VENDIDO').replace('DISPONIBLE','DISP');
-const GET_PRICE=u=>u.p1||u.precio||u.m2||0;
+const GET_PRICE=u=>u.p1||0;
 const PRICE_RANGES=[{t:'1A',min:2.8,max:3.2},{t:'1B',min:3.3,max:3.9},{t:'1C',min:3.8,max:4.7},{t:'2A',min:6.4,max:8.1}];
 const BUILD_ROW=u=>`<tr>
   <td><strong style="color:var(--ac2)">${u.n}</strong></td>
@@ -312,10 +312,16 @@ async function load() {
     if (json.error) throw new Error(json.error);
     if (json.unidades && json.unidades.length > 0) {
       data = json.unidades.map(u => ({
-        n: u.numero, p: u.piso, s: u.status,
-        ubi: u.ubicacion||'', t: u.tipo,
-        m2i: u.m2i||u.m2||0, terr: u.m2e||0,
-        tot: u.m2||0, p1: u.precio||0, p2: 0
+        n:    String(u.numero||''),
+        p:    String(u.piso||''),
+        s:    String(u.status||''),
+        ubi:  String(u.ubicacion||''),
+        t:    String(u.tipo||''),
+        m2i:  Number(u.m2i)||0,
+        terr: Number(u.m2e)||0,
+        tot:  Number(u.m2)||0,
+        p1:   Number(u.precio)||0,
+        p2:   Number(u.precio2)||0
       }));
     }
     const now = new Date().toLocaleTimeString('es-MX');
