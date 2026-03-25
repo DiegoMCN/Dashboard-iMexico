@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE LANDMARK — iMexico Real Estate</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0e0f0c;--card:#1c1e1a;--border:#2a2c27;
+  --ac:#c9a96e;--ac2:#e2c898;--acd:#7a6340;
+  --text:#e8e8e8;--muted:#6a6a6a;
+  --green:#22c55e;--green-bg:#0a2a15;
+  --yellow:#eab308;--yellow-bg:#1a1a05;
+  --red:#ef4444;--red-bg:#2a0a0a;
+}
+*{font-family:'DM Mono',monospace;}
+body{background:var(--bg);color:var(--text);font-size:13px;min-height:100vh;}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:16px 48px;border-bottom:1px solid var(--border);background:rgba(0,0,0,0.6);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100;}
+.back{font-size:11px;color:var(--muted);letter-spacing:.15em;text-decoration:none;text-transform:uppercase;transition:color .2s;}
+.back:hover{color:var(--ac);}
+.brand{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--muted);letter-spacing:.2em;text-transform:uppercase;}
+.live{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--muted);}
+.dot{width:7px;height:7px;border-radius:50%;background:#22c55e;animation:p 2s infinite;}
+@keyframes p{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.header{padding:36px 48px 28px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-end;}
+.header h1{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:var(--ac2);letter-spacing:.06em;line-height:1.1;}
+.header .sub{font-size:10px;color:var(--muted);letter-spacing:.25em;text-transform:uppercase;margin-top:6px;}
+.header-r{text-align:right;font-size:10px;color:var(--muted);}
+#upd{color:var(--acd);font-size:11px;}
+.main{padding:28px 48px;}
+.krow{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px;}
+.kpi{background:var(--card);border:1px solid var(--border);padding:18px;position:relative;overflow:hidden;transition:border-color .2s;}
+.kpi:hover{border-color:var(--acd);}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:.5;}
+.kg::before{background:#22c55e;}.ky::before{background:#eab308;}.kr::before{background:#ef4444;}.ka::before{background:var(--ac);}
+.klb{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.kv{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:var(--ac2);line-height:1;}
+.ks{font-size:10px;color:var(--muted);margin-top:5px;}
+.filters{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
+.filters label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+.fg{display:flex;align-items:center;gap:6px;}
+select,input{background:var(--card);border:1px solid var(--border);color:var(--text);padding:7px 10px;font-family:'DM Mono',monospace;font-size:12px;outline:none;cursor:pointer;}
+select:focus,input:focus{border-color:var(--ac);}
+.btn{background:transparent;border:1px solid var(--acd);color:var(--ac);padding:7px 14px;font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;transition:all .2s;}
+.btn:hover{background:var(--acd);color:var(--bg);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:20px;}
+.pb{background:var(--card);border:1px solid var(--border);padding:20px;}
+.pt{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--acd);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.bc{display:flex;flex-direction:column;gap:9px;}
+.br2{display:flex;align-items:center;gap:10px;}
+.bl2{width:76px;font-size:11px;color:var(--muted);text-align:right;flex-shrink:0;}
+.bt{flex:1;height:7px;background:var(--border);}
+.bf{height:100%;background:linear-gradient(90deg,var(--acd),var(--ac));transition:width .8s;}
+.bv{width:86px;font-size:11px;color:var(--text);text-align:right;flex-shrink:0;}
+.dw{display:flex;align-items:center;gap:28px;}
+.dl{display:flex;flex-direction:column;gap:10px;}
+.li{display:flex;align-items:center;gap:9px;}
+.ld{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.lc{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--ac2);margin-left:auto;padding-left:14px;}
+.hm{display:flex;flex-direction:column;gap:6px;}
+.hr2{display:flex;align-items:center;gap:8px;}
+.hl{width:58px;font-size:11px;color:var(--muted);}
+.hcs{display:flex;gap:3px;flex-wrap:wrap;}
+.hc{width:17px;height:17px;border:1px solid transparent;cursor:pointer;transition:transform .15s,border-color .15s;}
+.hc:hover{transform:scale(1.35);border-color:var(--ac);z-index:10;}
+.hc.disp{background:#22c55e;}.hc.reservado{background:#eab308;}.hc.vendido{background:#ef4444;}
+.prc{display:flex;flex-direction:column;gap:12px;}
+.prr{display:flex;flex-direction:column;gap:3px;}
+.prh{display:flex;justify-content:space-between;font-size:11px;}
+.prt{color:var(--ac);}.prv{color:var(--muted);}
+.prtr{height:5px;background:var(--border);}
+.prf{height:100%;background:linear-gradient(90deg,var(--acd),var(--ac2));}
+.tw{overflow-x:auto;max-height:400px;overflow-y:auto;}
+.tw::-webkit-scrollbar{width:3px;height:3px;}
+.tw::-webkit-scrollbar-thumb{background:var(--acd);}
+table{width:100%;border-collapse:collapse;}
+thead th{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--acd);padding:9px 10px;text-align:left;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--card);white-space:nowrap;}
+tbody tr{border-bottom:1px solid var(--border);transition:background .15s;}
+tbody tr:hover{background:rgba(100,100,200,.03);}
+tbody td{padding:8px 10px;font-size:12px;white-space:nowrap;}
+.badge{display:inline-block;padding:2px 7px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;border-radius:2px;}
+.badge.disp{background:var(--green-bg);color:#5aea5a;border:1px solid #1a4a1a;}
+.badge.reservado{background:var(--yellow-bg);color:#eab308;border:1px solid #3a3a05;}
+.badge.vendido{background:var(--red-bg);color:#ea5a5a;border:1px solid #4a1a1a;}
+.ri{font-size:11px;color:var(--muted);margin-bottom:10px;}
+.ri span{color:var(--ac);}
+.tip{position:fixed;background:#111;border:1px solid var(--acd);padding:9px 12px;font-size:11px;color:var(--text);pointer-events:none;z-index:1000;display:none;line-height:1.7;}
+@media(max-width:900px){.krow{grid-template-columns:repeat(3,1fr);}.g2,.g3{grid-template-columns:1fr;}.main,.header,.nav{padding-left:20px;padding-right:20px;}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="back">← Volver al Portfolio</a>
+  <div class="brand">iMexico Real Estate</div>
+  <div class="live"><span class="dot"></span><span id="upd">Cargando...</span></div>
+</nav>
+<div class="header">
+  <div><h1>THE LANDMARK</h1><div class="sub">Playa del Carmen · Dashboard Ejecutivo de Inventario</div></div>
+  <div class="header-r">Auto-refresco cada <span style="color:var(--ac)">5</span> min</div>
+</div>
+<div class="main">
+  <div class="krow">
+    <div class="kpi kg"><div class="klb">Disponibles</div><div class="kv" id="kD">—</div><div class="ks">unidades</div></div>
+    <div class="kpi ky"><div class="klb">Reservados</div><div class="kv" id="kR">—</div><div class="ks">unidades</div></div>
+    <div class="kpi kr"><div class="klb">Vendidos</div><div class="kv" id="kV">—</div><div class="ks">unidades</div></div>
+    <div class="kpi ka"><div class="klb">Precio Mínimo</div><div class="kv" id="kMn">—</div><div class="ks">MXN</div></div>
+    <div class="kpi ka"><div class="klb">Precio Máximo</div><div class="kv" id="kMx">—</div><div class="ks">MXN</div></div>
+  </div>
+  <div class="filters" id="filters"></div>
+  <div class="g3">
+    <div class="pb">
+      <div class="pt">Estado del Inventario</div>
+      <div class="dw">
+        <svg width="96" height="96" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="38" fill="none" stroke="var(--border)" stroke-width="14"/>
+          <circle id="cD" cx="50" cy="50" r="38" fill="none" stroke="#22c55e" stroke-width="14" stroke-dasharray="0 239" stroke-dashoffset="60" transform="rotate(-90 50 50)" style="transition:stroke-dasharray 1s"/>
+          <circle id="cR" cx="50" cy="50" r="38" fill="none" stroke="#eab308" stroke-width="14" stroke-dasharray="0 239" stroke-dashoffset="60" transform="rotate(-90 50 50)" style="transition:stroke-dasharray 1s"/>
+          <circle id="cV" cx="50" cy="50" r="38" fill="none" stroke="#ef4444" stroke-width="14" stroke-dasharray="0 239" stroke-dashoffset="60" transform="rotate(-90 50 50)" style="transition:stroke-dasharray 1s"/>
+          <text x="50" y="47" text-anchor="middle" fill="var(--ac2)" font-family="Cormorant Garamond" font-size="16" font-weight="600" id="cT">—</text>
+          <text x="50" y="59" text-anchor="middle" fill="var(--muted)" font-family="DM Mono" font-size="7">TOTAL</text>
+        </svg>
+        <div class="dl">
+          <div class="li"><div class="ld" style="background:#22c55e"></div><span style="font-size:11px">Disponible</span><div class="lc" id="lD">—</div></div>
+          <div class="li"><div class="ld" style="background:#eab308"></div><span style="font-size:11px">Reservado</span><div class="lc" id="lR">—</div></div>
+          <div class="li"><div class="ld" style="background:#ef4444"></div><span style="font-size:11px">Vendido</span><div class="lc" id="lV">—</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="pb"><div class="pt">Unidades por Tipo</div><div class="bc" id="bT"></div></div>
+    <div class="pb"><div class="pt">Rango de Precios (MXN)</div><div class="prc" id="pR"></div></div>
+  </div>
+  <div class="g2">
+    <div class="pb">
+      <div class="pt">Disponibilidad por Piso</div>
+      <div style="display:flex;gap:14px;margin-bottom:12px;font-size:10px;letter-spacing:.1em;">
+        <span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;background:#22c55e;display:inline-block;"></span>DISP</span>
+        <span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;background:#eab308;display:inline-block;"></span>RESERVADO</span>
+        <span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;background:#ef4444;display:inline-block;"></span>VENDIDO</span>
+      </div>
+      <div class="hm" id="hM"></div>
+    </div>
+    <div class="pb"><div class="pt">Precio Promedio por Nivel (MXN)</div><div class="bc" id="bP"></div></div>
+  </div>
+  <div class="pb">
+    <div class="pt">Inventario Detallado</div>
+    <div class="ri">Mostrando <span id="cnt">—</span> unidades</div>
+    <div class="tw"><table id="tbl"><thead id="th"></thead><tbody id="tb"></tbody></table></div>
+  </div>
+</div>
+<div class="tip" id="tip"></div>
+<script>
+const PISOS = ["PB","1","2","3","4","5","6"];
+const TIPOS = ["1A","1B","1C","2A","2A2"];
+const TIPOS_LABELS = ["1A (Studio)","1B (1 Rec)","1C (1 Rec+)","2A (2 Rec)","2A2 (2 Rec)"];
+const PRICE_LABEL = "p1";
+
+const RAW = [
+ {n:"101",p:"PB",s:"RESERVADO",ubi:"Vista Calle",t:"2A",m2i:75.37,terr:8.55,tot:83.92,p1:6462420,p2:7237910},
+ {n:"102",p:"PB",s:"RESERVADO",ubi:"Vista Calle",t:"2A",m2i:74.90,terr:8.45,tot:83.35,p1:6462420,p2:7237910},
+ {n:"105",p:"PB",s:"RESERVADO",ubi:"Vista Calle",t:"2A",m2i:74.90,terr:8.45,tot:83.35,p1:6462420,p2:7237910},
+ {n:"106",p:"PB",s:"RESERVADO",ubi:"Vista Calle",t:"2A",m2i:76.02,terr:8.47,tot:84.49,p1:6509040,p2:7290124},
+ {n:"107",p:"PB",s:"DISP",ubi:"Jardín Interior",t:"1A",m2i:26.85,terr:0,tot:26.85,p1:2856168,p2:3141785},
+ {n:"108",p:"PB",s:"DISP",ubi:"Jardín Interior",t:"1A",m2i:26.85,terr:0,tot:26.85,p1:2856168,p2:3141785},
+ {n:"109",p:"PB",s:"DISP",ubi:"Jardín Interior",t:"1A",m2i:27.22,terr:0,tot:27.22,p1:2895527,p2:3185080},
+ {n:"112",p:"PB",s:"RESERVADO",ubi:"Muro/Jardín Trasero",t:"1B",m2i:31.84,terr:0,tot:31.84,p1:3386980,p2:3725678},
+ {n:"113",p:"PB",s:"RESERVADO",ubi:"Muro/Jardín Trasero",t:"1B",m2i:31.05,terr:0,tot:31.05,p1:3302943,p2:3633238},
+ {n:"114",p:"PB",s:"DISP",ubi:"Muro/Jardín Trasero",t:"1B",m2i:31.05,terr:0,tot:31.05,p1:3302943,p2:3633238},
+ {n:"115",p:"PB",s:"RESERVADO",ubi:"Muro/Jardín Trasero",t:"1B",m2i:33.40,terr:0,tot:33.40,p1:3552925,p2:3908217},
+ {n:"202",p:"1",s:"DISP",ubi:"Vista Calle",t:"2A2",m2i:74.92,terr:12.12,tot:87.04,p1:7002435,p2:7842727},
+ {n:"203",p:"1",s:"VENDIDO",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:6730485,p2:7538143},
+ {n:"205",p:"1",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:6730485,p2:7538143},
+ {n:"206",p:"1",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:6730485,p2:7538143},
+ {n:"207",p:"1",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:6730485,p2:7538143},
+ {n:"208",p:"1",s:"RESERVADO",ubi:"Vista Calle",t:"2A",m2i:76.21,terr:8.47,tot:84.68,p1:6808185,p2:7625167},
+ {n:"209",p:"1",s:"RESERVADO",ubi:"Jardín Interior",t:"1A",m2i:26.85,terr:0,tot:26.85,p1:2806496,p2:3087145},
+ {n:"210",p:"1",s:"VENDIDO",ubi:"Jardín Interior",t:"1A",m2i:26.85,terr:0,tot:26.85,p1:2806496,p2:3087145},
+ {n:"211",p:"1",s:"DISP",ubi:"Jardín Interior",t:"1A",m2i:27.58,terr:0,tot:27.58,p1:2882799,p2:3171079},
+ {n:"214",p:"1",s:"RESERVADO",ubi:"Muro/Jardín Trasero",t:"1B",m2i:31.99,terr:0,tot:31.99,p1:3343754,p2:3678130},
+ {n:"215",p:"1",s:"RESERVADO",ubi:"Muro/Jardín Trasero",t:"1B",m2i:31.19,terr:0,tot:31.19,p1:3260134,p2:3586148},
+ {n:"216",p:"1",s:"DISP",ubi:"Muro/Jardín Trasero",t:"1B",m2i:31.2,terr:0,tot:31.2,p1:3261180,p2:3587298},
+ {n:"217",p:"1",s:"DISP",ubi:"Muro/Jardín Trasero",t:"1B",m2i:33.56,terr:0,tot:33.56,p1:3507859,p2:3858644},
+ {n:"219A",p:"1",s:"RESERVADO",ubi:"Jardín Interior",t:"1C",m2i:44.13,terr:0,tot:44.13,p1:3842820,p2:4303958},
+ {n:"302",p:"2",s:"DISP",ubi:"Vista Calle",t:"2A2",m2i:74.92,terr:12.12,tot:87.04,p1:7247190,p2:8116852},
+ {n:"303",p:"2",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:6975240,p2:7812268},
+ {n:"304",p:"2",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:6975240,p2:7812268},
+ {n:"305",p:"2",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:6975240,p2:7812268},
+ {n:"306",p:"2",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:6975240,p2:7812268},
+ {n:"307",p:"2",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:6975240,p2:7812268},
+ {n:"308",p:"2",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:76.22,terr:8.47,tot:84.69,p1:7052940,p2:7899292},
+ {n:"309",p:"2",s:"DISP",ubi:"Jardín Interior",t:"1A",m2i:26.85,terr:0,tot:26.85,p1:2831332,p2:3114465},
+ {n:"310",p:"2",s:"DISP",ubi:"Jardín Interior",t:"1A",m2i:26.85,terr:0,tot:26.85,p1:2831332,p2:3114465},
+ {n:"313",p:"2",s:"RESERVADO",ubi:"Muro/Jardín Trasero",t:"1B",m2i:31.2,terr:0,tot:31.2,p1:3290040,p2:3619044},
+ {n:"314",p:"2",s:"DISP",ubi:"Muro/Jardín Trasero",t:"1B",m2i:31.2,terr:0,tot:31.2,p1:3290040,p2:3619044},
+ {n:"315",p:"2",s:"DISP",ubi:"Muro/Jardín Trasero",t:"1B",m2i:33.56,terr:0,tot:33.56,p1:3538902,p2:3892792},
+ {n:"316B",p:"2",s:"DISP",ubi:"Jardín Interior",t:"1C",m2i:44.13,terr:0,tot:44.13,p1:4002105,p2:4482357},
+ {n:"319B",p:"2",s:"VENDIDO",ubi:"Muro/Jardín Trasero",t:"1C",m2i:44.47,terr:0,tot:44.47,p1:4002105,p2:4482357},
+ {n:"321B",p:"2",s:"DISP",ubi:"Muro/Jardín Trasero",t:"1C",m2i:45.75,terr:0,tot:45.75,p1:4002105,p2:4482357},
+ {n:"403",p:"3",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:7157835,p2:8016775},
+ {n:"404",p:"3",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:7157835,p2:8016775},
+ {n:"406",p:"3",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:7157835,p2:8016775},
+ {n:"407",p:"3",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:7157835,p2:8016775},
+ {n:"409",p:"3",s:"DISP",ubi:"Jardín Interior",t:"1A",m2i:26.85,terr:0,tot:26.85,p1:2856168,p2:3141785},
+ {n:"410",p:"3",s:"DISP",ubi:"Jardín Interior",t:"1A",m2i:26.85,terr:0,tot:26.85,p1:2856168,p2:3141785},
+ {n:"411B",p:"3",s:"DISP",ubi:"Jardín Interior",t:"1C",m2i:44.12,terr:0,tot:44.12,p1:4153620,p2:4652054},
+ {n:"413",p:"3",s:"RESERVADO",ubi:"Muro/Jardín Trasero",t:"1B",m2i:31.2,terr:0,tot:31.2,p1:3318900,p2:3650790},
+ {n:"414",p:"3",s:"DISP",ubi:"Jardín Interior",t:"1B",m2i:31.2,terr:0,tot:31.2,p1:3318900,p2:3650790},
+ {n:"415",p:"3",s:"DISP",ubi:"Jardín Interior",t:"1B",m2i:33.56,terr:0,tot:33.56,p1:3569945,p2:3926939},
+ {n:"419B",p:"3",s:"DISP",ubi:"Muro/Jardín Trasero",t:"1C",m2i:44.47,terr:0,tot:44.47,p1:4153620,p2:4652054},
+ {n:"420A",p:"3",s:"DISP",ubi:"Muro/Jardín Trasero",t:"1C",m2i:44.47,terr:0,tot:44.47,p1:4153620,p2:4652054},
+ {n:"420B",p:"3",s:"DISP",ubi:"Muro/Jardín Trasero",t:"1C",m2i:44.58,terr:0,tot:44.58,p1:4153620,p2:4652054},
+ {n:"503",p:"4",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:7390935,p2:8277847},
+ {n:"505",p:"4",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:7390935,p2:8277847},
+ {n:"506",p:"4",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:7390935,p2:8277847},
+ {n:"507",p:"4",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:7390935,p2:8277847},
+ {n:"509",p:"4",s:"RESERVADO",ubi:"Jardín Interior",t:"1A",m2i:26.85,terr:0,tot:26.85,p1:2881005,p2:3169105},
+ {n:"510",p:"4",s:"DISP",ubi:"Jardín Interior",t:"1A",m2i:26.85,terr:0,tot:26.85,p1:2881005,p2:3169105},
+ {n:"511A",p:"4",s:"DISP",ubi:"Jardín Interior",t:"1C",m2i:44.58,terr:0,tot:44.58,p1:4312905,p2:4830453},
+ {n:"511B",p:"4",s:"DISP",ubi:"Jardín Interior",t:"1C",m2i:44.12,terr:0,tot:44.12,p1:4312905,p2:4830453},
+ {n:"512A",p:"4",s:"DISP",ubi:"Jardín Interior",t:"1C",m2i:44.58,terr:0,tot:44.58,p1:4312905,p2:4830453},
+ {n:"513",p:"4",s:"RESERVADO",ubi:"Muro/Jardín Trasero",t:"1B",m2i:31.2,terr:0,tot:31.2,p1:3347760,p2:3682536},
+ {n:"514",p:"4",s:"DISP",ubi:"Muro/Jardín Trasero",t:"1B",m2i:31.2,terr:0,tot:31.2,p1:3347760,p2:3682536},
+ {n:"515",p:"4",s:"DISP",ubi:"Muro/Jardín Trasero",t:"1B",m2i:33.56,terr:0,tot:33.56,p1:3600988,p2:3961086},
+ {n:"516A",p:"4",s:"DISP",ubi:"Jardín Interior",t:"1C",m2i:44.58,terr:0,tot:44.58,p1:4312905,p2:4830453},
+ {n:"517A",p:"4",s:"DISP",ubi:"Jardín Interior",t:"1C",m2i:44.13,terr:0,tot:44.13,p1:4312905,p2:4830453},
+ {n:"517B",p:"4",s:"DISP",ubi:"Jardín Interior",t:"1C",m2i:44.58,terr:0,tot:44.58,p1:4312905,p2:4830453},
+ {n:"518A",p:"4",s:"DISP",ubi:"Jardín Interior",t:"1C",m2i:44.58,terr:0,tot:44.58,p1:4312905,p2:4830453},
+ {n:"518B",p:"4",s:"DISP",ubi:"Jardín Interior",t:"1C",m2i:44.05,terr:0,tot:44.05,p1:4312905,p2:4830453},
+ {n:"605",p:"5",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:7589070,p2:8499758},
+ {n:"606",p:"5",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:7589070,p2:8499758},
+ {n:"607",p:"5",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:7589070,p2:8499758},
+ {n:"609",p:"5",s:"DISP",ubi:"Jardín Interior",t:"1A",m2i:26.85,terr:0,tot:26.85,p1:3129367,p2:3442304},
+ {n:"610",p:"5",s:"DISP",ubi:"Jardín Interior",t:"1A",m2i:26.85,terr:0,tot:26.85,p1:3129367,p2:3442304},
+ {n:"611",p:"5",s:"DISP",ubi:"Jardín Interior",t:"1A",m2i:27.58,terr:0,tot:27.58,p1:3214449,p2:3535893},
+ {n:"613A",p:"5",s:"DISP",ubi:"Jardín Interior",t:"1C",m2i:44.58,terr:0,tot:44.58,p1:4464420,p2:5000150},
+ {n:"613B",p:"5",s:"DISP",ubi:"Jardín Interior",t:"1C",m2i:44.23,terr:0,tot:44.23,p1:4464420,p2:5000150},
+ {n:"614A",p:"5",s:"VENDIDO",ubi:"Muro/Jardín Trasero",t:"1C",m2i:44.98,terr:0,tot:44.98,p1:4464420,p2:5000150},
+ {n:"614B",p:"5",s:"RESERVADO",ubi:"Muro/Jardín Trasero",t:"1C",m2i:45.52,terr:0,tot:45.52,p1:4464420,p2:5000150},
+ {n:"615",p:"5",s:"DISP",ubi:"Muro/Jardín Trasero",t:"1B",m2i:31.2,terr:0,tot:31.2,p1:3636360,p2:3999996},
+ {n:"616",p:"5",s:"DISP",ubi:"Muro/Jardín Trasero",t:"1B",m2i:33.56,terr:0,tot:33.56,p1:3632031,p2:3995234},
+ {n:"618A",p:"5",s:"DISP",ubi:"Jardín Interior",t:"1C",m2i:44.13,terr:0,tot:44.13,p1:4464420,p2:5000150},
+ {n:"621A",p:"5",s:"RESERVADO",ubi:"Muro/Jardín Trasero",t:"1C",m2i:44.47,terr:0,tot:44.47,p1:4464420,p2:5000150},
+ {n:"621B",p:"5",s:"RESERVADO",ubi:"Muro/Jardín Trasero",t:"1C",m2i:44.58,terr:0,tot:44.58,p1:4464420,p2:5000150},
+ {n:"622A",p:"5",s:"VENDIDO",ubi:"Muro/Jardín Trasero",t:"1C",m2i:44.58,terr:0,tot:44.58,p1:4464420,p2:5000150},
+ {n:"622B",p:"5",s:"VENDIDO",ubi:"Muro/Jardín Trasero",t:"1C",m2i:45.75,terr:0,tot:45.75,p1:4464420,p2:5000150},
+ {n:"703",p:"6",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:8136855,p2:9113277},
+ {n:"705",p:"6",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:8136855,p2:9113277},
+ {n:"706",p:"6",s:"DISP",ubi:"Vista Calle",t:"2A",m2i:74.9,terr:8.45,tot:83.35,p1:8136855,p2:9113277},
+ {n:"709",p:"6",s:"DISP",ubi:"Jardín Interior",t:"1A",m2i:26.85,terr:0,tot:26.85,p1:3179040,p2:3496944},
+ {n:"710",p:"6",s:"DISP",ubi:"Jardín Interior",t:"1A",m2i:26.85,terr:0,tot:26.85,p1:3179040,p2:3496944},
+ {n:"711",p:"6",s:"DISP",ubi:"Jardín Interior",t:"1A",m2i:27.58,terr:0,tot:27.58,p1:3265472,p2:3592019},
+ {n:"712A",p:"6",s:"DISP",ubi:"Jardín Interior",t:"1C",m2i:44.58,terr:0,tot:44.58,p1:4662555,p2:5222061},
+ {n:"713A",p:"6",s:"DISP",ubi:"Jardín Interior",t:"1C",m2i:44.58,terr:0,tot:44.58,p1:4662555,p2:5222061},
+ {n:"713B",p:"6",s:"DISP",ubi:"Jardín Interior",t:"1C",m2i:44.23,terr:0,tot:44.23,p1:4662555,p2:5222061},
+ {n:"715",p:"6",s:"RESERVADO",ubi:"Muro/Jardín Trasero",t:"1B",m2i:31.2,terr:0,tot:31.2,p1:3694080,p2:4063488},
+ {n:"716",p:"6",s:"RESERVADO",ubi:"Muro/Jardín Trasero",t:"1B",m2i:33.56,terr:0,tot:33.56,p1:3973504,p2:4370854},
+ {n:"717A",p:"6",s:"DISP",ubi:"Jardín Interior",t:"1C",m2i:44.58,terr:0,tot:44.58,p1:4662555,p2:5222061},
+ {n:"717B",p:"6",s:"DISP",ubi:"Jardín Interior",t:"1C",m2i:44.13,terr:0,tot:44.13,p1:4662555,p2:5222061},
+ {n:"719A",p:"6",s:"DISP",ubi:"Jardín Interior",t:"1C",m2i:44.58,terr:0,tot:44.58,p1:4662555,p2:5222061},
+ {n:"719B",p:"6",s:"RESERVADO",ubi:"Jardín Interior",t:"1C",m2i:44.06,terr:0,tot:44.06,p1:4662555,p2:5222061},
+];
+let data=[...RAW], filtered=[...RAW];
+
+const fmt=v=>v?'$'+(v/1e6).toFixed(2)+'M':'—';
+const fmtF=v=>'$'+v.toLocaleString('es-MX');
+const ns=s=>(s||'').toUpperCase().replace('RESERVADA','RESERVADO').replace('DISPONIBLE','DISP').replace('DISPONIBLE','DISP');
+const plbl=p=>p==='PB'?'P.Baja':p==='PH'?'PH':'Nivel '+p;
+
+// Build filters
+(function(){
+  const f=document.getElementById('filters');
+  const pisoOpts=PISOS.map(p=>`<option value="${p}">${plbl(p)}</option>`).join('');
+  const tipoOpts=TIPOS.map((t,i)=>`<option value="${t}">${TIPOS_LABELS[i]}</option>`).join('');
+  f.innerHTML=`
+    <div class="fg"><label>Piso</label><select id="fP"><option value="">Todos</option>${pisoOpts}</select></div>
+    <div class="fg"><label>Status</label><select id="fS"><option value="">Todos</option><option value="DISP">Disponible</option><option value="RESERVADO">Reservado</option><option value="VENDIDO">Vendido</option></select></div>
+    <div class="fg"><label>Tipo</label><select id="fT"><option value="">Todos</option>${tipoOpts}</select></div>
+    <button class="btn" onclick="doReset()">↺ Limpiar</button>`;
+  document.getElementById('fP').addEventListener('change',applyF);
+  document.getElementById('fS').addEventListener('change',applyF);
+  document.getElementById('fT').addEventListener('change',applyF);
+})();
+
+// Build table headers
+(function(){
+  const headers = ["Unidad","Piso","Status","Tipo","Ubicación","M² Int.","Terraza","Total M²","Precio 30/60/10","Precio 30/70"];
+  document.getElementById('th').innerHTML='<tr>'+headers.map(h=>`<th>${h}</th>`).join('')+'</tr>';
+})();
+
+async function load() {
+  setLoading(true);
+  try {
+    const res = await fetch('https://script.google.com/macros/s/AKfycbxLGGR1GuNk6-amf_xAMBIikKaXEaDX7xeNPyzg8rXqNGNQlS00qOI3HCo7WbtHSNXq/exec?proyecto=landmark');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+    if (json.error) throw new Error(json.error);
+    if (json.unidades && json.unidades.length > 0) {
+      data = json.unidades.map(u => ({
+        n: u.numero, p: u.piso, s: u.status,
+        ubi: u.ubicacion||'', t: u.tipo,
+        m2i: u.m2i||u.m2||0, terr: u.m2e||0,
+        tot: u.m2||0, p1: u.precio||0, p2: 0
+      }));
+    }
+    const now = new Date().toLocaleTimeString('es-MX');
+    const upd = 'Actualizado: ' + now;
+    ['lastUpdate','hdr-update','upd'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = upd;
+    });
+  } catch(e) {
+    console.warn('API error:', e.message, '— usando datos locales');
+    ['lastUpdate','hdr-update','upd'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = '⚠ Datos locales';
+    });
+  }
+  setLoading(false);
+  applyFilters();
+}
+
+function setLoading(v) {
+  const dot = document.querySelector('.live-dot');
+  if (dot) dot.style.background = v ? '#c9a030' : 'var(--ac)';
+}
+
+function applyF(){
+  const p=document.getElementById('fP').value;
+  const s=document.getElementById('fS').value;
+  const t=document.getElementById('fT').value;
+  filtered=data.filter(u=>{
+    if(p&&u.p!==p)return false;
+    if(s&&ns(u.s)!==s)return false;
+    if(t&&u.t!==t)return false;
+    return true;
+  });
+  render();
+}
+function doReset(){
+  ['fP','fS','fT'].forEach(id=>document.getElementById(id).value='');
+  filtered=[...data];render();
+}
+
+function render(){
+  const d=filtered.filter(u=>ns(u.s)==='DISP').length;
+  const r=filtered.filter(u=>ns(u.s)==='RESERVADO').length;
+  const v=filtered.filter(u=>ns(u.s)==='VENDIDO').length;
+  const t=filtered.length;
+  const prices=filtered.filter(u=>GET_PRICE(u)>0).map(u=>GET_PRICE(u));
+  document.getElementById('kD').textContent=d;
+  document.getElementById('kR').textContent=r;
+  document.getElementById('kV').textContent=v;
+  document.getElementById('kMn').textContent=prices.length?fmt(Math.min(...prices)):'—';
+  document.getElementById('kMx').textContent=prices.length?fmt(Math.max(...prices)):'—';
+  const circ=2*Math.PI*38;
+  document.getElementById('cD').setAttribute('stroke-dasharray',`${(d/t)*circ} ${circ-(d/t)*circ}`);
+  document.getElementById('cR').setAttribute('stroke-dasharray',`${(r/t)*circ} ${circ-(r/t)*circ}`);
+  document.getElementById('cR').setAttribute('stroke-dashoffset',60-(d/t)*circ);
+  document.getElementById('cV').setAttribute('stroke-dasharray',`${(v/t)*circ} ${circ-(v/t)*circ}`);
+  document.getElementById('cV').setAttribute('stroke-dashoffset',60-(d/t)*circ-(r/t)*circ);
+  document.getElementById('cT').textContent=t;
+  document.getElementById('lD').textContent=d;
+  document.getElementById('lR').textContent=r;
+  document.getElementById('lV').textContent=v;
+  const tc={};TIPOS.forEach(tp=>tc[tp]=filtered.filter(u=>u.t===tp).length);
+  const mx=Math.max(...Object.values(tc),1);
+  document.getElementById('bT').innerHTML=TIPOS.map((tp,i)=>`
+    <div class="br2"><div class="bl2">${TIPOS_LABELS[i]}</div>
+    <div class="bt"><div class="bf" style="width:${(tc[tp]/mx)*100}%"></div></div>
+    <div class="bv">${tc[tp]} uds</div></div>`).join('');
+  document.getElementById('pR').innerHTML=PRICE_RANGES.map(d=>`
+    <div class="prr"><div class="prh"><span class="prt">${d.t}</span><span class="prv">${d.min}M–${d.max}M</span></div>
+    <div class="prtr"><div class="prf" style="margin-left:${(d.min/d.scale)*100}%;width:${((d.max-d.min)/d.scale)*100}%"></div></div></div>`).join('');
+  document.getElementById('hM').innerHTML=PISOS.map(p=>{
+    const us=filtered.filter(u=>u.p===p);
+    if(!us.length)return'';
+    return`<div class="hr2"><div class="hl">${plbl(p)}</div><div class="hcs">${us.map(u=>`<div class="hc ${ns(u.s).toLowerCase()}"
+      onmouseenter="showTip(event,'${u.n} · ${u.t}<br>${u.s}<br>${GET_PRICE(u)?fmtF(GET_PRICE(u)):'Sin precio'}')"
+      onmouseleave="hideTip()"></div>`).join('')}</div></div>`;
+  }).join('');
+  const pp=PISOS.map(p=>{
+    const us=filtered.filter(u=>u.p===p&&GET_PRICE(u)>0);
+    return{p,avg:us.length?us.reduce((a,u)=>a+GET_PRICE(u),0)/us.length:0};
+  }).filter(x=>x.avg>0);
+  const mpx=Math.max(...pp.map(x=>x.avg),1);
+  document.getElementById('bP').innerHTML=pp.map(x=>`
+    <div class="br2"><div class="bl2">${plbl(x.p)}</div>
+    <div class="bt"><div class="bf" style="width:${(x.avg/mpx)*100}%"></div></div>
+    <div class="bv">${fmt(x.avg)}</div></div>`).join('');
+  document.getElementById('cnt').textContent=filtered.length;
+  document.getElementById('tb').innerHTML=filtered.map(u=>BUILD_ROW(u)).join('');
+}
+
+function showTip(e,h){const t=document.getElementById('tip');t.innerHTML=h;t.style.display='block';t.style.left=(e.clientX+14)+'px';t.style.top=(e.clientY-10)+'px';}
+function hideTip(){document.getElementById('tip').style.display='none';}
+document.addEventListener('mousemove',e=>{const t=document.getElementById('tip');if(t.style.display==='block'){t.style.left=(e.clientX+14)+'px';t.style.top=(e.clientY-10)+'px';}});
+
+load();
+setInterval(load,5*60*1000);
+</script>
+</body>
+</html>
