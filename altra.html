@@ -317,10 +317,15 @@ async function load() {
     if (json.error) throw new Error(json.error);
     if (json.unidades && json.unidades.length > 0) {
       data = json.unidades.map(u => ({
-        n: u.numero, p: u.piso, s: u.status,
-        t: u.tipo, rec: 0,
-        m2i: u.m2i||0, m2e: u.m2e||0,
-        tot: u.m2||0, precio: u.precio||0
+        n:      String(u.numero||''),
+        p:      String(u.piso||''),
+        s:      String(u.status||''),
+        t:      String(u.tipo||''),
+        rec:    0,
+        m2i:    Number(u.m2i)||0,
+        m2e:    Number(u.m2e)||0,
+        tot:    Number(u.m2)||0,
+        precio: Number(u.precio)||0
       }));
     }
     const now = new Date().toLocaleTimeString('es-MX');
