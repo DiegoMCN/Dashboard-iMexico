@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T3rra Playa — iMexico Real Estate</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#202845;--primary-80:#4b5577;--primary-40:#a5aabb;--primary-10:#eceef4;
+  --secondary:#E73B39;--secondary-20:#fce8e8;
+  --neutral:#F8F9FA;--white:#ffffff;
+  --text:#1a1d2e;--text-2:#4a4d5e;--text-3:#8a8d9e;
+  --border:#e4e6ed;--border-2:#f0f1f5;
+  --green:#1a7a4a;--green-bg:#e8f5ee;
+  --yellow:#92700a;--yellow-bg:#fef8e6;
+  --red:#c0292a;--red-bg:#fce8e8;
+  --shadow-sm:0 1px 3px rgba(32,40,69,.06),0 1px 2px rgba(32,40,69,.04);
+  --shadow-md:0 4px 12px rgba(32,40,69,.08),0 2px 4px rgba(32,40,69,.05);
+  --shadow-lg:0 12px 32px rgba(32,40,69,.12),0 4px 8px rgba(32,40,69,.06);
+  --radius:12px;--radius-sm:8px;
+  --ac:#2a845a;--ac2:#4aaa7a;
+  /* legacy aliases */
+  --bg:var(--neutral);--card:var(--white);--muted:var(--text-3);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--neutral);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;-webkit-font-smoothing:antialiased;}
+.nav{display:flex;align-items:center;padding:0 48px;border-bottom:1px solid var(--border);background:var(--white);position:sticky;top:0;z-index:100;height:60px;box-shadow:var(--shadow-sm);gap:20px;}
+.nav-back{font-size:11px;font-weight:600;color:var(--text-3);text-decoration:none;letter-spacing:.04em;transition:color .2s;flex-shrink:0;}
+.nav-back:hover{color:var(--primary);}
+.nav-title{font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;color:var(--primary);flex:1;letter-spacing:-.02em;}
+.nav-live{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-3);}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(34,197,94,.4);}50%{opacity:.7;box-shadow:0 0 0 4px rgba(34,197,94,0);}}
+.header{padding:28px 48px 22px;display:flex;justify-content:space-between;align-items:flex-end;background:var(--primary);position:relative;overflow:hidden;}
+.header::after{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(42,132,90,.25) 0%,transparent 70%);pointer-events:none;}
+.header h1{font-family:'Manrope',sans-serif;font-size:32px;font-weight:800;line-height:1.1;letter-spacing:-.03em;color:var(--white);}
+.header .sub{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:4px;}
+.header-right{text-align:right;font-size:11px;color:rgba(255,255,255,.5);}
+.main{padding:28px 48px;}
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px;}
+.kpi{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px;position:relative;overflow:hidden;transition:box-shadow .2s;box-shadow:var(--shadow-sm);}
+.kpi:hover{box-shadow:var(--shadow-md);}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0;}
+.kpi.g::before{background:#22c55e;opacity:1;}.kpi.y::before{background:#f59e0b;opacity:1;}.kpi.r::before{background:var(--secondary);opacity:1;}.kpi.ac::before{background:var(--ac);opacity:1;}
+.kpi .label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;}
+.kpi .value{font-family:'Manrope',sans-serif;font-size:28px;font-weight:800;letter-spacing:-.03em;color:var(--primary);line-height:1;}
+.kpi .sub2{font-size:10px;color:var(--text-3);margin-top:4px;}
+.filters{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
+.filters label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);}
+.filters select{background:var(--white);border:1px solid var(--border);color:var(--text);padding:7px 10px;font-family:'Inter',sans-serif;font-size:12px;border-radius:var(--radius-sm);outline:none;cursor:pointer;transition:border-color .2s;}
+.filters select:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-10);}
+.fg{display:flex;align-items:center;gap:6px;}
+.btn-r{background:transparent;border:1.5px solid var(--primary);color:var(--primary);padding:7px 16px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;cursor:pointer;border-radius:var(--radius-sm);transition:all .2s;}
+.btn-r:hover{background:var(--primary);color:var(--white);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;}
+.box{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-sm);}
+.box-title{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--primary);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border-2);}
+.bar-chart{display:flex;flex-direction:column;gap:8px;}
+.bar-row{display:flex;align-items:center;gap:10px;}
+.bar-label{width:86px;font-size:11px;color:var(--text-3);text-align:right;flex-shrink:0;}
+.bar-track{flex:1;height:6px;background:var(--border-2);border-radius:99px;overflow:hidden;}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--primary-40),var(--primary));border-radius:99px;transition:width .8s;}
+.bar-val{width:86px;font-size:11px;font-weight:600;color:var(--primary);text-align:right;flex-shrink:0;}
+.donut-wrap{display:flex;align-items:center;gap:24px;}
+.lg{display:flex;flex-direction:column;gap:10px;}
+.lg-item{display:flex;align-items:center;gap:8px;}
+.lg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.lg-count{font-family:'Manrope',sans-serif;font-size:18px;font-weight:700;color:var(--primary);margin-left:auto;padding-left:12px;}
+.heatmap{display:flex;flex-direction:column;gap:6px;}
+.hr2{display:flex;align-items:center;gap:8px;}
+.hl{width:58px;font-size:11px;color:var(--text-3);}
+.hcs{display:flex;gap:3px;flex-wrap:wrap;}
+.hc{width:17px;height:17px;border:1.5px solid transparent;cursor:pointer;border-radius:3px;transition:transform .15s,border-color .15s;}
+.hc:hover{transform:scale(1.35);border-color:var(--primary);z-index:10;}
+.hc.disp{background:#22c55e;}.hc.reservado{background:#f59e0b;}.hc.vendido{background:var(--secondary);}
+.pr-chart{display:flex;flex-direction:column;gap:12px;}
+.prr{display:flex;flex-direction:column;gap:3px;}
+.prh{display:flex;justify-content:space-between;font-size:11px;}
+.prt{font-weight:600;color:var(--primary);}.prv{color:var(--text-3);}
+.prtr{height:5px;background:var(--border-2);border-radius:99px;}
+.prf{height:100%;background:linear-gradient(90deg,var(--primary-40),var(--primary));border-radius:99px;}
+.tbl-wrap{overflow-x:auto;max-height:420px;overflow-y:auto;}
+.tbl-wrap::-webkit-scrollbar{width:4px;height:4px;}
+.tbl-wrap::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
+table{width:100%;border-collapse:collapse;min-width:900px;}
+thead th{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);padding:10px 12px;text-align:left;border-bottom:2px solid var(--border);position:sticky;top:0;background:var(--white);white-space:nowrap;}
+tbody tr{border-bottom:1px solid var(--border-2);transition:background .15s;cursor:pointer;}
+tbody tr:hover{background:var(--primary-10);}
+tbody td{padding:9px 12px;font-size:12px;white-space:nowrap;}
+.badge{display:inline-flex;align-items:center;padding:3px 9px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border-radius:20px;}
+.badge.disp{background:var(--green-bg);color:var(--green);}
+.badge.reservado{background:var(--yellow-bg);color:var(--yellow);}
+.badge.vendido{background:var(--red-bg);color:var(--red);}
+.ri{font-size:11px;color:var(--text-3);margin-bottom:10px;}.ri span{font-weight:600;color:var(--primary);}
+.tooltip{position:fixed;background:var(--primary);border-radius:var(--radius-sm);padding:10px 14px;font-size:11px;color:var(--white);pointer-events:none;z-index:1000;display:none;line-height:1.7;box-shadow:var(--shadow-lg);}
+@media(max-width:1100px){.kpi-row{grid-template-columns:repeat(3,1fr);}.g2,.g3{grid-template-columns:1fr;}.main,.header,.nav{padding-left:20px;padding-right:20px;}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-back" href="index.html">← Volver</a>
+  <div class="nav-title">T3rra Playa</div>
+  <div class="nav-live">
+    <span class="live-dot"></span>
+    <span id="upd">Cargando...</span>
+    &nbsp;·&nbsp; Auto-refresco 5 min
+  </div>
+</nav>
+
+<div class="header">
+  <div>
+    <h1>T3RRA PLAYA</h1>
+    <div class="sub">Playa del Carmen · Dashboard de Inventario</div>
+  </div>
+  <div class="header-right" id="hdr-update"></div>
+</div>
+
+<div class="main">
+  <div class="kpi-row">
+    <div class="kpi g"><div class="label">Disponibles</div><div class="value" id="kD">—</div><div class="sub2">unidades</div></div>
+    <div class="kpi y"><div class="label">Reservados</div><div class="value" id="kR">—</div><div class="sub2">unidades</div></div>
+    <div class="kpi r"><div class="label">Vendidos</div><div class="value" id="kV">—</div><div class="sub2">unidades</div></div>
+    <div class="kpi ac"><div class="label">Precio Mínimo</div><div class="value" id="kMn">—</div><div class="sub2">Precio Lista</div></div>
+    <div class="kpi ac"><div class="label">Precio Máximo</div><div class="value" id="kMx">—</div><div class="sub2">Precio Lista</div></div>
+  </div>
+
+  <div class="filters">
+    <div class="fg"><label>Nivel</label>
+      <select id="fP"><option value="">Todos</option>
+        <option value="PB">Planta Baja</option>
+        <option value="1">Nivel 1</option><option value="2">Nivel 2</option>
+        <option value="3">Nivel 3</option><option value="4">Nivel 4</option>
+        <option value="5">Nivel 5</option><option value="6">Nivel 6</option>
+      </select></div>
+    <div class="fg"><label>Status</label>
+      <select id="fS"><option value="">Todos</option>
+        <option value="DISP">Disponible</option>
+        <option value="RESERVADO">Apartado</option>
+        <option value="VENDIDO">Vendido</option>
+      </select></div>
+    <div class="fg"><label>Tipo</label>
+      <select id="fT"><option value="">Todos</option>
+        <option value="E">Estudio</option>
+        <option value="1RD">1 Rec D</option>
+        <option value="1RB">1 Rec B</option>
+        <option value="1RC">1 Rec C</option>
+        <option value="1RA">1 Rec A</option>
+        <option value="2RB">2 Rec B</option>
+        <option value="2RA">2 Rec A</option>
+        <option value="2RC">2 Rec C</option>
+      </select></div>
+    <button class="btn-r" onclick="doReset()">↺ Limpiar</button>
+  </div>
+
+  <div class="g3">
+    <div class="box">
+      <div class="box-title">Estado del Inventario</div>
+      <div class="donut-wrap">
+        <svg width="96" height="96" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="38" fill="none" stroke="var(--border)" stroke-width="14"/>
+          <circle id="dD" cx="50" cy="50" r="38" fill="none" stroke="#22c55e" stroke-width="14" stroke-dasharray="0 239" stroke-dashoffset="60" transform="rotate(-90 50 50)" style="transition:stroke-dasharray 1s"/>
+          <circle id="dR" cx="50" cy="50" r="38" fill="none" stroke="#f59e0b" stroke-width="14" stroke-dasharray="0 239" stroke-dashoffset="60" transform="rotate(-90 50 50)" style="transition:stroke-dasharray 1s"/>
+          <circle id="dV" cx="50" cy="50" r="38" fill="none" stroke="var(--secondary)" stroke-width="14" stroke-dasharray="0 239" stroke-dashoffset="60" transform="rotate(-90 50 50)" style="transition:stroke-dasharray 1s"/>
+          <text x="50" y="47" text-anchor="middle" fill="var(--primary)" font-family="Manrope" font-size="16" font-weight="800" id="dT">—</text>
+          <text x="50" y="59" text-anchor="middle" fill="var(--text-3)" font-family="Inter" font-size="7">TOTAL</text>
+        </svg>
+        <div class="lg">
+          <div class="lg-item"><div class="lg-dot" style="background:#22c55e"></div><span style="font-size:11px">Disponible</span><div class="lg-count" id="lD">—</div></div>
+          <div class="lg-item"><div class="lg-dot" style="background:#f59e0b"></div><span style="font-size:11px">Reservado</span><div class="lg-count" id="lR">—</div></div>
+          <div class="lg-item"><div class="lg-dot" style="background:var(--secondary)"></div><span style="font-size:11px">Vendido</span><div class="lg-count" id="lV">—</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="box">
+      <div class="box-title">Unidades por Tipo</div>
+      <div class="bar-chart" id="bT"></div>
+    </div>
+    <div class="box">
+      <div class="box-title">Rango de Precios Lista (MXN)</div>
+      <div class="pr-chart" id="pR"></div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="box">
+      <div class="box-title">Disponibilidad por Nivel</div>
+      <div style="display:flex;gap:14px;margin-bottom:12px;font-size:10px;font-weight:600;letter-spacing:.06em;">
+        <span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;background:#22c55e;border-radius:2px;display:inline-block;"></span>DISP</span>
+        <span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;background:#f59e0b;border-radius:2px;display:inline-block;"></span>APART</span>
+        <span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;background:var(--secondary);border-radius:2px;display:inline-block;"></span>VEND</span>
+      </div>
+      <div class="heatmap" id="hM"></div>
+    </div>
+    <div class="box">
+      <div class="box-title">Precio Promedio por Nivel (MXN)</div>
+      <div class="bar-chart" id="bP"></div>
+    </div>
+  </div>
+
+  <div class="box">
+    <div class="box-title">Inventario Detallado</div>
+    <div class="ri">Mostrando <span id="cnt">—</span> unidades</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>Unidad</th><th>Nivel</th><th>Status</th><th>Tipo</th>
+          <th>M² Int.</th><th>M² Balcón</th><th>Total M²</th>
+          <th style="color:var(--primary)">Precio Lista</th>
+          <th style="color:var(--primary-80)">Desc. 9%</th>
+          <th style="color:var(--primary-40)">Desc. 15%</th>
+        </tr></thead>
+        <tbody id="tb"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="tooltip" id="tip"></div>
+
+<script>
+const API_URL = 'https://script.google.com/macros/s/AKfycbxLGGR1GuNk6-amf_xAMBIikKaXEaDX7xeNPyzg8rXqNGNQlS00qOI3HCo7WbtHSNXq/exec';
+const PISOS = ["PB", "1", "2", "3", "4", "5", "6"];
+const TIPOS = ["E", "1RD", "1RB", "1RC", "1RA", "2RB", "2RA", "2RC"];
+const PR_DATA = [{"t": "Estudio (E)", "min": 3.07, "max": 3.33}, {"t": "1 Rec D (1RD)", "min": 3.98, "max": 4.46}, {"t": "1 Rec B/C (1RB/1RC)", "min": 4.6, "max": 5.3}, {"t": "1 Rec A (1RA)", "min": 5.29, "max": 5.29}, {"t": "2 Rec B/C (2RB/2RC)", "min": 6.21, "max": 7.48}, {"t": "2 Rec A (2RA)", "min": 7.99, "max": 7.99}];
+const RAW = [{"n": "B-001", "p": "PB", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 6.8, "tot": 44.16, "p1": 3984400, "p2": 3625804, "p3": 3386740}, {"n": "B-002", "p": "PB", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 6.8, "tot": 44.16, "p1": 3984400, "p2": 3625804, "p3": 3386740}, {"n": "C-001", "p": "PB", "s": "DISP", "t": "E", "m2i": 27.17, "m2b": 6.99, "tot": 34.16, "p1": 3074400, "p2": 2797704, "p3": 2613240}, {"n": "C-002", "p": "PB", "s": "RESERVADO", "t": "E", "m2i": 27.17, "m2b": 6.99, "tot": 34.16, "p1": 0, "p2": 0, "p3": 0}, {"n": "C-003", "p": "PB", "s": "DISP", "t": "E", "m2i": 27.17, "m2b": 6.99, "tot": 34.16, "p1": 3074400, "p2": 2797704, "p3": 2613240}, {"n": "C-004", "p": "PB", "s": "DISP", "t": "E", "m2i": 27.17, "m2b": 6.99, "tot": 34.16, "p1": 3074400, "p2": 2797704, "p3": 2613240}, {"n": "C-005", "p": "PB", "s": "DISP", "t": "E", "m2i": 27.17, "m2b": 6.99, "tot": 34.16, "p1": 3074400, "p2": 2797704, "p3": 2613240}, {"n": "A-101", "p": "1", "s": "RESERVADO", "t": "1RC", "m2i": 40.16, "m2b": 22.12, "tot": 62.28, "p1": 0, "p2": 0, "p3": 0}, {"n": "A-102", "p": "1", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 13.34, "tot": 50.7, "p1": 4349162, "p2": 3957737, "p3": 3696788}, {"n": "A-103", "p": "1", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 12.14, "tot": 49.5, "p1": 4264322, "p2": 3880533, "p3": 3624674}, {"n": "A-104", "p": "1", "s": "DISP", "t": "E", "m2i": 27.17, "m2b": 8.85, "tot": 36.02, "p1": 3284218, "p2": 2988638, "p3": 2791585}, {"n": "B-101", "p": "1", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 6.8, "tot": 44.16, "p1": 4024144, "p2": 3661971, "p3": 3420522}, {"n": "B-102", "p": "1", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 6.8, "tot": 44.16, "p1": 4024144, "p2": 3661971, "p3": 3420522}, {"n": "B-103", "p": "1", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 6.8, "tot": 44.16, "p1": 4024144, "p2": 3661971, "p3": 3420522}, {"n": "C-101", "p": "1", "s": "DISP", "t": "2RA", "m2i": 71.56, "m2b": 30.9, "tot": 102.46, "p1": 7985400, "p2": 7266714, "p3": 6787590}, {"n": "C-103", "p": "1", "s": "DISP", "t": "2RC", "m2i": 63.59, "m2b": 4.72, "tot": 68.31, "p1": 6209379, "p2": 5650535, "p3": 5277972}, {"n": "A-201", "p": "2", "s": "DISP", "t": "1RC", "m2i": 40.16, "m2b": 22.12, "tot": 62.28, "p1": 5296056, "p2": 4819411, "p3": 4501648}, {"n": "A-202", "p": "2", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 13.34, "tot": 50.7, "p1": 4407124, "p2": 4010483, "p3": 3746055}, {"n": "A-203", "p": "2", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 12.14, "tot": 49.5, "p1": 4321444, "p2": 3932514, "p3": 3673227}, {"n": "A-204", "p": "2", "s": "DISP", "t": "E", "m2i": 27.17, "m2b": 8.85, "tot": 36.02, "p1": 3331636, "p2": 3031789, "p3": 2831891}, {"n": "B-201", "p": "2", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 6.8, "tot": 44.16, "p1": 4073888, "p2": 3707238, "p3": 3462805}, {"n": "B-202", "p": "2", "s": "RESERVADO", "t": "1RD", "m2i": 37.36, "m2b": 6.8, "tot": 44.16, "p1": 0, "p2": 0, "p3": 0}, {"n": "B-203", "p": "2", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 6.8, "tot": 44.16, "p1": 4073888, "p2": 3707238, "p3": 3462805}, {"n": "C-201", "p": "2", "s": "DISP", "t": "2RB", "m2i": 71.4, "m2b": 12.25, "tot": 83.65, "p1": 7179270, "p2": 6533136, "p3": 6102380}, {"n": "C-203", "p": "2", "s": "DISP", "t": "1RA", "m2i": 44.16, "m2b": 24.15, "tot": 68.31, "p1": 5285538, "p2": 4809840, "p3": 4492707}, {"n": "A-301", "p": "3", "s": "RESERVADO", "t": "1RC", "m2i": 40.16, "m2b": 22.12, "tot": 62.28, "p1": 0, "p2": 0, "p3": 0}, {"n": "A-302", "p": "3", "s": "RESERVADO", "t": "1RD", "m2i": 37.36, "m2b": 13.34, "tot": 50.7, "p1": 4455086, "p2": 4054128, "p3": 3786823}, {"n": "A-303", "p": "3", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 12.14, "tot": 49.5, "p1": 0, "p2": 0, "p3": 0}, {"n": "A-304", "p": "3", "s": "VENDIDO", "t": "E", "m2i": 27.17, "m2b": 8.85, "tot": 36.02, "p1": 0, "p2": 0, "p3": 0}, {"n": "B-301", "p": "3", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 6.8, "tot": 44.16, "p1": 4118632, "p2": 3747955, "p3": 3500837}, {"n": "B-302", "p": "3", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 6.8, "tot": 44.16, "p1": 4118632, "p2": 3747955, "p3": 3500837}, {"n": "B-303", "p": "3", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 6.8, "tot": 44.16, "p1": 4118632, "p2": 3747955, "p3": 3500837}, {"n": "C-301", "p": "3", "s": "RESERVADO", "t": "2RB", "m2i": 71.4, "m2b": 12.25, "tot": 83.65, "p1": 0, "p2": 0, "p3": 0}, {"n": "C-303", "p": "3", "s": "DISP", "t": "1RB", "m2i": 44.16, "m2b": 5.35, "tot": 49.51, "p1": 4597577, "p2": 4183795, "p3": 3907940}, {"n": "A-401", "p": "4", "s": "VENDIDO", "t": "1RC", "m2i": 40.16, "m2b": 22.12, "tot": 62.28, "p1": 0, "p2": 0, "p3": 0}, {"n": "A-402", "p": "4", "s": "RESERVADO", "t": "1RD", "m2i": 37.36, "m2b": 13.34, "tot": 50.7, "p1": 0, "p2": 0, "p3": 0}, {"n": "A-403", "p": "4", "s": "RESERVADO", "t": "1RD", "m2i": 37.36, "m2b": 12.14, "tot": 49.5, "p1": 0, "p2": 0, "p3": 0}, {"n": "A-404", "p": "4", "s": "DISP", "t": "E", "m2i": 27.17, "m2b": 8.85, "tot": 34.16, "p1": 3232376, "p2": 2941462, "p3": 2747520}, {"n": "B-401", "p": "4", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 6.8, "tot": 44.16, "p1": 4163376, "p2": 3788672, "p3": 3538870}, {"n": "B-402", "p": "4", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 6.8, "tot": 44.16, "p1": 4163376, "p2": 3788672, "p3": 3538870}, {"n": "B-403", "p": "4", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 6.8, "tot": 44.16, "p1": 4163376, "p2": 3788672, "p3": 3538870}, {"n": "C-401", "p": "4", "s": "DISP", "t": "2RB", "m2i": 71.4, "m2b": 12.25, "tot": 83.65, "p1": 7332040, "p2": 6672156, "p3": 6232234}, {"n": "C-403", "p": "4", "s": "DISP", "t": "1RB", "m2i": 44.16, "m2b": 5.35, "tot": 49.51, "p1": 4646136, "p2": 4227984, "p3": 3949216}, {"n": "A-501", "p": "5", "s": "VENDIDO", "t": "1RC", "m2i": 40.16, "m2b": 22.12, "tot": 62.28, "p1": 0, "p2": 0, "p3": 0}, {"n": "A-502", "p": "5", "s": "VENDIDO", "t": "1RD", "m2i": 37.36, "m2b": 13.34, "tot": 50.7, "p1": 0, "p2": 0, "p3": 0}, {"n": "A-503", "p": "5", "s": "VENDIDO", "t": "1RD", "m2i": 37.36, "m2b": 12.14, "tot": 49.5, "p1": 0, "p2": 0, "p3": 0}, {"n": "A-504", "p": "5", "s": "VENDIDO", "t": "E", "m2i": 27.17, "m2b": 8.85, "tot": 34.16, "p1": 0, "p2": 0, "p3": 0}, {"n": "B-501", "p": "5", "s": "VENDIDO", "t": "1RD", "m2i": 37.36, "m2b": 6.8, "tot": 44.16, "p1": 0, "p2": 0, "p3": 0}, {"n": "B-502", "p": "5", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 6.8, "tot": 44.16, "p1": 4208120, "p2": 3829389, "p3": 3576902}, {"n": "B-503", "p": "5", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 6.8, "tot": 44.16, "p1": 4208120, "p2": 3829389, "p3": 3576902}, {"n": "C-501", "p": "5", "s": "DISP", "t": "2RB", "m2i": 71.4, "m2b": 12.25, "tot": 83.65, "p1": 7402425, "p2": 6736207, "p3": 6292061}, {"n": "C-503", "p": "5", "s": "VENDIDO", "t": "1RB", "m2i": 44.16, "m2b": 5.35, "tot": 49.51, "p1": 0, "p2": 0, "p3": 0}, {"n": "A-601", "p": "6", "s": "VENDIDO", "t": "1RC", "m2i": 40.16, "m2b": 22.12, "tot": 62.28, "p1": 0, "p2": 0, "p3": 0}, {"n": "A-602", "p": "6", "s": "VENDIDO", "t": "1RD", "m2i": 37.36, "m2b": 13.34, "tot": 50.7, "p1": 0, "p2": 0, "p3": 0}, {"n": "A-603", "p": "6", "s": "VENDIDO", "t": "1RD", "m2i": 37.36, "m2b": 12.14, "tot": 49.5, "p1": 0, "p2": 0, "p3": 0}, {"n": "A-604", "p": "6", "s": "VENDIDO", "t": "E", "m2i": 27.17, "m2b": 8.85, "tot": 34.16, "p1": 0, "p2": 0, "p3": 0}, {"n": "B-601", "p": "6", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 6.8, "tot": 44.16, "p1": 4252864, "p2": 3870106, "p3": 3614934}, {"n": "B-602", "p": "6", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 6.8, "tot": 44.16, "p1": 4252864, "p2": 3870106, "p3": 3614934}, {"n": "B-603", "p": "6", "s": "DISP", "t": "1RD", "m2i": 37.36, "m2b": 6.8, "tot": 44.16, "p1": 4252864, "p2": 3870106, "p3": 3614934}, {"n": "C-601", "p": "6", "s": "DISP", "t": "2RB", "m2i": 71.4, "m2b": 12.25, "tot": 83.65, "p1": 7475810, "p2": 6802987, "p3": 6354439}, {"n": "C-603", "p": "6", "s": "DISP", "t": "1RB", "m2i": 44.16, "m2b": 5.35, "tot": 49.51, "p1": 4738254, "p2": 4311811, "p3": 4027516}];
+
+let data=[...RAW], filtered=[...RAW];
+
+const fmt  = v => v?'$'+(v/1e6).toFixed(2)+'M':'—';
+const fmtF = v => '$'+Math.round(v).toLocaleString('es-MX');
+const ns = s=>(s||'').toUpperCase().replace('RESERVADA','RESERVADO').replace('VENDIDA','VENDIDO').replace('DISPONIBLE','DISP').replace('APARTADO','RESERVADO');
+const plbl = p => p==='PB'?'P.Baja':'Nivel '+p;
+
+function setLoading(v){
+  const dot=document.querySelector('.live-dot');
+  if(dot)dot.style.background=v?'#f59e0b':'#22c55e';
+}
+function showTipEl(e,el){
+  showTip(e,'<strong>'+el.dataset.n+'</strong> · '+el.dataset.t+'<br>'+el.dataset.s+'<br>'+(el.dataset.p>0?fmtF(parseInt(el.dataset.p)):'Sin precio')+'<br>'+el.dataset.m+' m²');
+}
+function showTip(e,h){const t=document.getElementById('tip');t.innerHTML=h;t.style.display='block';t.style.left=(e.clientX+14)+'px';t.style.top=(e.clientY-10)+'px';}
+function hideTip(){document.getElementById('tip').style.display='none';}
+document.addEventListener('mousemove',e=>{const t=document.getElementById('tip');if(t.style.display==='block'){t.style.left=(e.clientX+14)+'px';t.style.top=(e.clientY-10)+'px';}});
+
+async function load(){
+  setLoading(true);
+  try{
+    const res=await fetch(API_URL+'?proyecto=terra');
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const json=await res.json();
+    if(json.error) throw new Error(json.error);
+    if(json.unidades&&json.unidades.length>0){
+      data=json.unidades.map(u=>({
+        n:String(u.numero||''),p:String(u.piso||''),s:String(u.status||''),
+        t:String(u.tipo||''),m2i:Number(u.m2i)||0,m2b:Number(u.m2e)||0,
+        tot:Number(u.m2)||0,p1:Number(u.precio)||0,
+        p2:Number(u.precio2)||0,p3:Number(u.precio3)||0
+      }));
+    }
+    const now=new Date().toLocaleTimeString('es-MX');
+    ['upd','hdr-update'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='Actualizado: '+now;});
+  }catch(e){
+    const el=document.getElementById('upd');if(el)el.textContent='⚠ Datos locales';
+  }
+  setLoading(false);
+  applyF();
+}
+
+function applyF(){
+  const p=document.getElementById('fP').value;
+  const s=document.getElementById('fS').value; // already UPPERCASE from option values
+  const t=document.getElementById('fT').value;
+  filtered=data.filter(u=>{
+    if(p&&u.p!==p)return false;
+    if(s&&ns(u.s)!==s)return false;
+    if(t&&u.t!==t)return false;
+    return true;
+  });
+  render();
+}
+
+function doReset(){['fP','fS','fT'].forEach(id=>document.getElementById(id).value='');filtered=[...data];render();}
+['fP','fS','fT'].forEach(id=>document.getElementById(id).addEventListener('change',applyF));
+
+function render(){
+  const d=filtered.filter(u=>ns(u.s)==='DISP').length;
+  const r=filtered.filter(u=>ns(u.s)==='RESERVADO').length;
+  const v=filtered.filter(u=>ns(u.s)==='VENDIDO').length;
+  const t=filtered.length; const safe=t||1;
+  const p1s=filtered.filter(u=>u.p1>0).map(u=>u.p1);
+
+  document.getElementById('kD').textContent=d;
+  document.getElementById('kR').textContent=r;
+  document.getElementById('kV').textContent=v;
+  document.getElementById('kMn').textContent=p1s.length?fmt(Math.min(...p1s)):'—';
+  document.getElementById('kMx').textContent=p1s.length?fmt(Math.max(...p1s)):'—';
+  document.getElementById('cnt').textContent=t;
+  document.getElementById('lD').textContent=d;
+  document.getElementById('lR').textContent=r;
+  document.getElementById('lV').textContent=v;
+  document.getElementById('dT').textContent=t;
+
+  const circ=2*Math.PI*38;
+  document.getElementById('dD').setAttribute('stroke-dasharray',`${(d/safe)*circ} ${circ-(d/safe)*circ}`);
+  document.getElementById('dR').setAttribute('stroke-dasharray',`${(r/safe)*circ} ${circ-(r/safe)*circ}`);
+  document.getElementById('dR').setAttribute('stroke-dashoffset',60-(d/safe)*circ);
+  document.getElementById('dV').setAttribute('stroke-dasharray',`${(v/safe)*circ} ${circ-(v/safe)*circ}`);
+  document.getElementById('dV').setAttribute('stroke-dashoffset',60-(d/safe)*circ-(r/safe)*circ);
+
+  // Bar tipos
+  const maxTC=Math.max(...TIPOS.map(tp=>filtered.filter(u=>u.t===tp).length),1);
+  document.getElementById('bT').innerHTML=TIPOS.map(tp=>{
+    const c=filtered.filter(u=>u.t===tp).length;
+    if(!c)return'';
+    return`<div class="bar-row"><div class="bar-label">${tp}</div><div class="bar-track"><div class="bar-fill" style="width:${(c/maxTC)*100}%"></div></div><div class="bar-val">${c} uds</div></div>`;
+  }).join('');
+
+  // Price range
+  const absMax=Math.max(...PR_DATA.map(d=>d.max),1);
+  document.getElementById('pR').innerHTML=PR_DATA.map(d=>`
+    <div class="prr"><div class="prh"><span class="prt">${d.t}</span><span class="prv">${d.min.toFixed(2)}M–${d.max.toFixed(2)}M</span></div>
+    <div class="prtr"><div class="prf" style="margin-left:${(d.min/absMax)*100}%;width:${((d.max-d.min)/absMax)*100+2}%"></div></div></div>`).join('');
+
+  // Bar piso
+  const pp=PISOS.map(p=>{const us=filtered.filter(u=>u.p===p&&u.p1>0);return{p,avg:us.length?us.reduce((a,u)=>a+u.p1,0)/us.length:0};}).filter(x=>x.avg>0);
+  const mpx=Math.max(...pp.map(x=>x.avg),1);
+  document.getElementById('bP').innerHTML=pp.map(x=>`
+    <div class="bar-row"><div class="bar-label">${plbl(x.p)}</div><div class="bar-track"><div class="bar-fill" style="width:${(x.avg/mpx)*100}%"></div></div><div class="bar-val">${fmtF(Math.round(x.avg))}</div></div>`).join('');
+
+  // Heatmap
+  document.getElementById('hM').innerHTML=PISOS.map(p=>{
+    const us=filtered.filter(u=>u.p===p);
+    if(!us.length)return'';
+    return`<div class="hr2"><div class="hl">${plbl(p)}</div><div class="hcs">${us.map(u=>`<div class="hc ${ns(u.s).toLowerCase()}"
+      data-n="${u.n}" data-t="${u.t}" data-s="${ns(u.s)}" data-p="${u.p1}" data-m="${u.tot}"
+      onmouseenter="showTipEl(event,this)" onmouseleave="hideTip()"></div>`).join('')}</div></div>`;
+  }).join('');
+
+  // Table
+  document.getElementById('tb').innerHTML=filtered.map(u=>`<tr>
+    <td><strong style="color:var(--primary)">${u.n}</strong></td>
+    <td>${plbl(u.p)}</td>
+    <td><span class="badge ${ns(u.s).toLowerCase()}">${ns(u.s)==='DISP'?'Disponible':ns(u.s)==='RESERVADO'?'Reservado':'Vendido'}</span></td>
+    <td>${u.t}</td>
+    <td>${u.m2i} m²</td>
+    <td>${u.m2b>0?u.m2b+' m²':'—'}</td>
+    <td><strong>${u.tot} m²</strong></td>
+    <td style="color:var(--primary);font-weight:600">${u.p1?fmtF(u.p1):'—'}</td>
+    <td style="color:var(--primary-80)">${u.p2?fmtF(u.p2):'—'}</td>
+    <td style="color:var(--primary-40)">${u.p3?fmtF(u.p3):'—'}</td>
+  </tr>`).join('');
+}
+
+load();
+setInterval(load,5*60*1000);
+</script>
+</body>
+</html>
