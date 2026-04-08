@@ -126,7 +126,7 @@ body{background:var(--neutral);color:var(--text);font-family:'Inter',sans-serif;
   <div class="stats-bar-item"><div class="sbi-val" id="totalDisp">—</div><div class="sbi-label">Disponibles</div></div>
   <div class="stats-bar-item"><div class="sbi-val" id="totalRes">—</div><div class="sbi-label">Reservados</div></div>
   <div class="stats-bar-item"><div class="sbi-val" id="totalVend">—</div><div class="sbi-label">Vendidos</div></div>
-  <div class="stats-bar-item"><div class="sbi-val">6</div><div class="sbi-label">Desarrollos Activos</div></div>
+  <div class="stats-bar-item"><div class="sbi-val">7</div><div class="sbi-label">Desarrollos Activos</div></div>
 </div>
 
 <!-- PROJECTS -->
@@ -364,6 +364,48 @@ body{background:var(--neutral);color:var(--text);font-family:'Inter',sans-serif;
       </div>
     </a>
 
+  <!-- TULUM -->
+  <div class="city-group">
+    <div class="city-title">Tulum</div>
+    <div class="city-subtitle">Quintana Roo &nbsp;·&nbsp; 1 desarrollo activo</div>
+    <div class="projects-row">
+
+    <!-- ────────────────────────────────────────
+         IMAGEN: Paramar Black
+         Archivo sugerido: img/paramar-black.jpg
+         Dimensiones: 560 x 310 px  |  JPG o WebP  |  max. 150 KB
+         Para usar imagen reemplaza el SVG por:
+         <img src="img/paramar-black.jpg" alt="Paramar Black"
+              style="width:100%;height:100%;object-fit:cover">
+    ──────────────────────────────────────────── -->
+    <a class="project-card" href="paramar_black.html">
+      <div class="card-img-placeholder" style="background:linear-gradient(135deg,#0a0a10 0%,#1a1a2e 100%)">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+          <rect x="10" y="20" width="60" height="42" stroke="#c9a96e" stroke-width="1.5" fill="none" opacity="0.5"/>
+          <rect x="10" y="20" width="60" height="14" stroke="#c9a96e" stroke-width="1" fill="none" opacity="0.3"/>
+          <line x1="35" y1="20" x2="35" y2="62" stroke="#c9a96e" stroke-width="1" opacity="0.3"/>
+          <circle cx="54" cy="44" r="8" stroke="#c9a96e" stroke-width="1" fill="none" opacity="0.4"/>
+          <text x="40" y="72" text-anchor="middle" fill="#c9a96e" font-family="serif" font-size="8" opacity="0.6">BLACK</text>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-name">Paramar Black</div>
+        <div class="card-type">Tulum &nbsp;&middot;&nbsp; 3 Niveles + PH &nbsp;&middot;&nbsp; 2 Rec</div>
+        <div class="card-stats">
+          <div class="stat"><div class="stat-val green" id="pb-disp">18</div><div class="stat-label">Disp.</div></div>
+          <div class="stat"><div class="stat-val yellow" id="pb-res">1</div><div class="stat-label">Res.</div></div>
+          <div class="stat"><div class="stat-val red" id="pb-vend">18</div><div class="stat-label">Vend.</div></div>
+        </div>
+        <div class="card-progress">
+          <div class="progress-label"><span>Avance de ventas</span><span id="pb-pct">49%</span></div>
+          <div class="progress-track"><div class="progress-fill" id="pb-bar" style="width:49%;background:linear-gradient(90deg,#1a1a2e,#3a3a5e)"></div></div>
+        </div>
+      </div>
+    </a>
+
+    </div><!-- /.projects-row -->
+  </div><!-- /.city-group Tulum -->
+
     </div>
   </div>
 
@@ -452,9 +494,9 @@ async function init() {
   const mcR=parseInt(document.getElementById('mc-res').textContent)||0;
   const mcV=parseInt(document.getElementById('mc-vend').textContent)||0;
 
-  document.getElementById('totalDisp').textContent = lmD + mcD + 6 + 24 + 21 + 41;
-  document.getElementById('totalRes').textContent  = lmR + mcR + 5 + 3 + 7 + 8;
-  document.getElementById('totalVend').textContent = lmV + mcV + 58 + 23 + 48 + 12;
+  document.getElementById('totalDisp').textContent = lmD + mcD + 6 + 24 + 21 + 41 + 18;
+  document.getElementById('totalRes').textContent  = lmR + mcR + 5 + 3 + 7 + 8 + 1;
+  document.getElementById('totalVend').textContent = lmV + mcV + 58 + 23 + 48 + 12 + 18;
 
   document.getElementById('footer-update').textContent =
     'Actualizado: ' + new Date().toLocaleTimeString('es-MX');
