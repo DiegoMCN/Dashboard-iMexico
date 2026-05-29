@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paramar Black — iMexico Real Estate v1.1</title>
+<title>Paramar Black — iMexico Real Estate v1.2</title>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -94,12 +94,37 @@ tbody td{padding:9px 12px;font-size:12px;white-space:nowrap;}
 .ri{font-size:11px;color:var(--text-3);margin-bottom:10px;}.ri span{font-weight:600;color:var(--primary);}
 .tip{position:fixed;background:var(--primary);border-radius:var(--radius-sm);padding:10px 14px;font-size:11px;color:var(--white);pointer-events:none;z-index:1000;display:none;line-height:1.7;box-shadow:var(--shadow-lg);}
 @media(max-width:1100px){.krow{grid-template-columns:repeat(3,1fr);}.g2,.g3{grid-template-columns:1fr;}.main,.header,.nav{padding-left:20px;padding-right:20px;}}
+
+/* ── STATUS PILLS v1.2 ── */
+.status-pills{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.spill{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 14px;border-radius:20px;
+  font-size:11px;font-weight:700;letter-spacing:.04em;
+  cursor:pointer;border:1.5px solid transparent;
+  transition:all .18s;user-select:none;
+}
+.spill .scount{
+  background:rgba(0,0,0,.12);
+  border-radius:10px;padding:0 6px;font-size:10px;
+  min-width:18px;text-align:center;
+}
+.spill.all  {background:var(--primary-10);color:var(--primary);border-color:var(--border);}
+.spill.all.active{background:var(--primary);color:var(--white);border-color:var(--primary);}
+.spill.all .scount{background:rgba(255,255,255,.25);}
+.spill.disp {background:var(--green-bg);color:var(--green);border-color:rgba(26,122,74,.2);}
+.spill.disp.active{background:var(--green);color:var(--white);border-color:var(--green);}
+.spill.res  {background:var(--yellow-bg);color:var(--yellow);border-color:rgba(146,112,10,.2);}
+.spill.res.active{background:var(--yellow);color:var(--white);border-color:var(--yellow);}
+.spill.vend {background:var(--red-bg);color:var(--red);border-color:rgba(192,41,42,.2);}
+.spill.vend.active{background:var(--red);color:var(--white);border-color:var(--red);}
+
 </style>
 </head>
 <body>
 
 <nav class="nav">
-  <a class="back" href="index.html">← Volver al Portfolio</a>
+  <a class="back" href="index-v1.2.html">← Volver al Portfolio</a>
   <div class="brand">iMexico Real Estate</div>
   <div class="live"><span class="dot"></span><span id="lastUpdate">Cargando...</span>&nbsp;·&nbsp;Auto-refresco 5 min</div>
 </nav>
@@ -130,18 +155,12 @@ tbody td{padding:9px 12px;font-size:12px;white-space:nowrap;}
         <option value="2">Nivel 2</option>
         <option value="3">Nivel 3 / PH</option>
       </select></div>
-    <div class="fg"><label>Status</label>
-      <select id="fStatus">
-        <option value="">Todos</option>
-        <option value="DISP">Disponible</option>
-        <option value="RESERVADO">Reservado</option>
-        <option value="VENDIDO">Vendido</option>
-      </select></div>
+    <div class="status-pills" id="statusPills"></div>
     <div class="fg"><label>Recámaras</label>
       <select id="fTipo">
         <option value="">Todas</option>
-        <option value="1">1 Rec</option>
-        <option value="2">2 Rec</option>
+        <option value="1 Rec">1 Rec</option>
+        <option value="2 Rec">2 Rec</option>
       </select></div>
     <button class="btn" onclick="doReset()">↺ Limpiar</button>
   </div>
@@ -204,7 +223,7 @@ tbody td{padding:9px 12px;font-size:12px;white-space:nowrap;}
 const PISOS    = ["PB", "1", "2", "3"];
 const PISO_LBL = {"PB": "P.Baja", "1": "Nivel 1", "2": "Nivel 2", "3": "N3/PH"};
 const PR_DATA  = [{"t": "Std (79\u201393 m\u00b2)", "min": 232.1, "max": 275.4}, {"t": "PH 2Rec (117\u2013146 m\u00b2)", "min": 234.5, "max": 323.1}, {"t": "PH 1Rec (97\u2013101 m\u00b2)", "min": 275.4, "max": 283.5}];
-const RAW      = [{"n":"01","p":"PB","s":"VENDIDO","t":"2","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"02","p":"PB","s":"VENDIDO","t":"2","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"03","p":"PB","s":"VENDIDO","t":"2","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"04","p":"PB","s":"VENDIDO","t":"2","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"05","p":"PB","s":"VENDIDO","t":"2","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"06","p":"PB","s":"VENDIDO","t":"2","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"07","p":"PB","s":"VENDIDO","t":"2","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"08","p":"PB","s":"VENDIDO","t":"2","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"09","p":"PB","s":"VENDIDO","t":"2","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"10","p":"PB","s":"VENDIDO","t":"2","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"11","p":"PB","s":"VENDIDO","t":"2","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"12","p":"PB","s":"VENDIDO","t":"2","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"13","p":"PB","s":"VENDIDO","t":"2","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"14","p":"PB","s":"VENDIDO","t":"2","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"101","p":"1","s":"DISP","t":"2","m2i":80.35,"terr":0,"tot":80.35,"p1":251005.27,"p2":263555.53},{"n":"102","p":"1","s":"DISP","t":"2","m2i":92.7,"terr":0,"tot":92.7,"p1":275400.0,"p2":289170.0},{"n":"103","p":"1","s":"DISP","t":"2","m2i":79.7,"terr":0,"tot":79.7,"p1":251952.64,"p2":264550.27},{"n":"104","p":"1","s":"VENDIDO","t":"2","m2i":79.7,"terr":0,"tot":79.7,"p1":0,"p2":0},{"n":"105","p":"1","s":"DISP","t":"2","m2i":92.7,"terr":0,"tot":92.7,"p1":272794.73,"p2":286434.46},{"n":"107","p":"1","s":"DISP","t":"2","m2i":82.8,"terr":0,"tot":82.8,"p1":232096.27,"p2":243701.08},{"n":"110","p":"1","s":"DISP","t":"2","m2i":79.7,"terr":0,"tot":79.7,"p1":234000.0,"p2":245700.0},{"n":"112","p":"1","s":"DISP","t":"2","m2i":79.7,"terr":0,"tot":79.7,"p1":251952.64,"p2":264550.27},{"n":"201","p":"2","s":"VENDIDO","t":"2","m2i":80.4,"terr":0,"tot":80.4,"p1":0,"p2":0},{"n":"203","p":"2","s":"DISP","t":"2","m2i":79.7,"terr":0,"tot":79.7,"p1":253373.96,"p2":266042.65},{"n":"204","p":"2","s":"DISP","t":"2","m2i":79.7,"terr":0,"tot":79.7,"p1":253373.96,"p2":266042.65},{"n":"206","p":"2","s":"DISP","t":"2","m2i":82.0,"terr":0,"tot":82.0,"p1":232096.27,"p2":243701.08},{"n":"207","p":"2","s":"DISP","t":"2","m2i":82.0,"terr":0,"tot":82.0,"p1":232096.27,"p2":243701.08},{"n":"209","p":"2","s":"DISP","t":"2","m2i":79.7,"terr":0,"tot":79.7,"p1":253373.96,"p2":266042.65},{"n":"210","p":"2","s":"VENDIDO","t":"2","m2i":79.7,"terr":0,"tot":79.7,"p1":0,"p2":0},{"n":"211","p":"2","s":"DISP","t":"2","m2i":92.5,"terr":0,"tot":92.5,"p1":275400.0,"p2":289170.0},{"n":"212","p":"2","s":"DISP","t":"2","m2i":79.7,"terr":0,"tot":79.7,"p1":253373.96,"p2":266042.65},{"n":"306","p":"3","s":"DISP","t":"2","m2i":82.0,"terr":0,"tot":82.0,"p1":234473.96,"p2":246197.65},{"n":"307","p":"3","s":"DISP","t":"2","m2i":82.0,"terr":0,"tot":82.0,"p1":236842.06,"p2":248684.16},{"n":"311 PH","p":"3","s":"VENDIDO","t":"2","m2i":145.77,"terr":0,"tot":145.77,"p1":0,"p2":0},{"n":"312 PH","p":"3","s":"DISP","t":"2","m2i":116.5,"terr":0,"tot":116.5,"p1":323100.0,"p2":339255.0},{"n":"313 PH","p":"3","s":"DISP","t":"1","m2i":101.38,"terr":0,"tot":101.38,"p1":283500.0,"p2":297675.0},{"n":"314 PH","p":"3","s":"RESERVADO","t":"1","m2i":97.42,"terr":0,"tot":97.42,"p1":275400.0,"p2":289170.0}];
+const RAW      = [{"n":"01","p":"PB","s":"VENDIDO","t":"2 Rec","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"02","p":"PB","s":"VENDIDO","t":"2 Rec","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"03","p":"PB","s":"VENDIDO","t":"2 Rec","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"04","p":"PB","s":"VENDIDO","t":"2 Rec","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"05","p":"PB","s":"VENDIDO","t":"2 Rec","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"06","p":"PB","s":"VENDIDO","t":"2 Rec","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"07","p":"PB","s":"VENDIDO","t":"2 Rec","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"08","p":"PB","s":"VENDIDO","t":"2 Rec","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"09","p":"PB","s":"VENDIDO","t":"2 Rec","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"10","p":"PB","s":"VENDIDO","t":"2 Rec","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"11","p":"PB","s":"VENDIDO","t":"2 Rec","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"12","p":"PB","s":"VENDIDO","t":"2 Rec","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"13","p":"PB","s":"VENDIDO","t":"2 Rec","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"14","p":"PB","s":"VENDIDO","t":"2 Rec","m2i":0,"terr":0,"tot":0,"p1":0,"p2":0},{"n":"101","p":"1","s":"DISP","t":"2 Rec","m2i":80.35,"terr":0,"tot":80.35,"p1":251005.27,"p2":263555.53},{"n":"102","p":"1","s":"DISP","t":"2 Rec","m2i":92.7,"terr":0,"tot":92.7,"p1":275400.0,"p2":289170.0},{"n":"103","p":"1","s":"DISP","t":"2 Rec","m2i":79.7,"terr":0,"tot":79.7,"p1":251952.64,"p2":264550.27},{"n":"104","p":"1","s":"VENDIDO","t":"2 Rec","m2i":79.7,"terr":0,"tot":79.7,"p1":0,"p2":0},{"n":"105","p":"1","s":"DISP","t":"2 Rec","m2i":92.7,"terr":0,"tot":92.7,"p1":272794.73,"p2":286434.46},{"n":"107","p":"1","s":"DISP","t":"2 Rec","m2i":82.8,"terr":0,"tot":82.8,"p1":232096.27,"p2":243701.08},{"n":"110","p":"1","s":"DISP","t":"2 Rec","m2i":79.7,"terr":0,"tot":79.7,"p1":234000.0,"p2":245700.0},{"n":"112","p":"1","s":"DISP","t":"2 Rec","m2i":79.7,"terr":0,"tot":79.7,"p1":251952.64,"p2":264550.27},{"n":"201","p":"2","s":"VENDIDO","t":"2 Rec","m2i":80.4,"terr":0,"tot":80.4,"p1":0,"p2":0},{"n":"203","p":"2","s":"DISP","t":"2 Rec","m2i":79.7,"terr":0,"tot":79.7,"p1":253373.96,"p2":266042.65},{"n":"204","p":"2","s":"DISP","t":"2 Rec","m2i":79.7,"terr":0,"tot":79.7,"p1":253373.96,"p2":266042.65},{"n":"206","p":"2","s":"DISP","t":"2 Rec","m2i":82.0,"terr":0,"tot":82.0,"p1":232096.27,"p2":243701.08},{"n":"207","p":"2","s":"DISP","t":"2 Rec","m2i":82.0,"terr":0,"tot":82.0,"p1":232096.27,"p2":243701.08},{"n":"209","p":"2","s":"DISP","t":"2 Rec","m2i":79.7,"terr":0,"tot":79.7,"p1":253373.96,"p2":266042.65},{"n":"210","p":"2","s":"VENDIDO","t":"2 Rec","m2i":79.7,"terr":0,"tot":79.7,"p1":0,"p2":0},{"n":"211","p":"2","s":"DISP","t":"2 Rec","m2i":92.5,"terr":0,"tot":92.5,"p1":275400.0,"p2":289170.0},{"n":"212","p":"2","s":"DISP","t":"2 Rec","m2i":79.7,"terr":0,"tot":79.7,"p1":253373.96,"p2":266042.65},{"n":"306","p":"3","s":"DISP","t":"2 Rec","m2i":82.0,"terr":0,"tot":82.0,"p1":234473.96,"p2":246197.65},{"n":"307","p":"3","s":"DISP","t":"2 Rec","m2i":82.0,"terr":0,"tot":82.0,"p1":236842.06,"p2":248684.16},{"n":"311 PH","p":"3","s":"VENDIDO","t":"2 Rec","m2i":145.77,"terr":0,"tot":145.77,"p1":0,"p2":0},{"n":"312 PH","p":"3","s":"DISP","t":"2 Rec","m2i":116.5,"terr":0,"tot":116.5,"p1":323100.0,"p2":339255.0},{"n":"313 PH","p":"3","s":"DISP","t":"1 Rec","m2i":101.38,"terr":0,"tot":101.38,"p1":283500.0,"p2":297675.0},{"n":"314 PH","p":"3","s":"RESERVADO","t":"1 Rec","m2i":97.42,"terr":0,"tot":97.42,"p1":275400.0,"p2":289170.0}];
 
 const ns     = s=>(s||'').toUpperCase().replace('DISPONIBLE','DISP').replace('RESERVADA','RESERVADO').replace('VENDIDA','VENDIDO');
 const fmtF = v => '$' + new Intl.NumberFormat('en-US').format(Math.round(v));
@@ -270,7 +289,7 @@ async function load(){
 
 function applyF(){
   const p=document.getElementById('fPiso').value;
-  const s=document.getElementById('fStatus').value;
+  const s=window._activeStatus||'';
   const t=document.getElementById('fTipo').value;
   filtered=data.filter(u=>{
     if(p&&u.p!==p)return false;
@@ -281,8 +300,14 @@ function applyF(){
   render();
 }
 
-function doReset(){['fPiso','fStatus','fTipo'].forEach(id=>document.getElementById(id).value='');filtered=[...data];render();}
-['fPiso','fStatus','fTipo'].forEach(id=>document.getElementById(id).addEventListener('change',applyF));
+function doReset(){['fPiso','fTipo'].forEach(id=>document.getElementById(id).value='');filtered=[...data];render();
+  window._activeStatus='';
+  document.querySelectorAll('.spill').forEach(b=>b.classList.remove('active'));
+  const allBtn=document.querySelector('.spill.all');
+  if(allBtn)allBtn.classList.add('active');
+  render();
+}
+['fPiso','fTipo'].forEach(id=>document.getElementById(id).addEventListener('change',applyF));
 
 function render(){
   const d=filtered.filter(u=>ns(u.s)==='DISP').length;
@@ -342,7 +367,42 @@ function render(){
   document.getElementById('tb').innerHTML=filtered.map(u=>BUILD_ROW(u)).join('');
 }
 
+// ── STATUS PILLS v1.2 ──────────────────────────────────────────────────
+function buildStatusPills(){
+  const container = document.getElementById('statusPills');
+  if(!container) return;
+  const counts = {
+    DISP:     data.filter(u=>ns(u.s)==='DISP').length,
+    RESERVADO:data.filter(u=>ns(u.s)==='RESERVADO').length,
+    VENDIDO:  data.filter(u=>ns(u.s)==='VENDIDO').length,
+  };
+  const total = data.length;
+  const active = window._activeStatus || '';
+  container.innerHTML = `
+    <span class="spill all ${active===''?'active':''}" data-v="">
+      Todos <span class="scount">${total}</span>
+    </span>
+    <span class="spill disp ${active==='DISP'?'active':''}" data-v="DISP">
+      Disponible <span class="scount">${counts.DISP}</span>
+    </span>
+    <span class="spill res ${active==='RESERVADO'?'active':''}" data-v="RESERVADO">
+      Reservado <span class="scount">${counts.RESERVADO}</span>
+    </span>
+    <span class="spill vend ${active==='VENDIDO'?'active':''}" data-v="VENDIDO">
+      Vendido <span class="scount">${counts.VENDIDO}</span>
+    </span>
+  `;
+  container.querySelectorAll('.spill').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      window._activeStatus = btn.dataset.v;
+      applyF();
+    });
+  });
+}
+window._activeStatus = '';
+
 load();
+buildStatusPills();
 render();
 setInterval(load,5*60*1000);
 </script>
