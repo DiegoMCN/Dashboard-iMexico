@@ -395,11 +395,11 @@ function render(){
   document.getElementById('lgR').textContent=r;
   document.getElementById('lgV').textContent=v;
 
-  const tipos=['A','B1','B2','C','D'];
-  const tc={};tipos.forEach(tp=>tc[tp]=filtered.filter(u=>u.t===tp).length);
+  const tipos=[['A','Tipo A (1 Rec)'],['B1','Tipo B1 (2 Rec)'],['B2','Tipo B2 (2 Rec)'],['C','Tipo C (2 Rec)'],['D','Tipo D (3 Rec)'],['PH','Penthouse']];
+  const tc={};tipos.forEach(([tp])=>tc[tp]=filtered.filter(u=>u.t===tp).length);
   const maxT=Math.max(...Object.values(tc),1);
-  document.getElementById('barTipo').innerHTML=tipos.map(tp=>`
-    <div class="bar-row"><div class="bar-label">Tipo ${tp}</div>
+  document.getElementById('barTipo').innerHTML=tipos.map(([tp,lbl])=>`
+    <div class="bar-row"><div class="bar-label" style="width:115px;font-size:10px">${lbl}</div>
     <div class="bar-track"><div class="bar-fill" style="width:${(tc[tp]/maxT)*100}%"></div></div>
     <div class="bar-val">${tc[tp]} uds</div></div>`).join('');
 
