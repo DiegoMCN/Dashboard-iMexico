@@ -105,6 +105,31 @@ tbody td{padding:9px 12px;font-size:12px;white-space:nowrap;}
 .ri span{font-weight:600;color:var(--primary);}
 .tip{position:fixed;background:var(--primary);border-radius:var(--radius-sm);padding:10px 14px;font-size:11px;color:var(--white);pointer-events:none;z-index:1000;display:none;line-height:1.7;box-shadow:var(--shadow-lg);}
 @media(max-width:900px){.krow{grid-template-columns:repeat(3,1fr);}.g2,.g3{grid-template-columns:1fr;}.main,.header,.nav{padding-left:20px;padding-right:20px;}}
+
+/* ── STATUS PILLS v1.2 ── */
+.status-pills{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.spill{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 14px;border-radius:20px;
+  font-size:11px;font-weight:700;letter-spacing:.04em;
+  cursor:pointer;border:1.5px solid transparent;
+  transition:all .18s;user-select:none;
+}
+.spill .scount{
+  background:rgba(0,0,0,.12);
+  border-radius:10px;padding:0 6px;font-size:10px;
+  min-width:18px;text-align:center;
+}
+.spill.all  {background:var(--primary-10);color:var(--primary);border-color:var(--border);}
+.spill.all.active{background:var(--primary);color:var(--white);border-color:var(--primary);}
+.spill.all .scount{background:rgba(255,255,255,.25);}
+.spill.disp {background:var(--green-bg);color:var(--green);border-color:rgba(26,122,74,.2);}
+.spill.disp.active{background:var(--green);color:var(--white);border-color:var(--green);}
+.spill.res  {background:var(--yellow-bg);color:var(--yellow);border-color:rgba(146,112,10,.2);}
+.spill.res.active{background:var(--yellow);color:var(--white);border-color:var(--yellow);}
+.spill.vend {background:var(--red-bg);color:var(--red);border-color:rgba(192,41,42,.2);}
+.spill.vend.active{background:var(--red);color:var(--white);border-color:var(--red);}
+
 </style>
 </head>
 <body>
@@ -305,12 +330,11 @@ const plbl=p=>p==='PB'?'P.Baja':p==='PH'?'PH':'Nivel '+p;
   const tipoOpts=TIPOS.map((t,i)=>`<option value="${t}">${TIPOS_LABELS[i]}</option>`).join('');
   f.innerHTML=`
     <div class="fg"><label>Piso</label><select id="fP"><option value="">Todos</option>${pisoOpts}</select></div>
-    <div class="fg"><label>Status</label><select id="fS"><option value="">Todos</option><option value="DISP">Disponible</option><option value="RESERVADO">Reservado</option><option value="VENDIDO">Vendido</option></select></div>
+    <div class="status-pills" id="statusPills"></div>
     <div class="fg"><label>Tipo</label><select id="fT"><option value="">Todos</option>${tipoOpts}</select></div>
     <button class="btn" onclick="doReset()">↺ Limpiar</button>`;
   document.getElementById('fP').addEventListener('change',applyF);
-  document.getElementById('fS').addEventListener('change',applyF);
-  document.getElementById('fT').addEventListener('change',applyF);
+    document.getElementById('fT').addEventListener('change',applyF);
 })();
 
 // Build table headers
@@ -364,7 +388,7 @@ function setLoading(v) {
 
 function applyF(){
   const p=document.getElementById('fP').value;
-  const s=document.getElementById('fS').value;
+  const s=window._activeStatus||'';
   const t=document.getElementById('fT').value;
   filtered=data.filter(u=>{
     if(p&&u.p!==p)return false;
@@ -375,8 +399,14 @@ function applyF(){
   render();
 }
 function doReset(){
-  ['fP','fS','fT'].forEach(id=>document.getElementById(id).value='');
+  ['fP','fT'].forEach(id=>document.getElementById(id).value='');
   filtered=[...data];render();
+
+  window._activeStatus='';
+  document.querySelectorAll('.spill').forEach(b=>b.classList.remove('active'));
+  const allBtn=document.querySelector('.spill.all');
+  if(allBtn)allBtn.classList.add('active');
+  render();
 }
 
 function render(){
@@ -448,7 +478,42 @@ function showTip(e,h){const t=document.getElementById('tip');t.innerHTML=h;t.sty
 function hideTip(){document.getElementById('tip').style.display='none';}
 document.addEventListener('mousemove',e=>{const t=document.getElementById('tip');if(t.style.display==='block'){t.style.left=(e.clientX+14)+'px';t.style.top=(e.clientY-10)+'px';}});
 
+// ── STATUS PILLS v1.2 ──────────────────────────────────────────────────
+function buildStatusPills(){
+  const container = document.getElementById('statusPills');
+  if(!container) return;
+  const counts = {
+    DISP:     data.filter(u=>ns(u.s)==='DISP').length,
+    RESERVADO:data.filter(u=>ns(u.s)==='RESERVADO').length,
+    VENDIDO:  data.filter(u=>ns(u.s)==='VENDIDO').length,
+  };
+  const total = data.length;
+  const active = window._activeStatus || '';
+  container.innerHTML = `
+    <span class="spill all ${active===''?'active':''}" data-v="">
+      Todos <span class="scount">${total}</span>
+    </span>
+    <span class="spill disp ${active==='DISP'?'active':''}" data-v="DISP">
+      Disponible <span class="scount">${counts.DISP}</span>
+    </span>
+    <span class="spill res ${active==='RESERVADO'?'active':''}" data-v="RESERVADO">
+      Reservado <span class="scount">${counts.RESERVADO}</span>
+    </span>
+    <span class="spill vend ${active==='VENDIDO'?'active':''}" data-v="VENDIDO">
+      Vendido <span class="scount">${counts.VENDIDO}</span>
+    </span>
+  `;
+  container.querySelectorAll('.spill').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      window._activeStatus = btn.dataset.v;
+      applyF();
+    });
+  });
+}
+window._activeStatus = '';
+
 load();
+buildStatusPills();
 setInterval(load,5*60*1000);
 </script>
 </body>
