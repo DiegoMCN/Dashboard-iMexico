@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Macondo Punta Esmeralda — iMexico Real Estate</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#202845;--primary-80:#4b5577;--primary-40:#a5aabb;--primary-10:#eceef4;
+  --secondary:#E73B39;--secondary-20:#fce8e8;
+  --neutral:#F8F9FA;--white:#ffffff;
+  --text:#1a1d2e;--text-2:#4a4d5e;--text-3:#8a8d9e;
+  --border:#e4e6ed;--border-2:#f0f1f5;
+  --green:#1a7a4a;--green-bg:#e8f5ee;
+  --yellow:#92700a;--yellow-bg:#fef8e6;
+  --red:#c0292a;--red-bg:#fce8e8;
+  --shadow-sm:0 1px 3px rgba(32,40,69,.06),0 1px 2px rgba(32,40,69,.04);
+  --shadow-md:0 4px 12px rgba(32,40,69,.08),0 2px 4px rgba(32,40,69,.05);
+  --shadow-lg:0 12px 32px rgba(32,40,69,.12),0 4px 8px rgba(32,40,69,.06);
+  --radius:12px;--radius-sm:8px;
+  --ac:var(--primary);--ac2:var(--primary);--muted:var(--text-3);--acd:var(--text-3);
+  /* Tipo colors */
+  --tA:#6366f1;--tB:#0ea5e9;--tC:#10b981;--tD:#f59e0b;--tE:#ec4899;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--neutral);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;-webkit-font-smoothing:antialiased;}
+.nav{display:flex;align-items:center;padding:0 48px;border-bottom:1px solid var(--border);background:var(--white);position:sticky;top:0;z-index:100;height:60px;box-shadow:var(--shadow-sm);gap:20px;}
+.back{font-size:11px;font-weight:600;color:var(--text-3);text-decoration:none;letter-spacing:.04em;transition:color .2s;flex-shrink:0;}
+.back:hover{color:var(--primary);}
+.brand{font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;color:var(--primary);flex:1;letter-spacing:-.02em;}
+.live{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-3);}
+.dot{width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(34,197,94,.4);}50%{opacity:.7;box-shadow:0 0 0 4px rgba(34,197,94,0);}}
+.header{padding:28px 48px 22px;display:flex;justify-content:space-between;align-items:flex-end;background:var(--primary);position:relative;overflow:hidden;}
+.header::after{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(16,185,129,.15) 0%,transparent 70%);pointer-events:none;}
+.header h1{font-family:'Manrope',sans-serif;font-size:32px;font-weight:800;line-height:1.1;letter-spacing:-.03em;color:var(--white);}
+.header h1 em{font-style:normal;font-weight:300;opacity:.55;}
+.sub{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:4px;}
+.header-r{text-align:right;font-size:11px;color:rgba(255,255,255,.5);}
+.main{padding:28px 48px;}
+.krow{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px;}
+.kpi{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px;position:relative;overflow:hidden;transition:box-shadow .2s;box-shadow:var(--shadow-sm);}
+.kpi:hover{box-shadow:var(--shadow-md);}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0;}
+.kg::before{background:#22c55e;}.ky::before{background:#f59e0b;}.kr::before{background:var(--secondary);}.ka::before{background:var(--primary);}
+.klb{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;}
+.kv{font-family:'Manrope',sans-serif;font-size:28px;font-weight:800;letter-spacing:-.03em;color:var(--primary);line-height:1;}
+.ks{font-size:10px;color:var(--text-3);margin-top:4px;}
+.filters{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
+.filters label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);}
+.filters select{background:var(--white);border:1px solid var(--border);color:var(--text);padding:7px 10px;font-family:'Inter',sans-serif;font-size:12px;border-radius:var(--radius-sm);outline:none;cursor:pointer;transition:border-color .2s;}
+.filters select:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-10);}
+.fg{display:flex;align-items:center;gap:6px;}
+.btn{background:transparent;border:1.5px solid var(--primary);color:var(--primary);padding:7px 16px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;cursor:pointer;border-radius:var(--radius-sm);transition:all .2s;}
+.btn:hover{background:var(--primary);color:var(--white);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;}
+.bc{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-sm);}
+.pt{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--primary);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border-2);}
+.bar-chart{display:flex;flex-direction:column;gap:8px;}
+.br2{display:flex;align-items:center;gap:10px;}
+.bl2{width:64px;font-size:11px;color:var(--text-3);text-align:right;flex-shrink:0;}
+.bt{flex:1;height:6px;background:var(--border-2);border-radius:99px;overflow:hidden;}
+.bf{height:100%;background:linear-gradient(90deg,var(--primary-40),var(--primary));border-radius:99px;transition:width .8s;}
+.bv{width:100px;font-size:11px;font-weight:600;color:var(--primary);text-align:right;flex-shrink:0;}
+.dw{display:flex;align-items:center;gap:24px;}
+.lg{display:flex;flex-direction:column;gap:10px;}
+.li{display:flex;align-items:center;gap:8px;}
+.ld{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.lc{font-family:'Manrope',sans-serif;font-size:18px;font-weight:700;color:var(--primary);margin-left:auto;padding-left:12px;}
+/* Tipo cards */
+.tipo-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px;}
+.tipo-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;}
+.tipo-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.tipo-card.tA::before{background:var(--tA);}
+.tipo-card.tB::before{background:var(--tB);}
+.tipo-card.tC::before{background:var(--tC);}
+.tipo-card.tD::before{background:var(--tD);}
+.tipo-card.tE::before{background:var(--tE);}
+.tipo-title{font-family:'Manrope',sans-serif;font-size:18px;font-weight:800;margin-bottom:2px;}
+.tipo-card.tA .tipo-title{color:var(--tA);}
+.tipo-card.tB .tipo-title{color:var(--tB);}
+.tipo-card.tC .tipo-title{color:var(--tC);}
+.tipo-card.tD .tipo-title{color:var(--tD);}
+.tipo-card.tE .tipo-title{color:var(--tE);}
+.tipo-m2{font-size:10px;color:var(--text-3);margin-bottom:10px;}
+.tipo-stats{display:flex;gap:10px;}
+.ts{text-align:center;}
+.ts-v{font-family:'Manrope',sans-serif;font-size:16px;font-weight:800;color:var(--primary);line-height:1;}
+.ts-l{font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text-3);margin-top:2px;}
+/* Heatmap */
+.hm{display:flex;flex-direction:column;gap:6px;}
+.hr2{display:flex;align-items:center;gap:8px;}
+.hl{width:62px;font-size:11px;color:var(--text-3);flex-shrink:0;text-align:right;}
+.hcs{display:flex;gap:3px;flex-wrap:wrap;}
+.hc{width:17px;height:17px;border:1.5px solid transparent;cursor:pointer;border-radius:3px;transition:transform .15s,border-color .15s;}
+.hc:hover{transform:scale(1.35);border-color:var(--primary);z-index:10;}
+.hc.disp{background:#22c55e;}.hc.reservado{background:#f59e0b;}.hc.vendido{background:var(--secondary);}
+/* Tipo badge */
+.tipo-badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:4px;font-size:10px;font-weight:800;flex-shrink:0;}
+.tipo-badge.tA{background:#ede9fe;color:var(--tA);}
+.tipo-badge.tB{background:#e0f2fe;color:var(--tB);}
+.tipo-badge.tC{background:#d1fae5;color:var(--tC);}
+.tipo-badge.tD{background:#fef3c7;color:var(--tD);}
+.tipo-badge.tE{background:#fce7f3;color:var(--tE);}
+/* Table */
+.tw{overflow-x:auto;max-height:420px;overflow-y:auto;}
+.tw::-webkit-scrollbar{width:4px;height:4px;}
+.tw::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
+table{width:100%;border-collapse:collapse;}
+thead th{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--acd);padding:10px 12px;text-align:left;border-bottom:2px solid var(--border);position:sticky;top:0;background:var(--white);white-space:nowrap;}
+tbody tr{border-bottom:1px solid var(--border-2);transition:background .15s;cursor:pointer;}
+tbody tr:hover{background:var(--primary-10);}
+tbody td{padding:9px 12px;font-size:12px;white-space:nowrap;}
+.badge{display:inline-flex;align-items:center;padding:3px 9px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border-radius:20px;}
+.badge.disp{background:var(--green-bg);color:var(--green);}.badge.reservado{background:var(--yellow-bg);color:var(--yellow);}.badge.vendido{background:var(--red-bg);color:var(--red);}
+.ri{font-size:11px;color:var(--text-3);margin-bottom:10px;}.ri span{font-weight:600;color:var(--primary);}
+.tip{position:fixed;background:var(--primary);border-radius:var(--radius-sm);padding:10px 14px;font-size:11px;color:var(--white);pointer-events:none;z-index:1000;display:none;line-height:1.7;box-shadow:var(--shadow-lg);}
+.status-pills{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.spill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.04em;cursor:pointer;border:1.5px solid transparent;transition:all .18s;user-select:none;}
+.spill .scount{background:rgba(0,0,0,.12);border-radius:10px;padding:0 6px;font-size:10px;min-width:18px;text-align:center;}
+.spill.all{background:var(--primary-10);color:var(--primary);border-color:var(--border);}
+.spill.all.active{background:var(--primary);color:var(--white);border-color:var(--primary);}
+.spill.all .scount{background:rgba(255,255,255,.25);}
+.spill.disp{background:var(--green-bg);color:var(--green);border-color:rgba(26,122,74,.2);}
+.spill.disp.active{background:var(--green);color:var(--white);border-color:var(--green);}
+.spill.res{background:var(--yellow-bg);color:var(--yellow);border-color:rgba(146,112,10,.2);}
+.spill.res.active{background:var(--yellow);color:var(--white);border-color:var(--yellow);}
+.spill.vend{background:var(--red-bg);color:var(--red);border-color:rgba(192,41,42,.2);}
+.spill.vend.active{background:var(--red);color:var(--white);border-color:var(--red);}
+@media(max-width:1200px){.krow,.tipo-grid{grid-template-columns:repeat(3,1fr);}.g2,.g3{grid-template-columns:1fr;}.main,.header,.nav{padding-left:20px;padding-right:20px;}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="back" href="index.html">← Volver al Portfolio</a>
+  <div class="brand">iMexico Real Estate</div>
+  <div class="live"><span class="dot"></span><span id="lastUpdate">Cargando...</span>&nbsp;·&nbsp;Auto-refresco 5 min</div>
+</nav>
+
+<div class="header">
+  <div>
+    <h1>MACONDO <em>Punta Esmeralda</em></h1>
+    <div class="sub">Playa del Carmen · Dashboard Ejecutivo de Inventario</div>
+  </div>
+  <div class="header-r" id="hdr-update"></div>
+</div>
+
+<div class="main">
+
+  <!-- KPIs -->
+  <div class="krow">
+    <div class="kpi kg"><div class="klb">Disponibles</div><div class="kv" id="kD">—</div><div class="ks">unidades</div></div>
+    <div class="kpi ky"><div class="klb">Reservados</div><div class="kv" id="kR">—</div><div class="ks">unidades</div></div>
+    <div class="kpi kr"><div class="klb">Vendidos</div><div class="kv" id="kV">—</div><div class="ks">unidades</div></div>
+    <div class="kpi ka"><div class="klb">Precio Mínimo</div><div class="kv" id="kMn">—</div><div class="ks">MXN</div></div>
+    <div class="kpi ka"><div class="klb">Precio Máximo</div><div class="kv" id="kMx">—</div><div class="ks">MXN</div></div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters">
+    <div class="fg"><label>Piso</label>
+      <select id="fPiso">
+        <option value="">Todos</option>
+        <option value="PB">Planta Baja</option>
+        <option value="2">Nivel 2</option>
+        <option value="3">Nivel 3</option>
+        <option value="4">Nivel 4</option>
+        <option value="5">Nivel 5</option>
+        <option value="6">Nivel 6</option>
+        <option value="7">Nivel 7</option>
+      </select>
+    </div>
+    <div class="fg"><label>Tipo</label>
+      <select id="fTipo">
+        <option value="">Todos</option>
+        <option value="A">Tipo A</option>
+        <option value="B">Tipo B</option>
+        <option value="C">Tipo C</option>
+        <option value="D">Tipo D</option>
+        <option value="E">Tipo E</option>
+      </select>
+    </div>
+    <div class="status-pills" id="statusPills"></div>
+    <button class="btn" onclick="doReset()">↺ Limpiar</button>
+  </div>
+
+  <!-- Charts -->
+  <div class="g3">
+    <div class="bc">
+      <div class="pt">Estado del Inventario</div>
+      <div class="dw">
+        <svg width="96" height="96" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="38" fill="none" stroke="var(--border)" stroke-width="14"/>
+          <circle id="dD" cx="50" cy="50" r="38" fill="none" stroke="#22c55e" stroke-width="14" stroke-dasharray="0 239" stroke-dashoffset="60" transform="rotate(-90 50 50)" style="transition:stroke-dasharray 1s"/>
+          <circle id="dR" cx="50" cy="50" r="38" fill="none" stroke="#f59e0b" stroke-width="14" stroke-dasharray="0 239" stroke-dashoffset="60" transform="rotate(-90 50 50)" style="transition:stroke-dasharray 1s"/>
+          <circle id="dV" cx="50" cy="50" r="38" fill="none" stroke="var(--secondary)" stroke-width="14" stroke-dasharray="0 239" stroke-dashoffset="60" transform="rotate(-90 50 50)" style="transition:stroke-dasharray 1s"/>
+          <text x="50" y="47" text-anchor="middle" fill="var(--primary)" font-family="Manrope" font-size="16" font-weight="800" id="dT">—</text>
+          <text x="50" y="59" text-anchor="middle" fill="var(--text-3)" font-family="Inter" font-size="7">TOTAL</text>
+        </svg>
+        <div class="lg">
+          <div class="li"><div class="ld" style="background:#22c55e"></div><span style="font-size:11px">Disponible</span><div class="lc" id="lgD">—</div></div>
+          <div class="li"><div class="ld" style="background:#f59e0b"></div><span style="font-size:11px">Reservado</span><div class="lc" id="lgR">—</div></div>
+          <div class="li"><div class="ld" style="background:var(--secondary)"></div><span style="font-size:11px">Vendido</span><div class="lc" id="lgV">—</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="bc">
+      <div class="pt">Disponibles por Piso</div>
+      <div class="bar-chart" id="bPiso"></div>
+    </div>
+    <div class="bc">
+      <div class="pt">Precio Promedio por Tipo (MXN)</div>
+      <div class="bar-chart" id="bTipo"></div>
+    </div>
+  </div>
+
+  <!-- Tipo cards -->
+  <div class="tipo-grid" id="tipoCards"></div>
+
+  <!-- Heatmap + precio por piso -->
+  <div class="g2">
+    <div class="bc">
+      <div class="pt">Disponibilidad por Piso</div>
+      <div style="display:flex;gap:14px;margin-bottom:12px;font-size:10px;font-weight:600;letter-spacing:.06em;">
+        <span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;background:#22c55e;border-radius:2px;display:inline-block;"></span>DISP</span>
+        <span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;background:#f59e0b;border-radius:2px;display:inline-block;"></span>RESERVADO</span>
+        <span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;background:var(--secondary);border-radius:2px;display:inline-block;"></span>VENDIDO</span>
+      </div>
+      <div class="hm" id="hM"></div>
+    </div>
+    <div class="bc">
+      <div class="pt">Precio Promedio por Piso (MXN)</div>
+      <div class="bar-chart" id="bPrecio"></div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="bc">
+    <div class="pt">Inventario Detallado</div>
+    <div class="ri">Mostrando <span id="count">—</span> unidades</div>
+    <div class="tw">
+      <table>
+        <thead><tr>
+          <th>Unidad</th><th>Piso</th><th>Tipo</th><th>Tipología</th><th>Status</th>
+          <th>M² Total</th>
+          <th>20/60/10</th><th>50/50</th><th>20/80</th>
+        </tr></thead>
+        <tbody id="tb"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="tip" id="tooltip"></div>
+
+<script>
+const PISOS    = ["PB","2","3","4","5","6","7"];
+const TIPOS    = ["A","B","C","D","E"];
+const PISO_LBL = {"PB":"P.Baja","2":"Nivel 2","3":"Nivel 3","4":"Nivel 4","5":"Nivel 5","6":"Nivel 6","7":"Nivel 7"};
+const TIPO_M2  = {"A":22.1,"B":46.92,"C":45.44,"D":46.77,"E":48.89};
+const TIPO_CLS = {"A":"tA","B":"tB","C":"tC","D":"tD","E":"tE"};
+
+// tip: A=Estudio, B/C/D/E=1 Recámara
+const TIPO_TIP = {"A":"Estudio","B":"1 Recámara","C":"1 Recámara","D":"1 Recámara","E":"1 Recámara"};
+const RAW=[
+  {n:"101",p:"PB",s:"VENDIDO",  t:"A",m2:22.1, p1:0,          p2:0,          p3:0},
+  {n:"201",p:"2", s:"VENDIDO",  t:"A",m2:22.21,p1:0,          p2:0,          p3:0},
+  {n:"202",p:"2", s:"VENDIDO",  t:"B",m2:46.92,p1:0,          p2:0,          p3:0},
+  {n:"203",p:"2", s:"VENDIDO",  t:"C",m2:45.44,p1:0,          p2:0,          p3:0},
+  {n:"204",p:"2", s:"VENDIDO",  t:"D",m2:46.77,p1:0,          p2:0,          p3:0},
+  {n:"205",p:"2", s:"DISP",     t:"E",m2:48.89,p1:3919362.67, p2:4002753.37, p3:4169534.76},
+  {n:"301",p:"3", s:"VENDIDO",  t:"A",m2:22.21,p1:0,          p2:0,          p3:0},
+  {n:"302",p:"3", s:"VENDIDO",  t:"B",m2:46.92,p1:0,          p2:0,          p3:0},
+  {n:"303",p:"3", s:"VENDIDO",  t:"C",m2:45.44,p1:0,          p2:0,          p3:0},
+  {n:"304",p:"3", s:"DISP",     t:"D",m2:46.77,p1:3905634.08, p2:3988732.68, p3:4154929.88},
+  {n:"305",p:"3", s:"DISP",     t:"E",m2:48.89,p1:4028233.86, p2:4113940.96, p3:4285355.17},
+  {n:"401",p:"4", s:"VENDIDO",  t:"A",m2:22.21,p1:0,          p2:0,          p3:0},
+  {n:"402",p:"4", s:"VENDIDO",  t:"B",m2:46.92,p1:0,          p2:0,          p3:0},
+  {n:"403",p:"4", s:"VENDIDO",  t:"C",m2:45.44,p1:0,          p2:0,          p3:0},
+  {n:"404",p:"4", s:"VENDIDO",  t:"D",m2:46.77,p1:0,          p2:0,          p3:0},
+  {n:"405",p:"4", s:"DISP",     t:"E",m2:48.89,p1:4337333.36, p2:4429617.04, p3:4614184.42},
+  {n:"501",p:"5", s:"VENDIDO",  t:"A",m2:22.21,p1:0,          p2:0,          p3:0},
+  {n:"502",p:"5", s:"DISP",     t:"B",m2:46.92,p1:3761433.76, p2:3841464.27, p3:4001525.28},
+  {n:"503",p:"5", s:"VENDIDO",  t:"C",m2:45.44,p1:0,          p2:0,          p3:0},
+  {n:"504",p:"5", s:"DISP",     t:"D",m2:46.77,p1:4418687.23, p2:4512701.85, p3:4700731.1},
+  {n:"505",p:"5", s:"RESERVADO",t:"E",m2:48.89,p1:0,          p2:0,          p3:0},
+  {n:"601",p:"6", s:"VENDIDO",  t:"A",m2:22.21,p1:0,          p2:0,          p3:0},
+  {n:"602",p:"6", s:"VENDIDO",  t:"B",m2:46.92,p1:0,          p2:0,          p3:0},
+  {n:"603",p:"6", s:"VENDIDO",  t:"C",m2:45.44,p1:0,          p2:0,          p3:0},
+  {n:"604",p:"6", s:"VENDIDO",  t:"D",m2:46.77,p1:0,          p2:0,          p3:0},
+  {n:"605",p:"6", s:"VENDIDO",  t:"E",m2:48.89,p1:0,          p2:0,          p3:0},
+  {n:"701",p:"7", s:"VENDIDO",  t:"A",m2:22.21,p1:0,          p2:0,          p3:0},
+  {n:"702",p:"7", s:"VENDIDO",  t:"B",m2:46.92,p1:0,          p2:0,          p3:0},
+  {n:"703",p:"7", s:"VENDIDO",  t:"C",m2:45.44,p1:0,          p2:0,          p3:0},
+  {n:"704",p:"7", s:"VENDIDO",  t:"D",m2:46.77,p1:0,          p2:0,          p3:0},
+  {n:"705",p:"7", s:"VENDIDO",  t:"E",m2:48.89,p1:0,          p2:0,          p3:0},
+];
+
+let data=[...RAW], filtered=[...RAW];
+
+const ns      = s=>(s||'').toUpperCase().replace('DISPONIBLE','DISP').replace('RESERVADA','RESERVADO').replace('VENDIDA','VENDIDO');
+const fmtM    = v=>v?'$'+(v/1e6).toFixed(2)+'M':'—';
+const fmtF    = v=>'$'+new Intl.NumberFormat('es-MX').format(Math.round(v));
+const plbl    = p=>PISO_LBL[p]||('Nivel '+p);
+const GET_PRICE = u=>u.p1||0;
+
+const BUILD_ROW = u=>`<tr>
+  <td><strong style="color:var(--ac2)">${u.n}</strong></td>
+  <td>${plbl(u.p)}</td>
+  <td><span class="tipo-badge ${TIPO_CLS[u.t]||''}">${u.t}</span></td>
+  <td style="font-size:11px;color:var(--text-2)">${TIPO_TIP[u.t]||'—'}</td>
+  <td><span class="badge ${ns(u.s).toLowerCase()}">${ns(u.s)}</span></td>
+  <td>${u.m2} m²</td>
+  <td style="color:var(--ac)">${u.p1?fmtF(u.p1):'—'}</td>
+  <td style="color:var(--muted)">${u.p2?fmtF(u.p2):'—'}</td>
+  <td style="color:var(--muted)">${u.p3?fmtF(u.p3):'—'}</td>
+</tr>`;
+
+function setLoading(v){const dot=document.querySelector('.dot');if(dot)dot.style.background=v?'#f59e0b':'#22c55e';}
+
+function showTipEl(e,el){
+  showTip(e,'<strong>'+el.dataset.n+'</strong> · Tipo '+el.dataset.t+'<br>'+el.dataset.s+'<br>'+(parseInt(el.dataset.p)>0?fmtF(parseInt(el.dataset.p)):'Sin precio')+'<br>'+el.dataset.m+' m²');
+}
+function showTip(e,h){const t=document.getElementById('tooltip');t.innerHTML=h;t.style.display='block';t.style.left=(e.clientX+14)+'px';t.style.top=(e.clientY-10)+'px';}
+function hideTip(){document.getElementById('tooltip').style.display='none';}
+document.addEventListener('mousemove',e=>{const t=document.getElementById('tooltip');if(t.style.display==='block'){t.style.left=(e.clientX+14)+'px';t.style.top=(e.clientY-10)+'px';}});
+
+async function load(){
+  setLoading(true);
+  try{
+    const res=await fetch('https://script.google.com/macros/s/AKfycbxLGGR1GuNk6-amf_xAMBIikKaXEaDX7xeNPyzg8rXqNGNQlS00qOI3HCo7WbtHSNXq/exec?proyecto=macondo_pe');
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const json=await res.json();
+    if(json.error)throw new Error(json.error);
+    if(json.unidades&&json.unidades.length>0){
+      data=json.unidades.map(u=>({
+        n: String(u.numero||''),
+        p: String(u.piso||''),
+        s: ns(String(u.status||'')),
+        t: String(u.tipo||''),
+        m2:Number(u.m2)||0,
+        p1:Number(u.precio)||0,
+        p2:Number(u.precio2)||0,
+        p3:Number(u.precio3)||0,
+      }));
+    }
+    const now=new Date().toLocaleTimeString('es-MX');
+    const upd='Actualizado: '+now;
+    ['lastUpdate','hdr-update'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=upd;});
+  }catch(e){
+    console.warn('API error:',e.message,'— usando datos locales');
+    ['lastUpdate','hdr-update'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='⚠ Datos locales';});
+  }
+  setLoading(false);
+  buildStatusPills();
+  applyF();
+}
+
+function applyF(){
+  const p  = document.getElementById('fPiso').value;
+  const tp = document.getElementById('fTipo').value;
+  const s  = window._activeStatus||'';
+  filtered=data.filter(u=>{
+    if(p&&u.p!==p)return false;
+    if(tp&&u.t!==tp)return false;
+    if(s&&ns(u.s)!==s)return false;
+    return true;
+  });
+  render();
+}
+
+function doReset(){
+  ['fPiso','fTipo'].forEach(id=>document.getElementById(id).value='');
+  window._activeStatus='';
+  filtered=[...data];
+  buildStatusPills();
+  render();
+}
+['fPiso','fTipo'].forEach(id=>document.getElementById(id).addEventListener('change',applyF));
+
+function render(){
+  const d=filtered.filter(u=>ns(u.s)==='DISP').length;
+  const r=filtered.filter(u=>ns(u.s)==='RESERVADO').length;
+  const v=filtered.filter(u=>ns(u.s)==='VENDIDO').length;
+  const tot=filtered.length; const safe=tot||1;
+  const prices=filtered.filter(u=>GET_PRICE(u)>0).map(u=>GET_PRICE(u));
+
+  document.getElementById('kD').textContent=d;
+  document.getElementById('kR').textContent=r;
+  document.getElementById('kV').textContent=v;
+  document.getElementById('kMn').textContent=prices.length?fmtM(Math.min(...prices)):'—';
+  document.getElementById('kMx').textContent=prices.length?fmtM(Math.max(...prices)):'—';
+  document.getElementById('count').textContent=tot;
+  document.getElementById('lgD').textContent=d;
+  document.getElementById('lgR').textContent=r;
+  document.getElementById('lgV').textContent=v;
+  document.getElementById('dT').textContent=tot;
+
+  const circ=2*Math.PI*38;
+  document.getElementById('dD').setAttribute('stroke-dasharray',`${(d/safe)*circ} ${circ-(d/safe)*circ}`);
+  document.getElementById('dR').setAttribute('stroke-dasharray',`${(r/safe)*circ} ${circ-(r/safe)*circ}`);
+  document.getElementById('dR').setAttribute('stroke-dashoffset',60-(d/safe)*circ);
+  document.getElementById('dV').setAttribute('stroke-dasharray',`${(v/safe)*circ} ${circ-(v/safe)*circ}`);
+  document.getElementById('dV').setAttribute('stroke-dashoffset',60-(d/safe)*circ-(r/safe)*circ);
+
+  // Disponibles por piso
+  const maxP=Math.max(...PISOS.map(p=>filtered.filter(u=>u.p===p&&ns(u.s)==='DISP').length),1);
+  document.getElementById('bPiso').innerHTML=PISOS.map(p=>{
+    const c=filtered.filter(u=>u.p===p&&ns(u.s)==='DISP').length;
+    if(!c)return'';
+    return`<div class="br2"><div class="bl2">${plbl(p)}</div><div class="bt"><div class="bf" style="width:${(c/maxP)*100}%"></div></div><div class="bv">${c} uds</div></div>`;
+  }).join('');
+
+  // Precio prom por tipo
+  const tipoAvg=TIPOS.map(t=>{const us=filtered.filter(u=>u.t===t&&GET_PRICE(u)>0);return{t,avg:us.length?us.reduce((a,u)=>a+GET_PRICE(u),0)/us.length:0};}).filter(x=>x.avg>0);
+  const maxTA=Math.max(...tipoAvg.map(x=>x.avg),1);
+  const TIPO_COLORS={"A":"var(--tA)","B":"var(--tB)","C":"var(--tC)","D":"var(--tD)","E":"var(--tE)"};
+  document.getElementById('bTipo').innerHTML=tipoAvg.map(x=>`
+    <div class="br2">
+      <div class="bl2" style="color:${TIPO_COLORS[x.t]}">Tipo ${x.t}</div>
+      <div class="bt"><div class="bf" style="width:${(x.avg/maxTA)*100}%;background:${TIPO_COLORS[x.t]}"></div></div>
+      <div class="bv">${fmtM(Math.round(x.avg))}</div>
+    </div>`).join('');
+
+  // Tipo cards
+  document.getElementById('tipoCards').innerHTML=TIPOS.map(t=>{
+    const td=data.filter(u=>u.t===t);
+    const disp=td.filter(u=>ns(u.s)==='DISP').length;
+    const res =td.filter(u=>ns(u.s)==='RESERVADO').length;
+    const vend=td.filter(u=>ns(u.s)==='VENDIDO').length;
+    return`<div class="tipo-card ${TIPO_CLS[t]}">
+      <div class="tipo-title">Tipo ${t}</div>
+      <div class="tipo-m2">${TIPO_M2[t]} m²</div>
+      <div class="tipo-stats">
+        <div class="ts"><div class="ts-v" style="color:#22c55e">${disp}</div><div class="ts-l">Disp.</div></div>
+        <div class="ts"><div class="ts-v" style="color:#f59e0b">${res}</div><div class="ts-l">Res.</div></div>
+        <div class="ts"><div class="ts-v" style="color:var(--secondary)">${vend}</div><div class="ts-l">Vend.</div></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Heatmap
+  document.getElementById('hM').innerHTML=PISOS.map(p=>{
+    const us=filtered.filter(u=>u.p===p);
+    if(!us.length)return'';
+    return`<div class="hr2"><div class="hl">${plbl(p)}</div><div class="hcs">${
+      us.map(u=>`<div class="hc ${ns(u.s).toLowerCase()}"
+        data-n="${u.n}" data-t="${u.t}" data-s="${ns(u.s)}"
+        data-p="${GET_PRICE(u)?Math.round(GET_PRICE(u)):0}" data-m="${u.m2}"
+        onmouseenter="showTipEl(event,this)" onmouseleave="hideTip()"></div>`).join('')
+    }</div></div>`;
+  }).join('');
+
+  // Precio prom por piso
+  const pp=PISOS.map(p=>{const us=filtered.filter(u=>u.p===p&&GET_PRICE(u)>0);return{p,avg:us.length?us.reduce((a,u)=>a+GET_PRICE(u),0)/us.length:0};}).filter(x=>x.avg>0);
+  const mpx=Math.max(...pp.map(x=>x.avg),1);
+  document.getElementById('bPrecio').innerHTML=pp.map(x=>`
+    <div class="br2"><div class="bl2">${plbl(x.p)}</div><div class="bt"><div class="bf" style="width:${(x.avg/mpx)*100}%"></div></div><div class="bv">${fmtM(Math.round(x.avg))}</div></div>`).join('');
+
+  // Tabla
+  document.getElementById('tb').innerHTML=filtered.map(u=>BUILD_ROW(u)).join('');
+}
+
+function buildStatusPills(){
+  const container=document.getElementById('statusPills');
+  if(!container)return;
+  const counts={
+    DISP:     data.filter(u=>ns(u.s)==='DISP').length,
+    RESERVADO:data.filter(u=>ns(u.s)==='RESERVADO').length,
+    VENDIDO:  data.filter(u=>ns(u.s)==='VENDIDO').length,
+  };
+  const active=window._activeStatus||'';
+  container.innerHTML=`
+    <span class="spill all ${active===''?'active':''}" data-v="">Todos <span class="scount">${data.length}</span></span>
+    <span class="spill disp ${active==='DISP'?'active':''}" data-v="DISP">Disponible <span class="scount">${counts.DISP}</span></span>
+    <span class="spill res ${active==='RESERVADO'?'active':''}" data-v="RESERVADO">Reservado <span class="scount">${counts.RESERVADO}</span></span>
+    <span class="spill vend ${active==='VENDIDO'?'active':''}" data-v="VENDIDO">Vendido <span class="scount">${counts.VENDIDO}</span></span>
+  `;
+  container.querySelectorAll('.spill').forEach(btn=>{
+    btn.addEventListener('click',()=>{window._activeStatus=btn.dataset.v;applyF();});
+  });
+}
+window._activeStatus='';
+
+load();
+setInterval(load,5*60*1000);
+</script>
+</body>
+</html>

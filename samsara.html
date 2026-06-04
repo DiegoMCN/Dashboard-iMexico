@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samsara — iMexico Real Estate</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#202845;--primary-80:#4b5577;--primary-40:#a5aabb;--primary-10:#eceef4;
+  --secondary:#E73B39;--secondary-20:#fce8e8;
+  --neutral:#F8F9FA;--white:#ffffff;
+  --text:#1a1d2e;--text-2:#4a4d5e;--text-3:#8a8d9e;
+  --border:#e4e6ed;--border-2:#f0f1f5;
+  --green:#1a7a4a;--green-bg:#e8f5ee;
+  --yellow:#92700a;--yellow-bg:#fef8e6;
+  --red:#c0292a;--red-bg:#fce8e8;
+  --shadow-sm:0 1px 3px rgba(32,40,69,.06),0 1px 2px rgba(32,40,69,.04);
+  --shadow-md:0 4px 12px rgba(32,40,69,.08),0 2px 4px rgba(32,40,69,.05);
+  --shadow-lg:0 12px 32px rgba(32,40,69,.12),0 4px 8px rgba(32,40,69,.06);
+  --radius:12px;--radius-sm:8px;
+  --ac:var(--primary);--ac2:var(--primary);--muted:var(--text-3);
+  --acd:var(--text-3);
+  --usd:#1a6b3a;--usd-bg:#e6f4ed;
+  --mxn:#1a3d6b;--mxn-bg:#e6edf4;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--neutral);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;-webkit-font-smoothing:antialiased;}
+.nav{display:flex;align-items:center;padding:0 48px;border-bottom:1px solid var(--border);background:var(--white);position:sticky;top:0;z-index:100;height:60px;box-shadow:var(--shadow-sm);gap:20px;}
+.back{font-size:11px;font-weight:600;color:var(--text-3);text-decoration:none;letter-spacing:.04em;transition:color .2s;flex-shrink:0;}
+.back:hover{color:var(--primary);}
+.brand{font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;color:var(--primary);flex:1;letter-spacing:-.02em;}
+.live{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-3);}
+.dot{width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(34,197,94,.4);}50%{opacity:.7;box-shadow:0 0 0 4px rgba(34,197,94,0);}}
+.header{padding:28px 48px 22px;display:flex;justify-content:space-between;align-items:flex-end;background:var(--primary);position:relative;overflow:hidden;}
+.header::after{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(100,160,220,.15) 0%,transparent 70%);pointer-events:none;}
+.header h1{font-family:'Manrope',sans-serif;font-size:32px;font-weight:800;line-height:1.1;letter-spacing:-.03em;color:var(--white);}
+.header h1 em{font-style:normal;font-weight:300;opacity:.55;}
+.sub{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:4px;}
+.header-r{text-align:right;font-size:11px;color:rgba(255,255,255,.5);}
+.main{padding:28px 48px;}
+/* KPI row */
+.krow{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px;}
+.kpi{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px;position:relative;overflow:hidden;transition:box-shadow .2s;box-shadow:var(--shadow-sm);}
+.kpi:hover{box-shadow:var(--shadow-md);}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0;}
+.kg::before{background:#22c55e;}.ky::before{background:#f59e0b;}.kr::before{background:var(--secondary);}
+.kusd::before{background:var(--usd);}.kmxn::before{background:var(--mxn);}
+.klb{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;}
+.kv{font-family:'Manrope',sans-serif;font-size:26px;font-weight:800;letter-spacing:-.03em;color:var(--primary);line-height:1;}
+.ks{font-size:10px;color:var(--text-3);margin-top:4px;}
+/* currency toggle */
+.ctoggle{display:flex;align-items:center;gap:8px;margin-bottom:20px;}
+.ctoggle label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);}
+.toggle-wrap{display:flex;background:var(--border-2);border-radius:20px;padding:3px;gap:3px;}
+.tbtn{padding:5px 14px;border-radius:16px;font-size:11px;font-weight:700;cursor:pointer;border:none;background:transparent;letter-spacing:.04em;transition:all .18s;}
+.tbtn.active.usd{background:var(--usd);color:var(--white);}
+.tbtn.active.mxn{background:var(--mxn);color:var(--white);}
+.tbtn:not(.active){color:var(--text-3);}
+/* layout */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;}
+.bc{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-sm);}
+.pt{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--primary);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border-2);}
+/* donut */
+.dw{display:flex;align-items:center;gap:24px;}
+.lg{display:flex;flex-direction:column;gap:10px;}
+.li{display:flex;align-items:center;gap:8px;}
+.ld{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.lc{font-family:'Manrope',sans-serif;font-size:18px;font-weight:700;color:var(--primary);margin-left:auto;padding-left:12px;}
+/* unit cards — featured for small inventory */
+.unit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px;}
+.unit-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-sm);transition:box-shadow .2s,border-color .2s;position:relative;overflow:hidden;}
+.unit-card:hover{box-shadow:var(--shadow-md);border-color:var(--primary-40);}
+.unit-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.unit-card.disp::before{background:#22c55e;}
+.unit-card.reservado::before{background:#f59e0b;}
+.unit-card.vendido::before{background:var(--secondary);}
+.uc-num{font-family:'Manrope',sans-serif;font-size:22px;font-weight:800;color:var(--primary);letter-spacing:-.02em;margin-bottom:4px;}
+.uc-tip{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text-3);margin-bottom:14px;}
+.uc-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.uc-lbl{font-size:10px;color:var(--text-3);}
+.uc-val{font-size:12px;font-weight:600;color:var(--text);}
+.uc-divider{height:1px;background:var(--border-2);margin:12px 0;}
+.uc-price-lbl{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
+.uc-price-lbl.usd{color:var(--usd);}
+.uc-price-lbl.mxn{color:var(--mxn);}
+.uc-price{font-family:'Manrope',sans-serif;font-size:18px;font-weight:800;line-height:1;}
+.uc-price.usd{color:var(--usd);}
+.uc-price.mxn{color:var(--mxn);}
+.uc-price-sub{font-size:10px;color:var(--text-3);margin-top:2px;}
+.badge{display:inline-flex;align-items:center;padding:3px 9px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border-radius:20px;}
+.badge.disp{background:var(--green-bg);color:var(--green);}
+.badge.reservado{background:var(--yellow-bg);color:var(--yellow);}
+.badge.vendido{background:var(--red-bg);color:var(--red);}
+/* bar chart */
+.bar-chart{display:flex;flex-direction:column;gap:10px;}
+.br2{display:flex;align-items:center;gap:10px;}
+.bl2{width:80px;font-size:11px;color:var(--text-3);text-align:right;flex-shrink:0;}
+.bt{flex:1;height:6px;background:var(--border-2);border-radius:99px;overflow:hidden;}
+.bf{height:100%;border-radius:99px;transition:width .8s;}
+.bf.usd{background:linear-gradient(90deg,#4caf8588,var(--usd));}
+.bf.mxn{background:linear-gradient(90deg,#4c88af88,var(--mxn));}
+.bv{width:110px;font-size:11px;font-weight:600;color:var(--primary);text-align:right;flex-shrink:0;}
+/* m2 comparison */
+.m2-bars{display:flex;flex-direction:column;gap:10px;}
+/* heatmap minimal */
+.hm{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.hc{width:20px;height:20px;border:1.5px solid transparent;cursor:pointer;border-radius:3px;transition:transform .15s,border-color .15s;}
+.hc:hover{transform:scale(1.4);border-color:var(--primary);z-index:10;}
+.hc.disp{background:#22c55e;}.hc.reservado{background:#f59e0b;}.hc.vendido{background:var(--secondary);}
+/* table */
+.tw{overflow-x:auto;}
+.tw::-webkit-scrollbar{height:4px;}
+.tw::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
+table{width:100%;border-collapse:collapse;}
+thead th{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--acd);padding:10px 12px;text-align:left;border-bottom:2px solid var(--border);white-space:nowrap;}
+tbody tr{border-bottom:1px solid var(--border-2);transition:background .15s;}
+tbody tr:hover{background:var(--primary-10);}
+tbody td{padding:10px 12px;font-size:12px;white-space:nowrap;}
+.tip{position:fixed;background:var(--primary);border-radius:var(--radius-sm);padding:10px 14px;font-size:11px;color:var(--white);pointer-events:none;z-index:1000;display:none;line-height:1.7;box-shadow:var(--shadow-lg);}
+/* currency pill badges */
+.cpill{display:inline-flex;align-items:center;padding:2px 8px;font-size:10px;font-weight:700;border-radius:10px;letter-spacing:.04em;}
+.cpill.usd{background:var(--usd-bg);color:var(--usd);}
+.cpill.mxn{background:var(--mxn-bg);color:var(--mxn);}
+@media(max-width:1100px){.krow,.unit-grid{grid-template-columns:repeat(2,1fr);}.g2,.g3{grid-template-columns:1fr;}.main,.header,.nav{padding-left:20px;padding-right:20px;}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="back" href="index.html">← Volver al Portfolio</a>
+  <div class="brand">iMexico Real Estate</div>
+  <div class="live"><span class="dot"></span><span id="lastUpdate">Cargando...</span>&nbsp;·&nbsp;Auto-refresco 5 min</div>
+</nav>
+
+<div class="header">
+  <div>
+    <h1>SAM<em>sara</em></h1>
+    <div class="sub">Tulum · Dashboard Ejecutivo de Inventario · Torre C</div>
+  </div>
+  <div class="header-r" id="hdr-update"></div>
+</div>
+
+<div class="main">
+
+  <!-- KPIs -->
+  <div class="krow">
+    <div class="kpi kg"><div class="klb">Disponibles</div><div class="kv" id="kD">—</div><div class="ks">unidades</div></div>
+    <div class="kpi ky"><div class="klb">Reservados</div><div class="kv" id="kR">—</div><div class="ks">unidades</div></div>
+    <div class="kpi kr"><div class="klb">Vendidos</div><div class="kv" id="kV">—</div><div class="ks">unidades</div></div>
+    <div class="kpi kusd"><div class="klb">Rango USD</div><div class="kv" id="kUSD">—</div><div class="ks" id="kUSDsub">—</div></div>
+    <div class="kpi kmxn"><div class="klb">Rango MXN</div><div class="kv" id="kMXN">—</div><div class="ks" id="kMXNsub">—</div></div>
+  </div>
+
+  <!-- Currency toggle -->
+  <div class="ctoggle">
+    <label>Mostrar precios en</label>
+    <div class="toggle-wrap">
+      <button class="tbtn usd active" id="btnUSD" onclick="setCurrency('usd')">USD</button>
+      <button class="tbtn mxn" id="btnMXN" onclick="setCurrency('mxn')">MXN</button>
+    </div>
+  </div>
+
+  <!-- Unit cards — featured layout para inventario pequeño -->
+  <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--primary);margin-bottom:12px;">Unidades Disponibles</div>
+  <div class="unit-grid" id="unitCards"></div>
+
+  <!-- Charts row -->
+  <div class="g3">
+    <div class="bc">
+      <div class="pt">Estado del Inventario</div>
+      <div class="dw">
+        <svg width="88" height="88" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="38" fill="none" stroke="var(--border)" stroke-width="14"/>
+          <circle id="dD" cx="50" cy="50" r="38" fill="none" stroke="#22c55e" stroke-width="14" stroke-dasharray="0 239" stroke-dashoffset="60" transform="rotate(-90 50 50)" style="transition:stroke-dasharray 1s"/>
+          <circle id="dR" cx="50" cy="50" r="38" fill="none" stroke="#f59e0b" stroke-width="14" stroke-dasharray="0 239" stroke-dashoffset="60" transform="rotate(-90 50 50)" style="transition:stroke-dasharray 1s"/>
+          <circle id="dV" cx="50" cy="50" r="38" fill="none" stroke="var(--secondary)" stroke-width="14" stroke-dasharray="0 239" stroke-dashoffset="60" transform="rotate(-90 50 50)" style="transition:stroke-dasharray 1s"/>
+          <text x="50" y="47" text-anchor="middle" fill="var(--primary)" font-family="Manrope" font-size="16" font-weight="800" id="dT">—</text>
+          <text x="50" y="59" text-anchor="middle" fill="var(--text-3)" font-family="Inter" font-size="7">TOTAL</text>
+        </svg>
+        <div class="lg">
+          <div class="li"><div class="ld" style="background:#22c55e"></div><span style="font-size:11px">Disponible</span><div class="lc" id="lgD">—</div></div>
+          <div class="li"><div class="ld" style="background:#f59e0b"></div><span style="font-size:11px">Reservado</span><div class="lc" id="lgR">—</div></div>
+          <div class="li"><div class="ld" style="background:var(--secondary)"></div><span style="font-size:11px">Vendido</span><div class="lc" id="lgV">—</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bc">
+      <div class="pt">Precio por Unidad <span id="chartCurrLabel" style="font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;color:var(--text-3)"></span></div>
+      <div class="bar-chart" id="bPrecio"></div>
+    </div>
+
+    <div class="bc">
+      <div class="pt">Superficie por Unidad</div>
+      <div class="bar-chart" id="bM2"></div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="bc">
+    <div class="pt">Inventario Detallado</div>
+    <div class="tw">
+      <table>
+        <thead><tr>
+          <th>Unidad</th><th>Status</th><th>Tipología</th><th>M² Total</th>
+          <th><span class="cpill usd">USD</span></th>
+          <th><span class="cpill mxn">MXN</span></th>
+          <th>USD/m²</th><th>MXN/m²</th>
+        </tr></thead>
+        <tbody id="tb"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<div class="tip" id="tooltip"></div>
+
+<script>
+const RAW = [
+  {n:"114 TC", s:"DISP", tip:"2 Recámaras", m2:126.31, usd:353668, mxn:6366024},
+  {n:"127 TC", s:"DISP", tip:"2 Recámaras", m2:127.98, usd:383940, mxn:6910920},
+  {n:"208 TC", s:"DISP", tip:"2 Recámaras", m2:91.37,  usd:283247, mxn:5098446},
+];
+
+let data=[...RAW], currency='usd';
+
+const ns    = s=>(s||'').toUpperCase().replace('DISPONIBLE','DISP').replace('RESERVADA','RESERVADO').replace('VENDIDA','VENDIDO');
+const fmtU  = v=>v?'$'+new Intl.NumberFormat('en-US').format(Math.round(v)):'—';
+const fmtM  = v=>v?'$'+new Intl.NumberFormat('es-MX').format(Math.round(v)):'—';
+const fmtK  = (v,cur)=>cur==='usd'?'$'+(v/1000).toFixed(0)+'K USD':'$'+(v/1e6).toFixed(2)+'M MXN';
+const getP  = u=>currency==='usd'?u.usd:u.mxn;
+
+function setLoading(v){const dot=document.querySelector('.dot');if(dot)dot.style.background=v?'#f59e0b':'#22c55e';}
+
+function setCurrency(cur){
+  currency=cur;
+  document.getElementById('btnUSD').className='tbtn usd'+(cur==='usd'?' active':'');
+  document.getElementById('btnMXN').className='tbtn mxn'+(cur==='mxn'?' active':'');
+  render();
+}
+
+function showTip(e,h){const t=document.getElementById('tooltip');t.innerHTML=h;t.style.display='block';t.style.left=(e.clientX+14)+'px';t.style.top=(e.clientY-10)+'px';}
+function hideTip(){document.getElementById('tooltip').style.display='none';}
+document.addEventListener('mousemove',e=>{const t=document.getElementById('tooltip');if(t.style.display==='block'){t.style.left=(e.clientX+14)+'px';t.style.top=(e.clientY-10)+'px';}});
+
+async function load(){
+  setLoading(true);
+  try{
+    const res=await fetch('https://script.google.com/macros/s/AKfycbxLGGR1GuNk6-amf_xAMBIikKaXEaDX7xeNPyzg8rXqNGNQlS00qOI3HCo7WbtHSNXq/exec?proyecto=samsara');
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const json=await res.json();
+    if(json.error)throw new Error(json.error);
+    if(json.unidades&&json.unidades.length>0){
+      data=json.unidades.map(u=>({
+        n:   String(u.numero||''),
+        s:   ns(String(u.status||'')),
+        tip: String(u.tipologia||u.tipo||''),
+        m2:  Number(u.m2)||0,
+        usd: Number(u.precio)||0,    // precio1 = PRECIO_USD
+        mxn: Number(u.precio2)||0,   // precio2 = PRECIO_MXN
+      }));
+    }
+    const now=new Date().toLocaleTimeString('es-MX');
+    const upd='Actualizado: '+now;
+    ['lastUpdate','hdr-update'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=upd;});
+  }catch(e){
+    console.warn('API error:',e.message,'— usando datos locales');
+    ['lastUpdate','hdr-update'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='⚠ Datos locales';});
+  }
+  setLoading(false);
+  render();
+}
+
+function render(){
+  const d=data.filter(u=>ns(u.s)==='DISP').length;
+  const r=data.filter(u=>ns(u.s)==='RESERVADO').length;
+  const v=data.filter(u=>ns(u.s)==='VENDIDO').length;
+  const tot=data.length; const safe=tot||1;
+
+  const usds=data.filter(u=>u.usd>0).map(u=>u.usd);
+  const mxns=data.filter(u=>u.mxn>0).map(u=>u.mxn);
+
+  // KPIs
+  document.getElementById('kD').textContent=d;
+  document.getElementById('kR').textContent=r;
+  document.getElementById('kV').textContent=v;
+  document.getElementById('lgD').textContent=d;
+  document.getElementById('lgR').textContent=r;
+  document.getElementById('lgV').textContent=v;
+  document.getElementById('dT').textContent=tot;
+
+  if(usds.length){
+    document.getElementById('kUSD').textContent='$'+(Math.min(...usds)/1000).toFixed(0)+'K';
+    document.getElementById('kUSDsub').textContent='– $'+(Math.max(...usds)/1000).toFixed(0)+'K USD';
+  }
+  if(mxns.length){
+    document.getElementById('kMXN').textContent='$'+(Math.min(...mxns)/1e6).toFixed(2)+'M';
+    document.getElementById('kMXNsub').textContent='– $'+(Math.max(...mxns)/1e6).toFixed(2)+'M MXN';
+  }
+
+  // Donut
+  const circ=2*Math.PI*38;
+  document.getElementById('dD').setAttribute('stroke-dasharray',`${(d/safe)*circ} ${circ-(d/safe)*circ}`);
+  document.getElementById('dR').setAttribute('stroke-dasharray',`${(r/safe)*circ} ${circ-(r/safe)*circ}`);
+  document.getElementById('dR').setAttribute('stroke-dashoffset',60-(d/safe)*circ);
+  document.getElementById('dV').setAttribute('stroke-dasharray',`${(v/safe)*circ} ${circ-(v/safe)*circ}`);
+  document.getElementById('dV').setAttribute('stroke-dashoffset',60-(d/safe)*circ-(r/safe)*circ);
+
+  // Unit cards
+  document.getElementById('unitCards').innerHTML=data.map(u=>`
+    <div class="unit-card ${ns(u.s).toLowerCase()}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
+        <div class="uc-num">${u.n}</div>
+        <span class="badge ${ns(u.s).toLowerCase()}">${ns(u.s)}</span>
+      </div>
+      <div class="uc-tip">${u.tip}</div>
+      <div class="uc-row"><span class="uc-lbl">Superficie</span><span class="uc-val">${u.m2} m²</span></div>
+      <div class="uc-row"><span class="uc-lbl">USD/m²</span><span class="uc-val">${u.m2>0?fmtU(Math.round(u.usd/u.m2)):''}</span></div>
+      <div class="uc-divider"></div>
+      <div class="uc-price-lbl usd">Precio USD</div>
+      <div class="uc-price usd">${fmtU(u.usd)}</div>
+      <div class="uc-price-sub">${fmtM(u.mxn)} MXN</div>
+    </div>`).join('');
+
+  // Precio bar chart
+  const cur=currency;
+  document.getElementById('chartCurrLabel').textContent='('+cur.toUpperCase()+')';
+  const prices=data.map(u=>getP(u));
+  const maxP=Math.max(...prices,1);
+  document.getElementById('bPrecio').innerHTML=data.map(u=>`
+    <div class="br2">
+      <div class="bl2" style="font-size:10px">${u.n}</div>
+      <div class="bt"><div class="bf ${cur}" style="width:${(getP(u)/maxP)*100}%"></div></div>
+      <div class="bv" style="font-size:10px">${cur==='usd'?fmtU(getP(u)):fmtM(getP(u))}</div>
+    </div>`).join('');
+
+  // M² bar chart
+  const maxM=Math.max(...data.map(u=>u.m2),1);
+  document.getElementById('bM2').innerHTML=data.map(u=>`
+    <div class="br2">
+      <div class="bl2" style="font-size:10px">${u.n}</div>
+      <div class="bt"><div class="bf" style="width:${(u.m2/maxM)*100}%;background:linear-gradient(90deg,var(--primary-40),var(--primary))"></div></div>
+      <div class="bv" style="font-size:10px">${u.m2} m²</div>
+    </div>`).join('');
+
+  // Table
+  document.getElementById('tb').innerHTML=data.map(u=>`<tr>
+    <td><strong style="color:var(--ac2)">${u.n}</strong></td>
+    <td><span class="badge ${ns(u.s).toLowerCase()}">${ns(u.s)}</span></td>
+    <td>${u.tip}</td>
+    <td>${u.m2} m²</td>
+    <td style="color:var(--usd);font-weight:600">${fmtU(u.usd)}</td>
+    <td style="color:var(--mxn);font-weight:600">${fmtM(u.mxn)}</td>
+    <td style="color:var(--text-3)">${u.m2>0?fmtU(Math.round(u.usd/u.m2)):''}</td>
+    <td style="color:var(--text-3)">${u.m2>0?fmtM(Math.round(u.mxn/u.m2)):''}</td>
+  </tr>`).join('');
+}
+
+load();
+setInterval(load,5*60*1000);
+</script>
+</body>
+</html>
