@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Macondo Tulum F2 — iMexico Real Estate</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#202845;--primary-80:#4b5577;--primary-40:#a5aabb;--primary-10:#eceef4;
+  --secondary:#E73B39;--secondary-20:#fce8e8;
+  --neutral:#F8F9FA;--white:#ffffff;
+  --text:#1a1d2e;--text-2:#4a4d5e;--text-3:#8a8d9e;
+  --border:#e4e6ed;--border-2:#f0f1f5;
+  --green:#1a7a4a;--green-bg:#e8f5ee;
+  --yellow:#92700a;--yellow-bg:#fef8e6;
+  --red:#c0292a;--red-bg:#fce8e8;
+  --shadow-sm:0 1px 3px rgba(32,40,69,.06),0 1px 2px rgba(32,40,69,.04);
+  --shadow-md:0 4px 12px rgba(32,40,69,.08),0 2px 4px rgba(32,40,69,.05);
+  --shadow-lg:0 12px 32px rgba(32,40,69,.12),0 4px 8px rgba(32,40,69,.06);
+  --radius:12px;--radius-sm:8px;
+  --ac:var(--primary);--ac2:var(--primary);--muted:var(--text-3);--acd:var(--text-3);
+  --t1br:#0891b2;--t2br:#7c3aed;--test:#f59e0b;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--neutral);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;-webkit-font-smoothing:antialiased;}
+.nav{display:flex;align-items:center;padding:0 48px;border-bottom:1px solid var(--border);background:var(--white);position:sticky;top:0;z-index:100;height:60px;box-shadow:var(--shadow-sm);gap:20px;}
+.back{font-size:11px;font-weight:600;color:var(--text-3);text-decoration:none;letter-spacing:.04em;transition:color .2s;flex-shrink:0;}
+.back:hover{color:var(--primary);}
+.brand{font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;color:var(--primary);flex:1;letter-spacing:-.02em;}
+.live{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-3);}
+.dot{width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(34,197,94,.4);}50%{opacity:.7;box-shadow:0 0 0 4px rgba(34,197,94,0);}}
+.header{padding:28px 48px 22px;display:flex;justify-content:space-between;align-items:flex-end;background:var(--primary);position:relative;overflow:hidden;}
+.header::after{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(124,58,237,.15) 0%,transparent 70%);pointer-events:none;}
+.header h1{font-family:'Manrope',sans-serif;font-size:32px;font-weight:800;line-height:1.1;letter-spacing:-.03em;color:var(--white);}
+.header h1 em{font-style:normal;font-weight:300;opacity:.55;}
+.sub{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:4px;}
+.header-r{text-align:right;font-size:11px;color:rgba(255,255,255,.5);}
+.main{padding:28px 48px;}
+.krow{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px;}
+.kpi{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px;position:relative;overflow:hidden;transition:box-shadow .2s;box-shadow:var(--shadow-sm);}
+.kpi:hover{box-shadow:var(--shadow-md);}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0;}
+.kg::before{background:#22c55e;}.ky::before{background:#f59e0b;}.kr::before{background:var(--secondary);}.ka::before{background:var(--primary);}
+.klb{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;}
+.kv{font-family:'Manrope',sans-serif;font-size:28px;font-weight:800;letter-spacing:-.03em;color:var(--primary);line-height:1;}
+.ks{font-size:10px;color:var(--text-3);margin-top:4px;}
+.filters{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
+.filters label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);}
+.filters select{background:var(--white);border:1px solid var(--border);color:var(--text);padding:7px 10px;font-family:'Inter',sans-serif;font-size:12px;border-radius:var(--radius-sm);outline:none;cursor:pointer;transition:border-color .2s;}
+.filters select:focus{border-color:var(--primary);}
+.fg{display:flex;align-items:center;gap:6px;}
+.btn{background:transparent;border:1.5px solid var(--primary);color:var(--primary);padding:7px 16px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;cursor:pointer;border-radius:var(--radius-sm);transition:all .2s;}
+.btn:hover{background:var(--primary);color:var(--white);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;}
+.bc{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-sm);}
+.pt{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--primary);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border-2);}
+.bar-chart{display:flex;flex-direction:column;gap:8px;}
+.br2{display:flex;align-items:center;gap:10px;}
+.bl2{width:72px;font-size:11px;color:var(--text-3);text-align:right;flex-shrink:0;}
+.bt{flex:1;height:6px;background:var(--border-2);border-radius:99px;overflow:hidden;}
+.bf{height:100%;background:linear-gradient(90deg,var(--primary-40),var(--primary));border-radius:99px;transition:width .8s;}
+.bv{width:100px;font-size:11px;font-weight:600;color:var(--primary);text-align:right;flex-shrink:0;}
+.dw{display:flex;align-items:center;gap:24px;}
+.lg{display:flex;flex-direction:column;gap:10px;}
+.li{display:flex;align-items:center;gap:8px;}
+.ld{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.lc{font-family:'Manrope',sans-serif;font-size:18px;font-weight:700;color:var(--primary);margin-left:auto;padding-left:12px;}
+/* Tipología cards */
+.tip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px;}
+.tip-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-sm);}
+.tip-card.rec1{border-top:3px solid var(--t1br);}
+.tip-card.rec2{border-top:3px solid var(--t2br);}
+.tip-card.est{border-top:3px solid var(--test);}
+.tip-title{font-family:'Manrope',sans-serif;font-size:13px;font-weight:800;margin-bottom:8px;}
+.tip-card.rec1 .tip-title{color:var(--t1br);}
+.tip-card.rec2 .tip-title{color:var(--t2br);}
+.tip-card.est .tip-title{color:var(--test);}
+.tip-stats{display:flex;gap:12px;}
+.ts{text-align:center;}
+.ts-v{font-family:'Manrope',sans-serif;font-size:20px;font-weight:800;color:var(--primary);line-height:1;}
+.ts-l{font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text-3);margin-top:3px;}
+/* Heatmap */
+.hm{display:flex;flex-direction:column;gap:5px;}
+.hr2{display:flex;align-items:center;gap:8px;}
+.hl{width:72px;font-size:10px;color:var(--text-3);flex-shrink:0;text-align:right;}
+.hcs{display:flex;gap:2px;flex-wrap:wrap;}
+.hc{width:14px;height:14px;border:1.5px solid transparent;cursor:pointer;border-radius:2px;transition:transform .15s,border-color .15s;}
+.hc:hover{transform:scale(1.4);border-color:var(--primary);z-index:10;}
+.hc.disp{background:#22c55e;}.hc.reservado{background:#f59e0b;}.hc.vendido{background:var(--secondary);}
+/* Tipo badge */
+.tbadge{display:inline-flex;align-items:center;padding:2px 8px;font-size:10px;font-weight:600;border-radius:20px;letter-spacing:.03em;}
+.tbadge.rec1{background:#e0f2fe;color:#0369a1;}
+.tbadge.rec2{background:#ede9fe;color:#6d28d9;}
+.tbadge.est{background:#fef3c7;color:#92400e;}
+/* USD badge */
+.usd-pill{display:inline-flex;align-items:center;padding:1px 6px;font-size:9px;font-weight:700;border-radius:10px;background:#e6f4ed;color:#1a6b3a;letter-spacing:.04em;vertical-align:middle;margin-left:4px;}
+/* Table */
+.tw{overflow-x:auto;max-height:460px;overflow-y:auto;}
+.tw::-webkit-scrollbar{width:4px;height:4px;}
+.tw::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
+table{width:100%;border-collapse:collapse;}
+thead th{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--acd);padding:10px 12px;text-align:left;border-bottom:2px solid var(--border);position:sticky;top:0;background:var(--white);white-space:nowrap;}
+tbody tr{border-bottom:1px solid var(--border-2);transition:background .15s;cursor:pointer;}
+tbody tr:hover{background:var(--primary-10);}
+tbody td{padding:9px 12px;font-size:12px;white-space:nowrap;}
+.badge{display:inline-flex;align-items:center;padding:3px 9px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border-radius:20px;}
+.badge.disp{background:var(--green-bg);color:var(--green);}
+.badge.reservado{background:var(--yellow-bg);color:var(--yellow);}
+.badge.vendido{background:var(--red-bg);color:var(--red);}
+.ri{font-size:11px;color:var(--text-3);margin-bottom:10px;}.ri span{font-weight:600;color:var(--primary);}
+.tip{position:fixed;background:var(--primary);border-radius:var(--radius-sm);padding:10px 14px;font-size:11px;color:var(--white);pointer-events:none;z-index:1000;display:none;line-height:1.7;box-shadow:var(--shadow-lg);}
+.status-pills{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.spill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.04em;cursor:pointer;border:1.5px solid transparent;transition:all .18s;user-select:none;}
+.spill .scount{background:rgba(0,0,0,.12);border-radius:10px;padding:0 6px;font-size:10px;min-width:18px;text-align:center;}
+.spill.all{background:var(--primary-10);color:var(--primary);border-color:var(--border);}
+.spill.all.active{background:var(--primary);color:var(--white);}
+.spill.all .scount{background:rgba(255,255,255,.25);}
+.spill.disp{background:var(--green-bg);color:var(--green);border-color:rgba(26,122,74,.2);}
+.spill.disp.active{background:var(--green);color:var(--white);}
+.spill.res{background:var(--yellow-bg);color:var(--yellow);border-color:rgba(146,112,10,.2);}
+.spill.res.active{background:var(--yellow);color:var(--white);}
+.spill.vend{background:var(--red-bg);color:var(--red);border-color:rgba(192,41,42,.2);}
+.spill.vend.active{background:var(--red);color:var(--white);}
+@media(max-width:1100px){.krow,.tip-grid{grid-template-columns:repeat(2,1fr);}.g2,.g3{grid-template-columns:1fr;}.main,.header,.nav{padding-left:20px;padding-right:20px;}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="back" href="index.html">← Volver al Portfolio</a>
+  <div class="brand">iMexico Real Estate</div>
+  <div class="live"><span class="dot"></span><span id="lastUpdate">Cargando...</span>&nbsp;·&nbsp;Auto-refresco 5 min</div>
+</nav>
+
+<div class="header">
+  <div>
+    <h1>MACONDO <em>Tulum F2</em></h1>
+    <div class="sub">Tulum · Dashboard Ejecutivo de Inventario</div>
+  </div>
+  <div class="header-r" id="hdr-update"></div>
+</div>
+
+<div class="main">
+
+  <div class="krow">
+    <div class="kpi kg"><div class="klb">Disponibles</div><div class="kv" id="kD">—</div><div class="ks">unidades</div></div>
+    <div class="kpi ky"><div class="klb">Reservados</div><div class="kv" id="kR">—</div><div class="ks">unidades</div></div>
+    <div class="kpi kr"><div class="klb">Vendidos</div><div class="kv" id="kV">—</div><div class="ks">unidades</div></div>
+    <div class="kpi ka"><div class="klb">Precio Mínimo</div><div class="kv" id="kMn">—</div><div class="ks">MXN</div></div>
+    <div class="kpi ka"><div class="klb">Precio Máximo</div><div class="kv" id="kMx">—</div><div class="ks">MXN</div></div>
+  </div>
+
+  <div class="filters">
+    <div class="fg"><label>Nivel</label>
+      <select id="fPiso">
+        <option value="">Todos</option>
+        <option value="PB">Garden House</option>
+        <option value="1°">Nivel 1</option>
+        <option value="2°">Nivel 2</option>
+        <option value="3°">Nivel 3</option>
+        <option value="4°">Nivel 4 / PH</option>
+      </select>
+    </div>
+    <div class="fg"><label>Tipología</label>
+      <select id="fTip">
+        <option value="">Todas</option>
+        <option value="1 Recámara">1 Recámara</option>
+        <option value="2 Recámaras">2 Recámaras</option>
+        <option value="Estudio">Estudio</option>
+      </select>
+    </div>
+    <div class="status-pills" id="statusPills"></div>
+    <button class="btn" onclick="doReset()">↺ Limpiar</button>
+  </div>
+
+  <div class="g3">
+    <div class="bc">
+      <div class="pt">Estado del Inventario</div>
+      <div class="dw">
+        <svg width="96" height="96" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="38" fill="none" stroke="var(--border)" stroke-width="14"/>
+          <circle id="dD" cx="50" cy="50" r="38" fill="none" stroke="#22c55e" stroke-width="14" stroke-dasharray="0 239" stroke-dashoffset="60" transform="rotate(-90 50 50)" style="transition:stroke-dasharray 1s"/>
+          <circle id="dR" cx="50" cy="50" r="38" fill="none" stroke="#f59e0b" stroke-width="14" stroke-dasharray="0 239" stroke-dashoffset="60" transform="rotate(-90 50 50)" style="transition:stroke-dasharray 1s"/>
+          <circle id="dV" cx="50" cy="50" r="38" fill="none" stroke="var(--secondary)" stroke-width="14" stroke-dasharray="0 239" stroke-dashoffset="60" transform="rotate(-90 50 50)" style="transition:stroke-dasharray 1s"/>
+          <text x="50" y="47" text-anchor="middle" fill="var(--primary)" font-family="Manrope" font-size="16" font-weight="800" id="dT">—</text>
+          <text x="50" y="59" text-anchor="middle" fill="var(--text-3)" font-family="Inter" font-size="7">TOTAL</text>
+        </svg>
+        <div class="lg">
+          <div class="li"><div class="ld" style="background:#22c55e"></div><span style="font-size:11px">Disponible</span><div class="lc" id="lgD">—</div></div>
+          <div class="li"><div class="ld" style="background:#f59e0b"></div><span style="font-size:11px">Reservado</span><div class="lc" id="lgR">—</div></div>
+          <div class="li"><div class="ld" style="background:var(--secondary)"></div><span style="font-size:11px">Vendido</span><div class="lc" id="lgV">—</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="bc">
+      <div class="pt">Unidades por Nivel</div>
+      <div class="bar-chart" id="bNivel"></div>
+    </div>
+    <div class="bc">
+      <div class="pt">Precio Promedio por Nivel (MXN)</div>
+      <div class="bar-chart" id="bPrecio"></div>
+    </div>
+  </div>
+
+  <!-- Tipología cards -->
+  <div class="tip-grid">
+    <div class="tip-card rec1">
+      <div class="tip-title">1 Recámara</div>
+      <div style="font-size:10px;color:var(--text-3);margin-bottom:10px;">GH · Niveles 1–4 · PH · 47–92 m²</div>
+      <div class="tip-stats" id="stats1BR"></div>
+    </div>
+    <div class="tip-card rec2">
+      <div class="tip-title">2 Recámaras</div>
+      <div style="font-size:10px;color:var(--text-3);margin-bottom:10px;">Niveles 1–4 · 45–72 m²</div>
+      <div class="tip-stats" id="stats2BR"></div>
+    </div>
+    <div class="tip-card est">
+      <div class="tip-title">Estudio</div>
+      <div style="font-size:10px;color:var(--text-3);margin-bottom:10px;">Niveles 2–4 · 31 m²</div>
+      <div class="tip-stats" id="statsEst"></div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="bc">
+      <div class="pt">Disponibilidad por Nivel</div>
+      <div style="display:flex;gap:14px;margin-bottom:10px;font-size:10px;font-weight:600;letter-spacing:.06em;flex-wrap:wrap;">
+        <span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;background:#22c55e;border-radius:2px;display:inline-block;"></span>DISP</span>
+        <span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;background:#f59e0b;border-radius:2px;display:inline-block;"></span>RESERVADO</span>
+        <span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;background:var(--secondary);border-radius:2px;display:inline-block;"></span>VENDIDO</span>
+      </div>
+      <div class="hm" id="hM"></div>
+    </div>
+    <div class="bc">
+      <div class="pt">Rango de Precios MXN — disponibles</div>
+      <div class="bar-chart" id="bRango"></div>
+      <div style="margin-top:14px;padding:10px 12px;background:#e6f4ed;border-radius:8px;font-size:11px;color:#1a6b3a;">
+        <strong>GH30</strong> · Garden House · 1 Rec · 63.5 m² <span class="usd-pill">USD</span><br>
+        <span style="font-family:'Manrope',sans-serif;font-size:14px;font-weight:700;">$210,828 · $218,056 · $224,598</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bc">
+    <div class="pt">Inventario Detallado</div>
+    <div class="ri">Mostrando <span id="count">—</span> unidades</div>
+    <div class="tw">
+      <table>
+        <thead><tr>
+          <th>Unidad</th><th>Nivel</th><th>Status</th><th>Tipología</th>
+          <th>M² Total</th><th>20/60/10</th><th>50/50</th><th>20/80</th>
+        </tr></thead>
+        <tbody id="tb"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="tip" id="tooltip"></div>
+
+<script>
+const PISOS    = ["PB","1°","2°","3°","4°"];
+const PISO_LBL = {"PB":"Garden H.","1°":"Nivel 1","2°":"Nivel 2","3°":"Nivel 3","4°":"Nivel 4 / PH"};
+
+// GH30 tiene precio en USD — identificarlo por número
+const IS_USD = n => n === "GH30";
+
+const normTip = t => {
+  const s = (t||'').trim().toUpperCase().replace(/\s+/g,' ');
+  if(s.startsWith('ESTUDIO'))  return 'Estudio';
+  if(s.includes('2 REC'))      return '2 Recámaras';
+  if(s.includes('1 REC'))      return '1 Recámara';
+  return (t||'').trim();
+};
+const tipCls = t => t==='1 Recámara'?'rec1':t==='2 Recámaras'?'rec2':'est';
+
+// isPH: número empieza con PH
+const isPH = n => String(n).toUpperCase().startsWith('PH');
+
+const RAW=[
+  {n:"GH24",p:"PB",s:"VENDIDO",t:"1 Recámara",m2:63.5,p1:0,p2:0,p3:0},
+  {n:"GH25",p:"PB",s:"VENDIDO",t:"1 Recámara",m2:63.5,p1:0,p2:0,p3:0},
+  {n:"GH26",p:"PB",s:"VENDIDO",t:"1 Recámara",m2:63.5,p1:0,p2:0,p3:0},
+  {n:"GH27",p:"PB",s:"VENDIDO",t:"1 Recámara",m2:63.5,p1:0,p2:0,p3:0},
+  {n:"GH28",p:"PB",s:"VENDIDO",t:"1 Recámara",m2:63.5,p1:0,p2:0,p3:0},
+  {n:"GH29",p:"PB",s:"VENDIDO",t:"1 Recámara",m2:63.5,p1:0,p2:0,p3:0},
+  {n:"GH30",p:"PB",s:"DISP",   t:"1 Recámara",m2:63.5,p1:210828.01,p2:218056.41,p3:224598.09,usd:true},
+  {n:"GH31",p:"PB",s:"VENDIDO",t:"1 Recámara",m2:63.5,p1:0,p2:0,p3:0},
+  {n:"GH32",p:"PB",s:"VENDIDO",t:"1 Recámara",m2:63.5,p1:0,p2:0,p3:0},
+  {n:"107",p:"1°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"108",p:"1°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"109",p:"1°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"110",p:"1°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"111",p:"1°",s:"DISP",   t:"1 Recámara",m2:47.31,p1:3230440.5,p2:3364113.9,p3:3465037.32},
+  {n:"112",p:"1°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"113",p:"1°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"114",p:"1°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"115",p:"1°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"116",p:"1°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"117",p:"1°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"118",p:"1°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"119",p:"1°",s:"VENDIDO",t:"2 Recámaras",m2:61.33,p1:0,p2:0,p3:0},
+  {n:"120",p:"1°",s:"VENDIDO",t:"2 Recámaras",m2:72.22,p1:0,p2:0,p3:0},
+  {n:"121",p:"1°",s:"VENDIDO",t:"2 Recámaras",m2:31.12,p1:0,p2:0,p3:0},
+  {n:"122",p:"1°",s:"VENDIDO",t:"2 Recámaras",m2:61.33,p1:0,p2:0,p3:0},
+  {n:"123",p:"1°",s:"VENDIDO",t:"2 Recámaras",m2:59.29,p1:0,p2:0,p3:0},
+  {n:"124",p:"1°",s:"VENDIDO",t:"2 Recámaras",m2:58.6,p1:0,p2:0,p3:0},
+  {n:"125",p:"1°",s:"VENDIDO",t:"2 Recámaras",m2:58.6,p1:0,p2:0,p3:0},
+  {n:"126",p:"1°",s:"VENDIDO",t:"2 Recámaras",m2:58.56,p1:0,p2:0,p3:0},
+  {n:"127",p:"1°",s:"VENDIDO",t:"2 Recámaras",m2:58.56,p1:0,p2:0,p3:0},
+  {n:"128",p:"1°",s:"VENDIDO",t:"2 Recámaras",m2:58.53,p1:0,p2:0,p3:0},
+  {n:"129",p:"1°",s:"VENDIDO",t:"2 Recámaras",m2:44.78,p1:0,p2:0,p3:0},
+  {n:"207",p:"2°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"208",p:"2°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"209",p:"2°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"210",p:"2°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"211",p:"2°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"212",p:"2°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"213",p:"2°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"214",p:"2°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"215",p:"2°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"216",p:"2°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"217",p:"2°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"218",p:"2°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"219",p:"2°",s:"VENDIDO",t:"2 Recámaras",m2:61.33,p1:0,p2:0,p3:0},
+  {n:"220",p:"2°",s:"VENDIDO",t:"2 Recámaras",m2:72.22,p1:0,p2:0,p3:0},
+  {n:"221",p:"2°",s:"VENDIDO",t:"Estudio",m2:31.12,p1:0,p2:0,p3:0},
+  {n:"222",p:"2°",s:"VENDIDO",t:"2 Recámaras",m2:61.33,p1:0,p2:0,p3:0},
+  {n:"223",p:"2°",s:"VENDIDO",t:"2 Recámaras",m2:59.29,p1:0,p2:0,p3:0},
+  {n:"224",p:"2°",s:"VENDIDO",t:"2 Recámaras",m2:58.6,p1:0,p2:0,p3:0},
+  {n:"225",p:"2°",s:"VENDIDO",t:"2 Recámaras",m2:58.6,p1:0,p2:0,p3:0},
+  {n:"226",p:"2°",s:"VENDIDO",t:"2 Recámaras",m2:58.56,p1:0,p2:0,p3:0},
+  {n:"227",p:"2°",s:"VENDIDO",t:"2 Recámaras",m2:58.56,p1:0,p2:0,p3:0},
+  {n:"228",p:"2°",s:"VENDIDO",t:"2 Recámaras",m2:58.53,p1:0,p2:0,p3:0},
+  {n:"229",p:"2°",s:"VENDIDO",t:"2 Recámaras",m2:44.78,p1:0,p2:0,p3:0},
+  {n:"307",p:"3°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"308",p:"3°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"309",p:"3°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"310",p:"3°",s:"DISP",   t:"1 Recámara",m2:47.31,p1:3364113.9,p2:3497787.3,p3:3602720.92},
+  {n:"311",p:"3°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"312",p:"3°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"313",p:"3°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"314",p:"3°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"315",p:"3°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"316",p:"3°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"317",p:"3°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"318",p:"3°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"319",p:"3°",s:"VENDIDO",t:"2 Recámaras",m2:61.33,p1:0,p2:0,p3:0},
+  {n:"320",p:"3°",s:"VENDIDO",t:"2 Recámaras",m2:72.22,p1:0,p2:0,p3:0},
+  {n:"321",p:"3°",s:"VENDIDO",t:"Estudio",m2:31.12,p1:0,p2:0,p3:0},
+  {n:"322",p:"3°",s:"VENDIDO",t:"2 Recámaras",m2:61.33,p1:0,p2:0,p3:0},
+  {n:"323",p:"3°",s:"VENDIDO",t:"2 Recámaras",m2:59.29,p1:0,p2:0,p3:0},
+  {n:"324",p:"3°",s:"VENDIDO",t:"2 Recámaras",m2:58.6,p1:0,p2:0,p3:0},
+  {n:"325",p:"3°",s:"VENDIDO",t:"2 Recámaras",m2:58.6,p1:0,p2:0,p3:0},
+  {n:"326",p:"3°",s:"VENDIDO",t:"2 Recámaras",m2:58.56,p1:0,p2:0,p3:0},
+  {n:"327",p:"3°",s:"VENDIDO",t:"2 Recámaras",m2:58.56,p1:0,p2:0,p3:0},
+  {n:"328",p:"3°",s:"VENDIDO",t:"2 Recámaras",m2:58.53,p1:0,p2:0,p3:0},
+  {n:"329",p:"3°",s:"VENDIDO",t:"1 Recámara",m2:44.78,p1:0,p2:0,p3:0},
+  {n:"407",p:"4°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"408",p:"4°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"409",p:"4°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"410",p:"4°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"411",p:"4°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"412",p:"4°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"413",p:"4°",s:"DISP",   t:"1 Recámara",m2:47.31,p1:3497787.3,p2:3564624,p3:3671562.72},
+  {n:"414",p:"4°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"415",p:"4°",s:"DISP",   t:"1 Recámara",m2:47.31,p1:3497787.3,p2:3564624,p3:3671562.72},
+  {n:"416",p:"4°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"417",p:"4°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"418",p:"4°",s:"VENDIDO",t:"1 Recámara",m2:47.31,p1:0,p2:0,p3:0},
+  {n:"419",p:"4°",s:"VENDIDO",t:"2 Recámaras",m2:61.33,p1:0,p2:0,p3:0},
+  {n:"420",p:"4°",s:"VENDIDO",t:"2 Recámaras",m2:72.22,p1:0,p2:0,p3:0},
+  {n:"421",p:"4°",s:"VENDIDO",t:"Estudio",m2:31.12,p1:0,p2:0,p3:0},
+  {n:"422",p:"4°",s:"VENDIDO",t:"2 Recámaras",m2:61.33,p1:0,p2:0,p3:0},
+  {n:"PH24",p:"4°",s:"VENDIDO",t:"1 Recámara",m2:92.48,p1:0,p2:0,p3:0},
+  {n:"PH25",p:"4°",s:"VENDIDO",t:"1 Recámara",m2:92.48,p1:0,p2:0,p3:0},
+  {n:"PH26",p:"4°",s:"VENDIDO",t:"1 Recámara",m2:92.48,p1:0,p2:0,p3:0},
+  {n:"PH27",p:"4°",s:"DISP",   t:"1 Recámara",m2:92.48,p1:4901358,p2:5035031.4,p3:5186082.34},
+  {n:"PH28",p:"4°",s:"DISP",   t:"1 Recámara",m2:92.48,p1:4901358,p2:5035031.4,p3:5186082.34},
+  {n:"PH29",p:"4°",s:"VENDIDO",t:"1 Recámara",m2:92.48,p1:0,p2:0,p3:0},
+  {n:"PH30",p:"4°",s:"VENDIDO",t:"1 Recámara",m2:92.48,p1:0,p2:0,p3:0},
+  {n:"PH31",p:"4°",s:"VENDIDO",t:"1 Recámara",m2:92.48,p1:0,p2:0,p3:0},
+  {n:"PH32",p:"4°",s:"VENDIDO",t:"1 Recámara",m2:92.48,p1:0,p2:0,p3:0},
+];
+
+let data=[...RAW], filtered=[...RAW];
+
+const ns      = s=>(s||'').toUpperCase().replace('DISPONIBLE','DISP').replace('RESERVADA','RESERVADO').replace('VENDIDA','VENDIDO');
+const fmtM    = v=>v?'$'+(v/1e6).toFixed(2)+'M':'—';
+const fmtF    = v=>'$'+new Intl.NumberFormat('es-MX').format(Math.round(v));
+const fmtU    = v=>'$'+new Intl.NumberFormat('en-US').format(Math.round(v));
+const plbl    = p=>PISO_LBL[p]||p;
+const GET_PRICE = u=>(!u.usd&&u.p1>0)?u.p1:0; // solo MXN para stats globales
+
+const BUILD_ROW = u=>{
+  const isUSD=u.usd;
+  const p1txt=u.p1?(isUSD?fmtU(u.p1)+'<span class="usd-pill">USD</span>':fmtF(u.p1)):'—';
+  const p2txt=u.p2?(isUSD?fmtU(u.p2)+'<span class="usd-pill">USD</span>':fmtF(u.p2)):'—';
+  const p3txt=u.p3?(isUSD?fmtU(u.p3)+'<span class="usd-pill">USD</span>':fmtF(u.p3)):'—';
+  return`<tr>
+    <td><strong style="color:var(--ac2)">${u.n}</strong>${isPH(u.n)?'<span style="font-size:9px;color:var(--primary-40);margin-left:4px;">PH</span>':''}</td>
+    <td>${plbl(u.p)}</td>
+    <td><span class="badge ${ns(u.s).toLowerCase()}">${ns(u.s)}</span></td>
+    <td><span class="tbadge ${tipCls(u.t)}">${u.t}</span></td>
+    <td>${u.m2>0?u.m2+' m²':'—'}</td>
+    <td style="color:var(--ac)">${p1txt}</td>
+    <td style="color:var(--muted)">${p2txt}</td>
+    <td style="color:var(--muted)">${p3txt}</td>
+  </tr>`;
+};
+
+function setLoading(v){const dot=document.querySelector('.dot');if(dot)dot.style.background=v?'#f59e0b':'#22c55e';}
+
+function showTipEl(e,el){
+  const isph=isPH(el.dataset.n);
+  showTip(e,'<strong>'+(isph?'PH ':'')+el.dataset.n+'</strong><br>'+el.dataset.t+' · '+el.dataset.s+'<br>'+(parseInt(el.dataset.p)>0?fmtF(parseInt(el.dataset.p))+' MXN':'Sin precio MXN')+'<br>'+el.dataset.m+' m²');
+}
+function showTip(e,h){const t=document.getElementById('tooltip');t.innerHTML=h;t.style.display='block';t.style.left=(e.clientX+14)+'px';t.style.top=(e.clientY-10)+'px';}
+function hideTip(){document.getElementById('tooltip').style.display='none';}
+document.addEventListener('mousemove',e=>{const t=document.getElementById('tooltip');if(t.style.display==='block'){t.style.left=(e.clientX+14)+'px';t.style.top=(e.clientY-10)+'px';}});
+
+async function load(){
+  setLoading(true);
+  try{
+    const res=await fetch('https://script.google.com/macros/s/AKfycbxLGGR1GuNk6-amf_xAMBIikKaXEaDX7xeNPyzg8rXqNGNQlS00qOI3HCo7WbtHSNXq/exec?proyecto=macondo_tulum_f2');
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const json=await res.json();
+    if(json.error)throw new Error(json.error);
+    if(json.unidades&&json.unidades.length>0){
+      data=json.unidades.map(u=>({
+        n:   String(u.numero||''),
+        p:   String(u.piso||''),
+        s:   ns(String(u.status||'')),
+        t:   normTip(String(u.tipologia||u.tipo||'')),
+        m2:  Number(u.m2)||0,
+        p1:  Number(u.precio)||0,
+        p2:  Number(u.precio2)||0,
+        p3:  Number(u.precio3)||0,
+        usd: String(u.numero||'').toUpperCase()==='GH30',
+      }));
+    }
+    const now=new Date().toLocaleTimeString('es-MX');
+    ['lastUpdate','hdr-update'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='Actualizado: '+now;});
+  }catch(e){
+    console.warn('API:',e.message,'— datos locales');
+    ['lastUpdate','hdr-update'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='⚠ Datos locales';});
+  }
+  setLoading(false);
+  buildStatusPills();
+  applyF();
+}
+
+function applyF(){
+  const p  = document.getElementById('fPiso').value;
+  const tp = document.getElementById('fTip').value;
+  const s  = window._activeStatus||'';
+  filtered=data.filter(u=>{
+    if(p&&u.p!==p)return false;
+    if(tp&&u.t!==tp)return false;
+    if(s&&ns(u.s)!==s)return false;
+    return true;
+  });
+  render();
+}
+
+function doReset(){
+  ['fPiso','fTip'].forEach(id=>document.getElementById(id).value='');
+  window._activeStatus=''; filtered=[...data];
+  buildStatusPills(); render();
+}
+['fPiso','fTip'].forEach(id=>document.getElementById(id).addEventListener('change',applyF));
+
+function tipStats(tipKey){
+  const td=data.filter(u=>u.t===tipKey);
+  const d=td.filter(u=>ns(u.s)==='DISP').length;
+  const r=td.filter(u=>ns(u.s)==='RESERVADO').length;
+  const v=td.filter(u=>ns(u.s)==='VENDIDO').length;
+  return`<div class="ts"><div class="ts-v" style="color:#22c55e">${d}</div><div class="ts-l">Disp.</div></div>
+    <div class="ts"><div class="ts-v" style="color:#f59e0b">${r}</div><div class="ts-l">Res.</div></div>
+    <div class="ts"><div class="ts-v" style="color:var(--secondary)">${v}</div><div class="ts-l">Vend.</div></div>
+    <div class="ts"><div class="ts-v">${td.length}</div><div class="ts-l">Total</div></div>`;
+}
+
+function render(){
+  const d=filtered.filter(u=>ns(u.s)==='DISP').length;
+  const r=filtered.filter(u=>ns(u.s)==='RESERVADO').length;
+  const v=filtered.filter(u=>ns(u.s)==='VENDIDO').length;
+  const tot=filtered.length; const safe=tot||1;
+  const prices=filtered.filter(u=>GET_PRICE(u)>0).map(u=>GET_PRICE(u));
+
+  document.getElementById('kD').textContent=d;
+  document.getElementById('kR').textContent=r;
+  document.getElementById('kV').textContent=v;
+  document.getElementById('kMn').textContent=prices.length?fmtM(Math.min(...prices)):'—';
+  document.getElementById('kMx').textContent=prices.length?fmtM(Math.max(...prices)):'—';
+  document.getElementById('count').textContent=tot;
+  document.getElementById('lgD').textContent=d;
+  document.getElementById('lgR').textContent=r;
+  document.getElementById('lgV').textContent=v;
+  document.getElementById('dT').textContent=tot;
+
+  const circ=2*Math.PI*38;
+  document.getElementById('dD').setAttribute('stroke-dasharray',`${(d/safe)*circ} ${circ-(d/safe)*circ}`);
+  document.getElementById('dR').setAttribute('stroke-dasharray',`${(r/safe)*circ} ${circ-(r/safe)*circ}`);
+  document.getElementById('dR').setAttribute('stroke-dashoffset',60-(d/safe)*circ);
+  document.getElementById('dV').setAttribute('stroke-dasharray',`${(v/safe)*circ} ${circ-(v/safe)*circ}`);
+  document.getElementById('dV').setAttribute('stroke-dashoffset',60-(d/safe)*circ-(r/safe)*circ);
+
+  // Unidades por nivel
+  const maxN=Math.max(...PISOS.map(p=>filtered.filter(u=>u.p===p).length),1);
+  document.getElementById('bNivel').innerHTML=PISOS.map(p=>{
+    const c=filtered.filter(u=>u.p===p).length;
+    if(!c)return'';
+    return`<div class="br2"><div class="bl2">${plbl(p)}</div><div class="bt"><div class="bf" style="width:${(c/maxN)*100}%"></div></div><div class="bv">${c} uds</div></div>`;
+  }).join('');
+
+  // Precio prom por nivel (solo MXN)
+  const pp=PISOS.map(p=>{const us=filtered.filter(u=>u.p===p&&GET_PRICE(u)>0);return{p,avg:us.length?us.reduce((a,u)=>a+GET_PRICE(u),0)/us.length:0};}).filter(x=>x.avg>0);
+  const mpx=Math.max(...pp.map(x=>x.avg),1);
+  document.getElementById('bPrecio').innerHTML=pp.length
+    ? pp.map(x=>`<div class="br2"><div class="bl2">${plbl(x.p)}</div><div class="bt"><div class="bf" style="width:${(x.avg/mpx)*100}%"></div></div><div class="bv">${fmtM(Math.round(x.avg))}</div></div>`).join('')
+    : '<div style="color:var(--text-3);font-size:11px">Sin precios MXN en selección</div>';
+
+  // Tipología cards
+  document.getElementById('stats1BR').innerHTML=tipStats('1 Recámara');
+  document.getElementById('stats2BR').innerHTML=tipStats('2 Recámaras');
+  document.getElementById('statsEst').innerHTML=tipStats('Estudio');
+
+  // Heatmap — Nivel 4° separado en regulares y PH
+  document.getElementById('hM').innerHTML=PISOS.map(p=>{
+    const us=filtered.filter(u=>u.p===p);
+    if(!us.length)return'';
+    if(p==='4°'){
+      const reg=us.filter(u=>!isPH(u.n));
+      const phs=us.filter(u=>isPH(u.n));
+      const mkRow=(label,arr)=>arr.length?`<div class="hr2"><div class="hl">${label}</div><div class="hcs">${
+        arr.map(u=>`<div class="hc ${ns(u.s).toLowerCase()}"
+          data-n="${u.n}" data-t="${u.t}" data-s="${ns(u.s)}"
+          data-p="${GET_PRICE(u)?Math.round(GET_PRICE(u)):0}" data-m="${u.m2||0}"
+          onmouseenter="showTipEl(event,this)" onmouseleave="hideTip()"></div>`).join('')
+      }</div></div>`:'';
+      return mkRow('Nivel 4',reg)+mkRow('PH',phs);
+    }
+    return`<div class="hr2"><div class="hl">${plbl(p)}</div><div class="hcs">${
+      us.map(u=>`<div class="hc ${ns(u.s).toLowerCase()}"
+        data-n="${u.n}" data-t="${u.t}" data-s="${ns(u.s)}"
+        data-p="${GET_PRICE(u)?Math.round(GET_PRICE(u)):0}" data-m="${u.m2||0}"
+        onmouseenter="showTipEl(event,this)" onmouseleave="hideTip()"></div>`).join('')
+    }</div></div>`;
+  }).join('');
+
+  // Rango precios MXN disponibles
+  const dispMXN=filtered.filter(u=>ns(u.s)==='DISP'&&GET_PRICE(u)>0);
+  const maxR=Math.max(...dispMXN.map(u=>u.p3||u.p1),1);
+  document.getElementById('bRango').innerHTML=dispMXN.length
+    ? dispMXN.map(u=>`<div class="br2">
+        <div class="bl2" style="font-size:10px">${u.n}</div>
+        <div class="bt"><div class="bf" style="margin-left:${(u.p1/maxR)*100}%;width:${Math.max(((u.p3-u.p1)/maxR)*100,3)}%"></div></div>
+        <div class="bv">${fmtM(u.p1)}–${fmtM(u.p3)}</div>
+      </div>`).join('')
+    : '<div style="color:var(--text-3);font-size:11px">Sin disponibles MXN en selección</div>';
+
+  document.getElementById('tb').innerHTML=filtered.map(u=>BUILD_ROW(u)).join('');
+}
+
+function buildStatusPills(){
+  const container=document.getElementById('statusPills');
+  if(!container)return;
+  const counts={DISP:data.filter(u=>ns(u.s)==='DISP').length,RESERVADO:0,VENDIDO:data.filter(u=>ns(u.s)==='VENDIDO').length};
+  const active=window._activeStatus||'';
+  container.innerHTML=`
+    <span class="spill all  ${active===''?'active':''}"     data-v="">Todos <span class="scount">${data.length}</span></span>
+    <span class="spill disp ${active==='DISP'?'active':''}" data-v="DISP">Disponible <span class="scount">${counts.DISP}</span></span>
+    <span class="spill vend ${active==='VENDIDO'?'active':''}" data-v="VENDIDO">Vendido <span class="scount">${counts.VENDIDO}</span></span>
+  `;
+  container.querySelectorAll('.spill').forEach(btn=>{
+    btn.addEventListener('click',()=>{window._activeStatus=btn.dataset.v;applyF();});
+  });
+}
+window._activeStatus='';
+
+load();
+setInterval(load,5*60*1000);
+</script>
+</body>
+</html>
