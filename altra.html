@@ -322,7 +322,7 @@ async function load() {
         m2i:    Number(u.m2i)||0,
         m2e:    Number(u.m2e)||0,
         tot:    Number(u.m2)||0,
-        precio: Number(u.precio)||0
+        precio: Number(u.precio2)||Number(u.precio)||0  // precio2 = PRECIO_3070 (Altra), precio como fallback
       }));
     }
     const now = new Date().toLocaleTimeString('es-MX');
