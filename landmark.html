@@ -378,6 +378,7 @@ async function load() {
     });
   }
   setLoading(false);
+  buildStatusPills();
   applyF();
 }
 
@@ -513,7 +514,6 @@ function buildStatusPills(){
 window._activeStatus = '';
 
 load();
-buildStatusPills();
 setInterval(load,5*60*1000);
 </script>
 </body>

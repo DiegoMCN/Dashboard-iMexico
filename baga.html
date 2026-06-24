@@ -296,6 +296,7 @@ async function load() {
     const el=document.getElementById('upd');
     if(el) el.textContent='⚠ Datos locales';
   }
+  buildStatusPills();
   applyF();
 }
 
@@ -450,7 +451,6 @@ function buildStatusPills(){
 window._activeStatus = '';
 
 load();
-buildStatusPills();
 setInterval(load, 5*60*1000);
 </script>
 </body>
