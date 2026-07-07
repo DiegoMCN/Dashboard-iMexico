@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inteligencia de Absorción — iMexico Real Estate</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{
+  --primary:#202845;--primary-80:#4b5577;--primary-40:#a5aabb;--primary-10:#eceef4;
+  --secondary:#E73B39;--gold:#c9a96e;--gold-dark:#8a6d3a;
+  --neutral:#F4F5F8;--white:#ffffff;
+  --text:#1a1d2e;--text-2:#4a4d5e;--text-3:#8a8d9e;
+  --border:#e4e6ed;--border-2:#f0f1f5;
+  --green:#1a7a4a;--green-bg:#e8f5ee;
+  --yellow:#b8860b;--yellow-bg:#fdf6e3;
+  --red:#c0292a;--red-bg:#fce8e8;
+  --blue:#2563eb;--blue-bg:#eff4ff;
+  --shadow-sm:0 1px 3px rgba(32,40,69,.06),0 1px 2px rgba(32,40,69,.04);
+  --shadow-md:0 4px 12px rgba(32,40,69,.08),0 2px 4px rgba(32,40,69,.05);
+  --shadow-lg:0 12px 32px rgba(32,40,69,.14),0 4px 8px rgba(32,40,69,.06);
+  --radius:14px;--radius-sm:9px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--neutral);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;-webkit-font-smoothing:antialiased;}
+
+/* ═══ LOGIN ═══ */
+.login-wrap{position:fixed;inset:0;background:var(--primary);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;}
+.login-wrap::before{content:'';position:absolute;top:-10%;right:-5%;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(201,169,110,.12) 0%,transparent 70%);}
+.login-card{background:var(--white);border-radius:20px;padding:44px 40px;width:100%;max-width:400px;box-shadow:var(--shadow-lg);position:relative;z-index:2;}
+.login-logo{font-family:'Manrope',sans-serif;font-size:20px;font-weight:800;color:var(--primary);letter-spacing:-.02em;margin-bottom:4px;}
+.login-logo span{font-weight:400;color:var(--text-3);}
+.login-sub{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:8px;}
+.login-lock{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--text-3);background:var(--neutral);padding:6px 12px;border-radius:20px;margin-bottom:28px;}
+.login-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px;display:block;}
+.login-input{width:100%;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:13px 16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:var(--primary);outline:none;transition:border-color .2s;margin-bottom:16px;}
+.login-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,169,110,.15);}
+.login-btn{width:100%;background:var(--primary);color:var(--white);border:none;border-radius:var(--radius-sm);padding:14px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:background .2s;}
+.login-btn:hover{background:#2a3454;}
+.login-err{font-size:12px;color:var(--red);margin-top:14px;text-align:center;font-weight:600;display:none;}
+.login-err.show{display:block;}
+
+/* ═══ APP ═══ */
+.app{display:none;}
+.app.active{display:block;}
+.nav{display:flex;align-items:center;padding:0 44px;height:62px;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm);gap:16px;}
+.nav-brand{font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;color:var(--primary);flex:1;}
+.nav-brand span{font-weight:400;color:var(--text-3);}
+.nav-badge{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-dark);background:#faf6ee;padding:5px 12px;border-radius:20px;border:1px solid rgba(201,169,110,.25);}
+.nav-live{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-3);}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+.nav-logout{font-size:11px;font-weight:600;color:var(--text-3);cursor:pointer;text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .2s;}
+.nav-logout:hover{background:var(--neutral);color:var(--primary);}
+
+.hero{padding:32px 44px 26px;background:var(--primary);position:relative;overflow:hidden;}
+.hero::after{content:'';position:absolute;top:-100px;right:-60px;width:440px;height:440px;background:radial-gradient(circle,rgba(201,169,110,.14) 0%,transparent 70%);pointer-events:none;}
+.hero-eyebrow{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.hero-eyebrow::before{content:'';width:22px;height:2px;background:var(--gold);}
+.hero h1{font-family:'Manrope',sans-serif;font-size:30px;font-weight:800;line-height:1.05;color:var(--white);letter-spacing:-.03em;}
+.hero h1 em{font-style:normal;font-weight:300;opacity:.5;}
+.hero-sub{font-size:13px;color:rgba(255,255,255,.55);margin-top:8px;max-width:520px;line-height:1.6;}
+
+.main{padding:32px 44px 60px;}
+.section-title{font-family:'Manrope',sans-serif;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);margin:0 0 16px;display:flex;align-items:center;gap:10px;}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+.section-title .hint{font-family:'Inter',sans-serif;font-size:10px;font-weight:500;letter-spacing:.02em;text-transform:none;color:var(--text-3);}
+
+/* KPIs */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:36px;}
+.kpi{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;position:relative;overflow:hidden;box-shadow:var(--shadow-sm);transition:box-shadow .2s;}
+.kpi:hover{box-shadow:var(--shadow-md);}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.kpi.k1::before{background:var(--green);}
+.kpi.k2::before{background:var(--blue);}
+.kpi.k3::before{background:var(--yellow);}
+.kpi.k4::before{background:var(--gold);}
+.kpi-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;margin-bottom:14px;}
+.kpi.k1 .kpi-icon{background:var(--green-bg);}
+.kpi.k2 .kpi-icon{background:var(--blue-bg);}
+.kpi.k3 .kpi-icon{background:var(--yellow-bg);}
+.kpi.k4 .kpi-icon{background:#faf6ee;}
+.kpi-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;}
+.kpi-val{font-family:'Manrope',sans-serif;font-size:32px;font-weight:800;letter-spacing:-.03em;color:var(--primary);line-height:1;}
+.kpi-val small{font-size:14px;font-weight:600;color:var(--text-3);}
+.kpi-delta{font-size:11px;font-weight:600;margin-top:7px;display:flex;align-items:center;gap:4px;}
+.kpi-delta.up{color:var(--green);}
+.kpi-delta.down{color:var(--red);}
+.kpi-delta.flat{color:var(--text-3);}
+
+/* Semáforo */
+.traffic-list{display:flex;flex-direction:column;gap:10px;margin-bottom:36px;}
+.tf{display:flex;align-items:center;gap:16px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px 22px;box-shadow:var(--shadow-sm);transition:box-shadow .2s,transform .15s;}
+.tf:hover{box-shadow:var(--shadow-md);transform:translateX(2px);}
+.tf-light{width:12px;height:12px;border-radius:50%;flex-shrink:0;position:relative;}
+.tf-light::after{content:'';position:absolute;inset:-4px;border-radius:50%;opacity:.25;}
+.tf-light.red{background:var(--red);}.tf-light.red::after{background:var(--red);}
+.tf-light.yellow{background:var(--yellow);}.tf-light.yellow::after{background:var(--yellow);}
+.tf-light.green{background:var(--green);}.tf-light.green::after{background:var(--green);}
+.tf-light.gray{background:var(--text-3);}
+.tf-info{flex:1;min-width:0;}
+.tf-name{font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;color:var(--primary);}
+.tf-meta{font-size:11px;color:var(--text-3);margin-top:2px;}
+.tf-city{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text-3);background:var(--neutral);padding:2px 8px;border-radius:10px;margin-left:8px;}
+.tf-velocity{text-align:center;padding:0 20px;border-left:1px solid var(--border-2);border-right:1px solid var(--border-2);}
+.tf-velocity-val{font-family:'Manrope',sans-serif;font-size:18px;font-weight:800;color:var(--primary);line-height:1;}
+.tf-velocity-lbl{font-size:9px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text-3);margin-top:3px;}
+.tf-proj{text-align:right;min-width:120px;}
+.tf-proj-val{font-family:'Manrope',sans-serif;font-size:17px;font-weight:800;line-height:1;}
+.tf-proj-val.red{color:var(--red);}
+.tf-proj-val.yellow{color:var(--yellow);}
+.tf-proj-val.green{color:var(--green);}
+.tf-proj-val.gray{color:var(--text-3);}
+.tf-action{font-size:10px;font-weight:600;color:var(--text-3);margin-top:3px;}
+
+/* Charts grid */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:36px;}
+.chart-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow-sm);}
+.chart-card.full{grid-column:1/-1;}
+.chart-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+.chart-title{font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;color:var(--primary);}
+.chart-hint{font-size:10px;color:var(--text-3);}
+.chart-box{position:relative;height:240px;}
+.chart-select{border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:11px;font-weight:600;color:var(--primary);outline:none;cursor:pointer;font-family:'Inter',sans-serif;}
+
+/* Event log */
+.log-controls{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.log-filter{padding:6px 14px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:var(--white);color:var(--text-3);transition:all .15s;}
+.log-filter.active{background:var(--primary);color:var(--white);border-color:var(--primary);}
+.log-table-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);}
+.log-table{width:100%;border-collapse:collapse;}
+.log-table thead th{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);padding:14px 18px;text-align:left;border-bottom:2px solid var(--border);background:var(--neutral);}
+.log-table tbody tr{border-bottom:1px solid var(--border-2);transition:background .1s;}
+.log-table tbody tr:hover{background:var(--neutral);}
+.log-table tbody td{padding:12px 18px;font-size:12px;}
+.log-date{color:var(--text-3);font-size:11px;white-space:nowrap;}
+.ev-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;font-size:10px;font-weight:700;letter-spacing:.03em;border-radius:20px;white-space:nowrap;}
+.ev-venta{background:var(--green-bg);color:var(--green);}
+.ev-reserva{background:var(--blue-bg);color:var(--blue);}
+.ev-caida{background:var(--red-bg);color:var(--red);}
+.ev-precio-sube{background:#f0f9f0;color:var(--green);}
+.ev-precio-baja{background:var(--yellow-bg);color:var(--yellow);}
+.ev-alta,.ev-alta-inicial{background:var(--neutral);color:var(--text-3);}
+.ev-otro{background:var(--neutral);color:var(--text-2);}
+.log-empty{padding:60px 20px;text-align:center;color:var(--text-3);}
+.log-empty-icon{font-size:40px;opacity:.3;margin-bottom:12px;}
+
+/* Empty / loading states */
+.state-box{background:var(--white);border:1px dashed var(--border);border-radius:var(--radius);padding:48px 24px;text-align:center;color:var(--text-3);}
+.state-box .big{font-size:36px;opacity:.35;margin-bottom:14px;}
+.state-box .t{font-size:14px;font-weight:600;color:var(--text-2);margin-bottom:6px;}
+.state-box .s{font-size:12px;max-width:420px;margin:0 auto;line-height:1.6;}
+.spinner{width:30px;height:30px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+@media(max-width:900px){
+  .kpi-row{grid-template-columns:1fr 1fr;}
+  .charts-grid{grid-template-columns:1fr;}
+  .tf-velocity{display:none;}
+  .nav,.hero,.main{padding-left:20px;padding-right:20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ LOGIN ═══════════════ -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-card">
+    <div class="login-logo">iMexico <span>Real Estate</span></div>
+    <div class="login-sub">Inteligencia de Absorción</div>
+    <div class="login-lock">🔒 Acceso restringido · solo administradores</div>
+    <label class="login-label">Contraseña de administrador</label>
+    <input type="password" class="login-input" id="passInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">Ingresar</button>
+    <div class="login-err" id="loginErr">Contraseña incorrecta. Intenta de nuevo.</div>
+  </div>
+</div>
+
+<!-- ═══════════════ APP ═══════════════ -->
+<div class="app" id="app">
+
+  <nav class="nav">
+    <div class="nav-brand">iMexico <span>Real Estate</span></div>
+    <span class="nav-badge">🔒 Vista Dirección</span>
+    <div class="nav-live"><span class="nav-dot"></span><span id="navUpdate">—</span></div>
+    <a class="nav-logout" onclick="doLogout()">Cerrar sesión</a>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-eyebrow">Panel Ejecutivo</div>
+    <h1>Inteligencia de <em>Absorción</em></h1>
+    <div class="hero-sub">Velocidad de venta, proyección de agotamiento y bitácora de movimientos en tiempo real a lo largo del portafolio.</div>
+  </div>
+
+  <div class="main">
+
+    <!-- Global loading -->
+    <div id="globalLoading" class="state-box">
+      <div class="spinner"></div>
+      <div class="t">Cargando inteligencia de absorción...</div>
+      <div class="s">Cruzando el histórico de eventos con el inventario en vivo.</div>
+    </div>
+
+    <!-- Global error -->
+    <div id="globalError" class="state-box" style="display:none;">
+      <div class="big">⚠️</div>
+      <div class="t">No se pudieron cargar los datos</div>
+      <div class="s">Verifica tu conexión y la contraseña. <button onclick="loadAll()" style="margin-top:12px;padding:8px 18px;border-radius:8px;background:var(--primary);color:#fff;border:none;font-weight:700;cursor:pointer;">Reintentar</button></div>
+    </div>
+
+    <!-- Content (hidden until loaded) -->
+    <div id="content" style="display:none;">
+
+      <!-- KPIs -->
+      <div class="kpi-row">
+        <div class="kpi k1">
+          <div class="kpi-icon">📈</div>
+          <div class="kpi-label">Ventas del mes</div>
+          <div class="kpi-val" id="kVentas">—</div>
+          <div class="kpi-delta flat" id="kVentasDelta">—</div>
+        </div>
+        <div class="kpi k2">
+          <div class="kpi-icon">⚡</div>
+          <div class="kpi-label">Velocidad global</div>
+          <div class="kpi-val" id="kVelocidad">—<small>/sem</small></div>
+          <div class="kpi-delta flat">unidades vendidas por semana</div>
+        </div>
+        <div class="kpi k3">
+          <div class="kpi-icon">⚠️</div>
+          <div class="kpi-label">Reservas caídas</div>
+          <div class="kpi-val" id="kCaidas">—</div>
+          <div class="kpi-delta flat">últimos 30 días</div>
+        </div>
+        <div class="kpi k4">
+          <div class="kpi-icon">💎</div>
+          <div class="kpi-label">Ajustes de precio ↑</div>
+          <div class="kpi-val" id="kPlusvalia">—</div>
+          <div class="kpi-delta flat">alzas registradas · 30 días</div>
+        </div>
+      </div>
+
+      <!-- Semáforo -->
+      <div class="section-title">Semáforo de Proyección <span class="hint">· ¿cuándo se agota cada desarrollo al ritmo actual?</span></div>
+      <div class="traffic-list" id="trafficList"></div>
+
+      <!-- Charts -->
+      <div class="section-title">Análisis de Absorción</div>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-head">
+            <div class="chart-title">Ritmo de ventas — últimas semanas</div>
+            <div class="chart-hint">eventos por semana</div>
+          </div>
+          <div class="chart-box"><canvas id="chartRitmo" role="img" aria-label="Ventas por semana"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-head">
+            <div class="chart-title">Ventas por proyecto</div>
+            <div class="chart-hint">últimos 30 días</div>
+          </div>
+          <div class="chart-box"><canvas id="chartProyecto" role="img" aria-label="Ventas por proyecto"></canvas></div>
+        </div>
+        <div class="chart-card full">
+          <div class="chart-head">
+            <div class="chart-title">Movimiento por tipología</div>
+            <div class="chart-hint">qué se mueve y qué se estanca</div>
+          </div>
+          <div class="chart-box"><canvas id="chartTipologia" role="img" aria-label="Ventas por tipología"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Event log -->
+      <div class="section-title">Bitácora de Movimientos <span class="hint">· cada venta, reserva, caída y ajuste de precio</span></div>
+      <div class="log-controls" id="logFilters"></div>
+      <div class="log-table-wrap">
+        <table class="log-table">
+          <thead><tr><th>Fecha</th><th>Evento</th><th>Proyecto</th><th>Unidad</th><th>Tipología</th><th>Detalle</th></tr></thead>
+          <tbody id="logBody"></tbody>
+        </table>
+      </div>
+
+    </div><!-- /content -->
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════════════════════════════════
+const API = "https://script.google.com/macros/s/AKfycbxLGGR1GuNk6-amf_xAMBIikKaXEaDX7xeNPyzg8rXqNGNQlS00qOI3HCo7WbtHSNXq/exec";
+
+// Mapa key → nombre bonito + ciudad (espejo de PROYECTOS_META del servidor)
+const META = {
+  landmark:{n:"The Landmark",c:"Playa del Carmen"}, macondo:{n:"Macondo Corazón",c:"Playa del Carmen"},
+  macondo_pe:{n:"Macondo P. Esmeralda",c:"Playa del Carmen"}, macondo_5f3:{n:"Macondo 5ta F3",c:"Playa del Carmen"},
+  baga:{n:"Bagà Riviera",c:"Playa del Carmen"}, macondo_playacar:{n:"Macondo Playacar",c:"Playa del Carmen"},
+  altra:{n:"Altra Beach Condos",c:"Playa del Carmen"}, terra:{n:"T3rra Playa",c:"Playa del Carmen"},
+  paramar_black:{n:"Paramar Black",c:"Tulum"}, pink_riad:{n:"Pink Riad",c:"Tulum"},
+  seremonia:{n:"Seremonia",c:"Tulum"}, samsara:{n:"Samsara",c:"Tulum"},
+  xunik:{n:"Xunik",c:"Tulum"}, macondo_tulum_f2:{n:"Macondo Tulum F2",c:"Tulum"},
+  alux33:{n:"ALUX 33",c:"Puerto Morelos"}, hama:{n:"Hama",c:"Mahahual"},
+};
+const nombreDe = k => META[k]?.n || k;
+const ciudadDe = k => META[k]?.c || "";
+
+let PASS = "";
+let DATOS = { eventos:[], resumen:{}, inventario:{} };
+let logFiltroActivo = "";
+let charts = {};
+
+const $ = id => document.getElementById(id);
+const fmt = v => "$"+new Intl.NumberFormat("es-MX",{maximumFractionDigits:0}).format(Math.round(v));
+const fmtM = v => v>=1e6 ? "$"+(v/1e6).toFixed(2)+"M" : fmt(v);
+
+// ═══════════════════════════════════════════════════════════════════════
+// LOGIN
+// ═══════════════════════════════════════════════════════════════════════
+async function doLogin(){
+  const pass = $("passInput").value.trim();
+  if(!pass){ return; }
+  $("loginErr").classList.remove("show");
+  // Validar contra el endpoint
+  try{
+    const res = await fetch(`${API}?historico=absorcion&pass=${encodeURIComponent(pass)}`);
+    const json = await res.json();
+    if(json.error === "no_autorizado"){
+      $("loginErr").classList.add("show");
+      return;
+    }
+    // OK
+    PASS = pass;
+    sessionStorage.setItem("imx_admin_pass", pass);
+    $("loginWrap").style.display = "none";
+    $("app").classList.add("active");
+    DATOS.eventos = json.eventos||[];
+    DATOS.resumen = json.resumen||{};
+    loadInventarioYRender();
+  }catch(e){
+    $("loginErr").textContent = "Error de conexión. Intenta de nuevo.";
+    $("loginErr").classList.add("show");
+  }
+}
+
+function doLogout(){
+  sessionStorage.removeItem("imx_admin_pass");
+  location.reload();
+}
+
+// Auto-login si ya validó en esta sesión
+window.addEventListener("DOMContentLoaded",()=>{
+  const saved = sessionStorage.getItem("imx_admin_pass");
+  if(saved){ $("passInput").value = saved; doLogin(); }
+});
+
+// ═══════════════════════════════════════════════════════════════════════
+// CARGA
+// ═══════════════════════════════════════════════════════════════════════
+async function loadAll(){
+  $("globalError").style.display="none";
+  $("globalLoading").style.display="block";
+  $("content").style.display="none";
+  try{
+    const res = await fetch(`${API}?historico=absorcion&pass=${encodeURIComponent(PASS)}`);
+    const json = await res.json();
+    if(json.error) throw new Error(json.error);
+    DATOS.eventos = json.eventos||[];
+    DATOS.resumen = json.resumen||{};
+    await loadInventarioYRender();
+  }catch(e){
+    console.error(e);
+    $("globalLoading").style.display="none";
+    $("globalError").style.display="block";
+  }
+}
+
+// Cruza con inventario vivo (?proyecto=todos) para disponibles actuales
+async function loadInventarioYRender(){
+  try{
+    const res = await fetch(`${API}?proyecto=todos`);
+    const json = await res.json();
+    DATOS.inventario = json.resumen||{};
+  }catch(e){
+    DATOS.inventario = {};
+  }
+  $("globalLoading").style.display="none";
+  $("content").style.display="block";
+  $("navUpdate").textContent = "Actualizado: "+new Date().toLocaleTimeString("es-MX");
+  render();
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════════════════
+function eventosReales(){
+  // Excluye el baseline ALTA_INICIAL de las métricas de actividad
+  return DATOS.eventos.filter(e=>e.evento!=="ALTA_INICIAL");
+}
+
+function render(){
+  renderKPIs();
+  renderTraffic();
+  renderCharts();
+  renderLog();
+}
+
+function renderKPIs(){
+  const evs = eventosReales();
+  const ahora = new Date();
+  const hace30 = new Date(ahora-30*864e5);
+  const hace60 = new Date(ahora-60*864e5);
+  const hace7  = new Date(ahora-7*864e5);
+
+  const enRango=(e,desde,hasta)=>{const t=new Date(e.timestamp);return t>=desde&&(!hasta||t<hasta);};
+
+  const ventas30 = evs.filter(e=>e.evento==="VENTA"&&enRango(e,hace30)).length;
+  const ventasPrev = evs.filter(e=>e.evento==="VENTA"&&enRango(e,hace60,hace30)).length;
+  const caidas30 = evs.filter(e=>e.evento==="CAIDA"&&enRango(e,hace30)).length;
+  const alzas30 = evs.filter(e=>e.evento==="PRECIO_SUBE"&&enRango(e,hace30)).length;
+  const velocidad = Math.round((ventas30/4.3)*10)/10;
+
+  $("kVentas").textContent = ventas30;
+  const delta = ventas30-ventasPrev;
+  const de = $("kVentasDelta");
+  if(delta>0){de.className="kpi-delta up";de.innerHTML=`▲ +${delta} vs mes previo`;}
+  else if(delta<0){de.className="kpi-delta down";de.innerHTML=`▼ ${delta} vs mes previo`;}
+  else{de.className="kpi-delta flat";de.textContent="igual que el mes previo";}
+
+  $("kVelocidad").innerHTML = velocidad+'<small>/sem</small>';
+  $("kCaidas").textContent = caidas30;
+  $("kPlusvalia").textContent = alzas30;
+}
+
+function renderTraffic(){
+  // Combina velocidad (histórico) + disponibles (inventario vivo) → proyección
+  const filas = Object.keys(META).map(key=>{
+    const r = DATOS.resumen[key]||{};
+    const inv = DATOS.inventario[key]?.stats||{};
+    const disp = inv.disponibles ?? null;
+    const vel = r.velocidad_sem||0;
+    // Semanas para agotar: disponibles / velocidad
+    let semanas = null, luz="gray", proj="Sin datos", accion="esperando historial";
+    if(disp!==null && vel>0){
+      semanas = disp/vel;
+      if(semanas<=3){luz="red";proj="~"+Math.round(semanas)+" sem";accion="subir precio / última oportunidad";}
+      else if(semanas<=10){luz="yellow";proj="~"+Math.round(semanas)+" sem";accion="empujar equipo de ventas";}
+      else{luz="green";proj=semanas>52?"~"+Math.round(semanas/4.3)+" meses":"~"+Math.round(semanas)+" sem";accion="hay margen de tiempo";}
+    } else if(disp!==null && vel===0){
+      luz="gray";proj=disp+" disp.";accion=disp===0?"agotado":"sin ventas aún";
+    }
+    return {key,disp,vel,semanas,luz,proj,accion};
+  }).filter(f=>f.disp!==null);
+
+  // Orden: rojo → amarillo → verde → gris; dentro, por menos semanas
+  const orden={red:0,yellow:1,green:2,gray:3};
+  filas.sort((a,b)=> orden[a.luz]-orden[b.luz] || (a.semanas??1e9)-(b.semanas??1e9));
+
+  if(!filas.length){
+    $("trafficList").innerHTML = estadoVacio("🚦","Aún sin proyección","El semáforo necesita al menos unos días de historial de ventas para calcular velocidad. Vuelve en unos días.");
+    return;
+  }
+
+  $("trafficList").innerHTML = filas.map(f=>`
+    <div class="tf">
+      <div class="tf-light ${f.luz}"></div>
+      <div class="tf-info">
+        <div class="tf-name">${nombreDe(f.key)}<span class="tf-city">${ciudadDe(f.key)}</span></div>
+        <div class="tf-meta">${f.disp} disponibles${f.vel>0?" · vendiendo "+f.vel+"/sem":" · sin ventas recientes"}</div>
+      </div>
+      <div class="tf-velocity">
+        <div class="tf-velocity-val">${f.vel||"—"}</div>
+        <div class="tf-velocity-lbl">uds/sem</div>
+      </div>
+      <div class="tf-proj">
+        <div class="tf-proj-val ${f.luz}">${f.proj}</div>
+        <div class="tf-action">${f.accion}</div>
+      </div>
+    </div>`).join("");
+}
+
+function estadoVacio(icon,titulo,sub){
+  return `<div class="state-box"><div class="big">${icon}</div><div class="t">${titulo}</div><div class="s">${sub}</div></div>`;
+}
+
+function renderCharts(){
+  const evs = eventosReales();
+  const isDark=false;
+  const ink="#8a8d9e", grid="#f0f1f5";
+
+  // 1. Ritmo semanal (últimas 8 semanas)
+  const semanas=[];
+  for(let i=7;i>=0;i--){
+    const fin=new Date(Date.now()-i*7*864e5);
+    const ini=new Date(fin-7*864e5);
+    const label=`${ini.getDate()}/${ini.getMonth()+1}`;
+    const ventas=evs.filter(e=>{const t=new Date(e.timestamp);return e.evento==="VENTA"&&t>=ini&&t<fin;}).length;
+    semanas.push({label,ventas});
+  }
+  drawChart("chartRitmo","line",{
+    labels:semanas.map(s=>s.label),
+    datasets:[{data:semanas.map(s=>s.ventas),borderColor:"#2563eb",backgroundColor:"rgba(37,99,235,.1)",fill:true,tension:.3,borderWidth:2,pointRadius:3,pointBackgroundColor:"#2563eb"}]
+  },ink,grid);
+
+  // 2. Ventas por proyecto (30d)
+  const hace30=new Date(Date.now()-30*864e5);
+  const porProy={};
+  evs.filter(e=>e.evento==="VENTA"&&new Date(e.timestamp)>=hace30).forEach(e=>{porProy[e.proyecto]=(porProy[e.proyecto]||0)+1;});
+  const proyArr=Object.entries(porProy).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  drawChart("chartProyecto","bar",{
+    labels:proyArr.map(p=>nombreDe(p[0])),
+    datasets:[{data:proyArr.map(p=>p[1]),backgroundColor:"#1a7a4a",borderRadius:4,barThickness:18}]
+  },ink,grid,true);
+
+  // 3. Tipología (30d)
+  const porTip={};
+  evs.filter(e=>e.evento==="VENTA"&&new Date(e.timestamp)>=hace30).forEach(e=>{const t=e.tipologia||"Sin dato";porTip[t]=(porTip[t]||0)+1;});
+  const tipArr=Object.entries(porTip).sort((a,b)=>b[1]-a[1]);
+  drawChart("chartTipologia","bar",{
+    labels:tipArr.map(t=>t[0]),
+    datasets:[{data:tipArr.map(t=>t[1]),backgroundColor:"#c9a96e",borderRadius:4,barThickness:22}]
+  },ink,grid,true);
+}
+
+function drawChart(id,type,data,ink,grid,horizontal){
+  if(charts[id])charts[id].destroy();
+  const ctx=$(id);
+  const hasData=data.datasets[0].data.some(v=>v>0);
+  if(!hasData){
+    // Mostrar mensaje de vacío en el canvas
+    const p=ctx.parentElement;
+    p.innerHTML='<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--text-3);"><div style="font-size:28px;opacity:.3;margin-bottom:8px;">📊</div><div style="font-size:12px;font-weight:600;">Sin ventas registradas aún</div><div style="font-size:11px;margin-top:2px;">Los datos aparecerán conforme se concreten ventas</div></div>';
+    return;
+  }
+  charts[id]=new Chart(ctx,{
+    type,data,
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      indexAxis:horizontal?"y":"x",
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{color:ink,font:{size:11}},grid:{color:horizontal?grid:"transparent"},beginAtZero:true},
+        y:{ticks:{color:ink,font:{size:11}},grid:{color:horizontal?"transparent":grid},beginAtZero:true}
+      }
+    }
+  });
+}
+
+function renderLog(){
+  const evs = DATOS.eventos.filter(e=>e.evento!=="ALTA_INICIAL"); // sin baseline en bitácora
+  const tipos = [
+    {k:"",label:"Todos"},{k:"VENTA",label:"Ventas"},{k:"RESERVA",label:"Reservas"},
+    {k:"CAIDA",label:"Caídas"},{k:"PRECIO_SUBE",label:"Alzas"},{k:"PRECIO_BAJA",label:"Bajas"}
+  ];
+  $("logFilters").innerHTML = tipos.map(t=>
+    `<span class="log-filter ${logFiltroActivo===t.k?"active":""}" onclick="setLogFiltro('${t.k}')">${t.label}</span>`
+  ).join("");
+
+  let filtrados = logFiltroActivo ? evs.filter(e=>e.evento===logFiltroActivo) : evs;
+  filtrados = filtrados.sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp)).slice(0,100);
+
+  if(!filtrados.length){
+    $("logBody").innerHTML = `<tr><td colspan="6"><div class="log-empty"><div class="log-empty-icon">📋</div><div style="font-weight:600;color:var(--text-2);">Sin movimientos registrados aún</div><div style="font-size:11px;margin-top:4px;">La bitácora se llena conforme el inventario cambia. El baseline inicial no se muestra aquí.</div></div></td></tr>`;
+    return;
+  }
+
+  $("logBody").innerHTML = filtrados.map(e=>{
+    const fecha = new Date(e.timestamp);
+    const fstr = fecha.toLocaleDateString("es-MX",{day:"2-digit",month:"short"})+" "+fecha.toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"});
+    return `<tr>
+      <td class="log-date">${fstr}</td>
+      <td>${evBadge(e.evento)}</td>
+      <td style="font-weight:600;color:var(--primary);">${nombreDe(e.proyecto)}</td>
+      <td style="font-weight:600;">${e.numero}</td>
+      <td style="color:var(--text-2);">${e.tipologia||"—"}</td>
+      <td style="color:var(--text-3);">${detalleEvento(e)}</td>
+    </tr>`;
+  }).join("");
+}
+
+function evBadge(ev){
+  const map={
+    VENTA:{c:"ev-venta",t:"Venta"},RESERVA:{c:"ev-reserva",t:"Reserva"},
+    CAIDA:{c:"ev-caida",t:"Caída"},PRECIO_SUBE:{c:"ev-precio-sube",t:"Precio ↑"},
+    PRECIO_BAJA:{c:"ev-precio-baja",t:"Precio ↓"},REACTIVACION:{c:"ev-otro",t:"Reactivación"},
+    ALTA:{c:"ev-alta",t:"Alta"},BAJA:{c:"ev-otro",t:"Baja"},
+    BLOQUEO:{c:"ev-otro",t:"Bloqueo"},DESBLOQUEO:{c:"ev-otro",t:"Desbloqueo"},
+    CAMBIO_STATUS:{c:"ev-otro",t:"Cambio"}
+  };
+  const m=map[ev]||{c:"ev-otro",t:ev};
+  return `<span class="ev-badge ${m.c}">${m.t}</span>`;
+}
+
+function detalleEvento(e){
+  if(e.evento==="VENTA") return `${e.status_antes} → Vendido`;
+  if(e.evento==="RESERVA") return `Disponible → Reservado`;
+  if(e.evento==="CAIDA") return `Reserva liberada · ${e.dias_estado_previo||0} días reservado`;
+  if(e.evento==="PRECIO_SUBE") return `${fmtM(e.precio_antes)} → ${fmtM(e.precio_despues)}`;
+  if(e.evento==="PRECIO_BAJA") return `${fmtM(e.precio_antes)} → ${fmtM(e.precio_despues)}`;
+  return e.status_despues||"—";
+}
+
+function setLogFiltro(k){logFiltroActivo=k;renderLog();}
+</script>
+</body>
+</html>
