@@ -97,12 +97,46 @@ body{background:var(--neutral);color:var(--text);font-family:'Inter',sans-serif;
 .act-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:var(--radius-sm);font-size:12px;font-weight:700;cursor:pointer;border:none;transition:all .2s;text-decoration:none;font-family:'Inter',sans-serif;}
 .act-wa{background:var(--wa);color:var(--white);}
 .act-wa:hover{background:#1eb455;}
+.act-share:hover{background:var(--gold,#c9a96e)!important;color:#1a1508!important;}
 .act-copy{background:var(--white);color:var(--primary);border:1.5px solid var(--primary);}
 .act-copy:hover{background:var(--primary);color:var(--white);}
 .act-print{background:var(--primary-10);color:var(--primary);}
 .disclaimer{margin-top:16px;font-size:10px;color:var(--text-3);line-height:1.6;padding:12px 16px;background:var(--white);border:1px solid var(--border-2);border-radius:var(--radius-sm);}
 @media(max-width:960px){.layout{grid-template-columns:1fr;}.sidebar{position:static;max-height:300px;}}
-@media print{.nav,.sidebar,.config,.actions{display:none!important;}.layout{grid-template-columns:1fr;}body{background:white;}}
+@media print{
+  @page{size:letter;margin:12mm;}
+  .nav,.sidebar,.config,.actions,.cfg-note,#waNum{display:none!important;}
+  /* Ocultar el bloque de WhatsApp del cliente en impresión */
+  [style*="WhatsApp del cliente"],.act-btn{display:none!important;}
+  .layout{grid-template-columns:1fr!important;display:block!important;min-height:auto!important;}
+  .content{padding:0!important;overflow:visible!important;}
+  body{background:white!important;font-size:10px!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  /* Header compacto de impresión */
+  .header{padding:0 0 10px 0!important;background:white!important;border-bottom:2px solid var(--primary);margin-bottom:12px;}
+  .header::after{display:none!important;}
+  .header h1{color:var(--primary)!important;font-size:18px!important;}
+  .header h1 em{opacity:.5;}
+  .header .sub{color:var(--text-3)!important;}
+  #projSelect{display:none!important;}
+  /* Card de unidad compacta */
+  .us-card{background:var(--primary)!important;padding:12px 16px!important;margin-bottom:12px!important;border-radius:8px!important;}
+  .us-num{font-size:20px!important;}
+  .us-price{font-size:18px!important;}
+  /* Planes: fila horizontal que quepa */
+  .plans{grid-template-columns:repeat(auto-fit,minmax(0,1fr))!important;gap:10px!important;margin-bottom:10px!important;page-break-inside:avoid;}
+  .plan{box-shadow:none!important;border:1px solid var(--border)!important;page-break-inside:avoid;}
+  .plan-head{padding:8px 12px!important;}
+  .plan-name{font-size:13px!important;}
+  .plan-body{padding:10px 12px!important;}
+  .pt-val{font-size:17px!important;}
+  .prow{padding:6px 0!important;}
+  .prow-amt{font-size:12px!important;}
+  .prow-t{font-size:10px!important;}
+  .prow-s{font-size:8px!important;}
+  .disclaimer{margin-top:10px!important;font-size:8px!important;padding:8px 10px!important;page-break-inside:avoid;}
+  /* Evitar cortes feos */
+  .us-card,.plan,.disclaimer{page-break-inside:avoid;}
+}
 </style>
 </head>
 <body>
@@ -178,7 +212,27 @@ body{background:var(--neutral);color:var(--text);font-family:'Inter',sans-serif;
    ═══════════════════════════════════════════════════════════════════════ */
 
 const API = "https://script.google.com/macros/s/AKfycbxLGGR1GuNk6-amf_xAMBIikKaXEaDX7xeNPyzg8rXqNGNQlS00qOI3HCo7WbtHSNXq/exec";
-const WA_PHONE = "529841234567"; // ← CAMBIAR al número de ventas iMexico
+
+/* Fallback de lista de proyectos — SOLO se usa si el endpoint ?listar=proyectos
+   aún no está desplegado en el Apps Script. Una vez desplegado, el servidor
+   manda la lista real y esto se ignora. Refleja los headers conocidos de cada
+   pestaña; actualízalo o (mejor) despliega el endpoint para que sea automático. */
+const FALLBACK_PROYECTOS = [
+  {key:"landmark",nombre:"The Landmark",ciudad:"Playa del Carmen",preciosHeaders:["PRECIO_30-60-10","PRECIO_30-70"]},
+  {key:"macondo",nombre:"Macondo Corazón",ciudad:"Playa del Carmen",preciosHeaders:["PRECIO_20-60-10","PRECIO_50-50","PRECIO_20-80"]},
+  {key:"macondo_pe",nombre:"Macondo P. Esmeralda",ciudad:"Playa del Carmen",preciosHeaders:["PRECIO_20-60-10","PRECIO_50-50","PRECIO_20-80"]},
+  {key:"macondo_5f3",nombre:"Macondo 5ta F3",ciudad:"Playa del Carmen",preciosHeaders:["PRECIO_20-60-10","PRECIO_50-50","PRECIO_20-80"]},
+  {key:"baga",nombre:"Bagà Riviera",ciudad:"Playa del Carmen",preciosHeaders:["PRECIO_303535","PRECIO_304030","PRECIO_305020","PRECIO_306010","PRECIO_9010"]},
+  {key:"macondo_playacar",nombre:"Macondo Playacar",ciudad:"Playa del Carmen",preciosHeaders:["PRECIO_206020","PRECIO_5050","PRECIO_2080"]},
+  {key:"altra",nombre:"Altra Beach Condos",ciudad:"Playa del Carmen",preciosHeaders:["PRECIO_30-70"]},
+  {key:"terra",nombre:"T3rra Playa",ciudad:"Playa del Carmen",preciosHeaders:["PRECIO_LISTA","PRECIO_9PCT","PRECIO_15PCT"]},
+  {key:"paramar_black",nombre:"Paramar Black",ciudad:"Tulum",preciosHeaders:["PRECIO_30-60-10","PRECIO_30-70"]},
+  {key:"pink_riad",nombre:"Pink Riad",ciudad:"Tulum",preciosHeaders:["PRECIO_80-20","PRECIO_50-50","PRECIO_20-80"]},
+  {key:"xunik",nombre:"Xunik",ciudad:"Tulum",preciosHeaders:["PRECIO_30-70"]},
+  {key:"macondo_tulum_f2",nombre:"Macondo Tulum F2",ciudad:"Tulum",preciosHeaders:["PRECIO_20-60-10","PRECIO_50-50","PRECIO_20-80"]},
+  {key:"alux33",nombre:"ALUX 33",ciudad:"Puerto Morelos",preciosHeaders:["PRECIO_30-60-10","PRECIO_30-20-50","PRECIO_30-70"]},
+  {key:"hama",nombre:"Hama",ciudad:"Mahahual",preciosHeaders:["PRECIO_MXN"]},
+];
 
 /* Header del Sheet → campo en el JSON de la unidad (refleja normalizeUnidad
    del Apps Script). Si el Apps Script cambia el mapeo, se ajusta aquí. */
@@ -246,9 +300,12 @@ async function loadProjectList(){
     buildProjectSelect();
     loadProject();
   }catch(e){
-    console.error("Lista de proyectos falló:",e);
-    if(projKey){buildProjectSelectFallback();loadProject();}
-    else showFatal("No se pudo cargar la lista de proyectos.");
+    console.warn("Endpoint ?listar=proyectos no disponible — usando lista local. Detalle:",e.message);
+    // Fallback: lista local mínima para poder operar antes de desplegar el endpoint
+    PROYECTOS=FALLBACK_PROYECTOS;
+    if(!projKey||!PROYECTOS.find(p=>p.key===projKey)) projKey=PROYECTOS[0].key;
+    buildProjectSelect();
+    loadProject();
   }
 }
 
@@ -273,6 +330,8 @@ function changeProject(newKey){
 
 /* ═══ PASO 2: inventario del proyecto ═══ */
 async function loadProject(){
+  // Guard: si no hay proyecto resuelto, no intentes cargar (evita crash toUpperCase)
+  if(!projKey){ showFatal("No hay proyecto seleccionado. Abre el cotizador con ?proyecto=KEY o vía el servidor."); return; }
   projMeta=PROYECTOS.find(p=>p.key===projKey)||{key:projKey,nombre:projKey,ciudad:"",preciosHeaders:[]};
   selected=null;activeTipo="";units=[];
   $("hTitle").innerHTML=projMeta.nombre.toUpperCase()+" <em>· Cotizador</em>";
@@ -358,7 +417,11 @@ function calcEtapas(total,pares,ci){
   }
   return rows;
 }
-function getCfgInputs(){return{apartado:parseFloat($("cfgApartado")?.value)||50000,meses:parseInt($("cfgMeses")?.value)||18};}
+function getCfgInputs(){
+  let meses=parseInt($("cfgMeses")?.value)||18;
+  meses=Math.max(1,Math.min(30,meses)); // rango válido 1-30
+  return{apartado:parseFloat($("cfgApartado")?.value)||50000,meses};
+}
 
 function buildCards(u,ci){
   const esquemas=projMeta.esquemas.filter(e=>Number(u.raw[e.campo])>0&&e.tipo!=="lista");
@@ -397,10 +460,8 @@ function renderQuote(){
     <div class="config">
       <div class="cfg"><label>Apartado (MXN)</label>
         <input type="number" id="cfgApartado" value="${ci.apartado}" step="10000" min="10000" onchange="renderQuote()"></div>
-      ${tieneMensualidades?`<div class="cfg"><label>Mensualidades</label>
-        <select id="cfgMeses" onchange="renderQuote()">
-          ${[12,15,18,24,30,36].map(m=>`<option value="${m}" ${m===ci.meses?"selected":""}>${m} meses</option>`).join("")}
-        </select></div>`:""}
+      ${tieneMensualidades?`<div class="cfg"><label>Mensualidades (1–30)</label>
+        <input type="number" id="cfgMeses" value="${ci.meses}" min="1" max="30" step="1" onchange="renderQuote()"></div>`:""}
       <div class="cfg-note">La cotización se recalcula al ajustar. El apartado se descuenta del enganche.</div>
     </div>`:""}
 
@@ -441,8 +502,17 @@ function renderQuote(){
       }).join("")}
     </div>
 
+    <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:14px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;box-shadow:var(--shadow-sm);">
+      <div class="cfg" style="flex:1;min-width:180px;">
+        <label style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);">WhatsApp del cliente (opcional)</label>
+        <input type="tel" id="waNum" placeholder="Ej. 984 123 4567" style="width:100%;border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 12px;font-size:13px;font-weight:600;color:var(--primary);outline:none;font-family:'Inter',sans-serif;">
+      </div>
+      <div class="cfg-note" style="max-width:260px;">Escribe el número para enviar directo, o usa <strong>Compartir</strong> para elegir un contacto de WhatsApp desde tu celular.</div>
+    </div>
+
     <div class="actions">
-      <a class="act-btn act-wa" target="_blank" href="${waLink(u,cards,plVal)}">💬 Enviar por WhatsApp</a>
+      <button class="act-btn act-wa" onclick="sendWhatsApp()">💬 Enviar al cliente</button>
+      <button class="act-btn act-share" onclick="shareQuote()" style="background:var(--primary);color:var(--white);">📤 Compartir contacto</button>
       <button class="act-btn act-copy" onclick="copyQuote()">📋 Copiar cotización</button>
       <button class="act-btn act-print" onclick="window.print()">🖨 Imprimir / PDF</button>
     </div>
@@ -467,7 +537,47 @@ function quoteText(u,cards,plVal){
   t+=`━━━━━━━━━━━━━━━\n\nPrecios MXN en vivo, sujetos a disponibilidad.\n¿Agendamos una visita? 🏝`;
   return t;
 }
-function waLink(u,cards,pl){return"https://wa.me/"+WA_PHONE+"?text="+encodeURIComponent(quoteText(u,cards,pl));}
+/* Normaliza número mexicano a formato wa.me (52 + 10 dígitos).
+   Acepta "984 123 4567", "9841234567", "+52 984...", etc. */
+function normalizarWA(raw){
+  let d=String(raw||"").replace(/\D/g,""); // solo dígitos
+  if(!d)return null;
+  if(d.startsWith("52")&&d.length>=12) return d;      // ya trae lada país
+  if(d.length===10) return "52"+d;                     // 10 dígitos MX → anteponer 52
+  if(d.length===11&&d.startsWith("1")) return "52"+d.substring(1); // 1 + 10
+  return d; // fallback: lo que haya (por si es extranjero con lada)
+}
+
+/* Construye el texto de la cotización actual */
+function currentQuoteText(){
+  const {cards,plVal}=buildCards(selected,getCfgInputs());
+  return quoteText(selected,cards,plVal);
+}
+
+/* Enviar por WhatsApp al número del cliente (si se escribió) */
+function sendWhatsApp(){
+  if(!selected)return;
+  const num=normalizarWA($("waNum")?.value);
+  const txt=encodeURIComponent(currentQuoteText());
+  // Con número → chat directo al cliente. Sin número → selector de contacto de WhatsApp.
+  const url = num ? `https://wa.me/${num}?text=${txt}` : `https://wa.me/?text=${txt}`;
+  window.open(url,"_blank");
+}
+
+/* Compartir con la hoja nativa del sistema (elige contacto de WhatsApp u otra app).
+   Ideal en móvil. Si el navegador no soporta share, cae a WhatsApp genérico. */
+async function shareQuote(){
+  if(!selected)return;
+  const text=currentQuoteText();
+  const title=`Cotización ${projMeta.nombre} · Unidad ${selected.n}`;
+  if(navigator.share){
+    try{ await navigator.share({title,text}); }
+    catch(e){ /* usuario canceló, no hacer nada */ }
+  }else{
+    // Fallback escritorio: abrir WhatsApp con selector de contacto
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`,"_blank");
+  }
+}
 function copyQuote(){
   if(!selected)return;
   const {cards,plVal}=buildCards(selected,getCfgInputs());
