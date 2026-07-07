@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cotizador — iMexico Real Estate</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#202845;--primary-80:#4b5577;--primary-40:#a5aabb;--primary-10:#eceef4;
+  --secondary:#E73B39;
+  --neutral:#F8F9FA;--white:#ffffff;
+  --text:#1a1d2e;--text-2:#4a4d5e;--text-3:#8a8d9e;
+  --border:#e4e6ed;--border-2:#f0f1f5;
+  --green:#1a7a4a;--green-bg:#e8f5ee;
+  --gold:#c9a96e;--gold-dark:#8a6d3a;
+  --wa:#25D366;
+  --shadow-sm:0 1px 3px rgba(32,40,69,.06),0 1px 2px rgba(32,40,69,.04);
+  --shadow-md:0 4px 12px rgba(32,40,69,.08),0 2px 4px rgba(32,40,69,.05);
+  --radius:12px;--radius-sm:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--neutral);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;-webkit-font-smoothing:antialiased;}
+.nav{display:flex;align-items:center;padding:0 40px;border-bottom:1px solid var(--border);background:var(--white);position:sticky;top:0;z-index:100;height:58px;box-shadow:var(--shadow-sm);gap:16px;}
+.back{font-size:11px;font-weight:600;color:var(--text-3);text-decoration:none;letter-spacing:.04em;}
+.back:hover{color:var(--primary);}
+.brand{font-family:'Manrope',sans-serif;font-size:14px;font-weight:700;color:var(--primary);flex:1;}
+.live{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-3);}
+.dot{width:7px;height:7px;border-radius:50%;background:#22c55e;}
+.header{padding:24px 40px 20px;background:var(--primary);position:relative;overflow:hidden;}
+.header::after{content:'';position:absolute;top:-60px;right:-60px;width:320px;height:320px;background:radial-gradient(circle,rgba(201,169,110,.15) 0%,transparent 70%);pointer-events:none;}
+.header h1{font-family:'Manrope',sans-serif;font-size:26px;font-weight:800;letter-spacing:-.02em;color:var(--white);}
+.header h1 em{font-style:normal;font-weight:300;opacity:.55;}
+.header .sub{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:3px;}
+.layout{display:grid;grid-template-columns:340px 1fr;min-height:calc(100vh - 140px);}
+.sidebar{background:var(--white);border-right:1px solid var(--border);padding:20px;overflow-y:auto;max-height:calc(100vh - 140px);position:sticky;top:58px;}
+.sidebar::-webkit-scrollbar{width:4px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
+.sb-title{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--primary);margin-bottom:4px;}
+.sb-sub{font-size:11px;color:var(--text-3);margin-bottom:12px;}
+.sb-search{width:100%;border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 12px;font-family:'Inter',sans-serif;font-size:12px;outline:none;margin-bottom:10px;}
+.sb-search:focus{border-color:var(--gold);}
+.sb-filters{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.sbf{padding:5px 12px;border-radius:16px;font-size:10px;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:var(--white);color:var(--text-3);transition:all .15s;}
+.sbf.active{background:var(--primary);color:var(--white);border-color:var(--primary);}
+.unit-list{display:flex;flex-direction:column;gap:8px;}
+.ul-item{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;cursor:pointer;transition:all .15s;}
+.ul-item:hover{border-color:var(--primary-40);box-shadow:var(--shadow-sm);}
+.ul-item.selected{border-color:var(--gold);background:#fdfaf4;box-shadow:0 0 0 2px rgba(201,169,110,.25);}
+.ul-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;}
+.ul-num{font-family:'Manrope',sans-serif;font-size:16px;font-weight:800;color:var(--primary);}
+.ul-price{font-size:12px;font-weight:700;color:var(--gold-dark);}
+.ul-meta{font-size:10px;color:var(--text-3);}
+.content{padding:24px 40px;overflow-y:auto;}
+.state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:360px;color:var(--text-3);gap:12px;text-align:center;}
+.state-t{font-size:14px;font-weight:600;color:var(--text-2);}
+.state .retry{margin-top:8px;padding:9px 20px;border-radius:var(--radius-sm);background:var(--primary);color:var(--white);border:none;font-weight:700;font-size:12px;cursor:pointer;}
+.spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.us-card{background:var(--primary);border-radius:var(--radius);padding:22px 26px;color:var(--white);margin-bottom:18px;position:relative;overflow:hidden;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;}
+.us-num{font-family:'Manrope',sans-serif;font-size:30px;font-weight:800;}
+.us-meta{font-size:11px;color:rgba(255,255,255,.55);margin-top:2px;}
+.us-right{text-align:right;}
+.us-plabel{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);}
+.us-price{font-family:'Manrope',sans-serif;font-size:26px;font-weight:800;}
+.us-m2{font-size:11px;color:rgba(255,255,255,.55);}
+.config{display:flex;gap:20px;align-items:flex-end;margin-bottom:18px;flex-wrap:wrap;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;box-shadow:var(--shadow-sm);}
+.cfg{display:flex;flex-direction:column;gap:5px;}
+.cfg label{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);}
+.cfg input,.cfg select{border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 12px;font-size:13px;font-weight:600;color:var(--primary);outline:none;width:140px;font-family:'Inter',sans-serif;}
+.cfg input:focus,.cfg select:focus{border-color:var(--gold);}
+.cfg-note{font-size:10px;color:var(--text-3);max-width:220px;line-height:1.5;}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px;margin-bottom:18px;}
+.plan{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);}
+.plan.featured{border-color:var(--gold);}
+.plan-head{padding:15px 18px;border-bottom:1px solid var(--border-2);display:flex;justify-content:space-between;align-items:center;gap:8px;}
+.plan.featured .plan-head{background:linear-gradient(135deg,#fdfaf4,#faf4e8);}
+.plan-name{font-family:'Manrope',sans-serif;font-size:15px;font-weight:800;color:var(--primary);}
+.plan-tag{font-size:8px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:12px;background:var(--gold);color:var(--white);white-space:nowrap;}
+.plan-tag.alt{background:var(--primary-10);color:var(--primary);}
+.plan-body{padding:16px 18px;}
+.pt-label{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);}
+.pt-val{font-family:'Manrope',sans-serif;font-size:23px;font-weight:800;color:var(--primary);}
+.pt-diff{font-size:10px;font-weight:600;margin-top:2px;}
+.pt-diff.save{color:var(--green);}
+.plan-total{margin-bottom:14px;}
+.prow{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border-2);}
+.prow:last-child{border-bottom:none;}
+.prow-l{display:flex;gap:10px;}
+.prow-n{width:22px;height:22px;border-radius:50%;background:var(--primary-10);color:var(--primary);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.prow-t{font-size:12px;font-weight:600;}
+.prow-s{font-size:10px;color:var(--text-3);margin-top:1px;}
+.prow-v{text-align:right;}
+.prow-amt{font-family:'Manrope',sans-serif;font-size:15px;font-weight:800;color:var(--primary);}
+.prow-pct{font-size:10px;color:var(--text-3);}
+.actions{display:flex;gap:12px;flex-wrap:wrap;}
+.act-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:var(--radius-sm);font-size:12px;font-weight:700;cursor:pointer;border:none;transition:all .2s;text-decoration:none;font-family:'Inter',sans-serif;}
+.act-wa{background:var(--wa);color:var(--white);}
+.act-wa:hover{background:#1eb455;}
+.act-copy{background:var(--white);color:var(--primary);border:1.5px solid var(--primary);}
+.act-copy:hover{background:var(--primary);color:var(--white);}
+.act-print{background:var(--primary-10);color:var(--primary);}
+.disclaimer{margin-top:16px;font-size:10px;color:var(--text-3);line-height:1.6;padding:12px 16px;background:var(--white);border:1px solid var(--border-2);border-radius:var(--radius-sm);}
+@media(max-width:960px){.layout{grid-template-columns:1fr;}.sidebar{position:static;max-height:300px;}}
+@media print{.nav,.sidebar,.config,.actions{display:none!important;}.layout{grid-template-columns:1fr;}body{background:white;}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="back" id="backLink" href="index.html">← Volver</a>
+  <div class="brand">iMexico Real Estate · Cotizador</div>
+  <div class="live"><span class="dot" id="liveDot"></span><span id="liveTxt">Conectando...</span></div>
+</nav>
+
+<div class="header">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;">
+    <div>
+      <h1 id="hTitle">COTIZADOR</h1>
+      <div class="sub" id="hSub">iMexico Real Estate</div>
+    </div>
+    <div style="position:relative;z-index:2;">
+      <label style="display:block;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;">Proyecto</label>
+      <select id="projSelect" onchange="changeProject(this.value)"
+        style="background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.25);color:var(--white);padding:9px 14px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:700;border-radius:var(--radius-sm);outline:none;cursor:pointer;min-width:220px;">
+        <option>Cargando...</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="sidebar">
+    <div class="sb-title">Unidades Disponibles</div>
+    <div class="sb-sub"><span id="unitCount">—</span> unidades en vivo</div>
+    <input type="text" class="sb-search" id="sbSearch" placeholder="Buscar unidad... (ej. 305)" oninput="buildList()">
+    <div class="sb-filters" id="tipoFilters"></div>
+    <div class="unit-list" id="unitList"></div>
+  </div>
+
+  <div class="content">
+    <div class="state" id="stateLoading">
+      <div class="spinner"></div>
+      <div class="state-t">Cargando inventario en vivo...</div>
+    </div>
+    <div class="state" id="stateError" style="display:none;">
+      <div style="font-size:36px;">⚠️</div>
+      <div class="state-t">No se pudo cargar el inventario</div>
+      <div style="font-size:11px;">Un cotizador no debe mostrar precios desactualizados.<br>Verifica tu conexión e intenta de nuevo.</div>
+      <button class="retry" onclick="loadProject()">Reintentar</button>
+    </div>
+    <div class="state" id="stateEmpty" style="display:none;">
+      <div class="state-t">Selecciona una unidad para generar la cotización</div>
+    </div>
+    <div id="quoteArea" style="display:none;"></div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════
+   COTIZADOR GENÉRICO iMexico — un archivo, todos los proyectos.
+   ───────────────────────────────────────────────────────────────────────
+   ARQUITECTURA:
+   1. Al arrancar, pregunta al Apps Script qué proyectos existen
+      (?listar=proyectos) → construye el selector SOLO desde eso.
+   2. Al elegir proyecto, jala su inventario en vivo (?proyecto=KEY).
+   3. Los esquemas de pago se DERIVAN de los headers de precio del Sheet.
+      Cero esquemas hardcodeados. Agregar proyecto/columna al Sheet =
+      aparece solo aquí, sin tocar este archivo.
+
+   MOTOR DE DERIVACIÓN — reconoce estos patrones de header:
+     PRECIO_30-60-10 / PRECIO_306010  → plan etapas 30/60/10 (guiones opcionales)
+     PRECIO_9010                       → plan etapas 90/10
+     PRECIO_SER_306010                 → quita prefijo → 30/60/10
+     PRECIO_MXN (sola)                 → contado
+     PRECIO_9PCT / PRECIO_15PCT        → precio con % descuento (base: PRECIO_LISTA)
+   Validación: los pares de un plan por etapas deben sumar 100.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+const API = "https://script.google.com/macros/s/AKfycbxLGGR1GuNk6-amf_xAMBIikKaXEaDX7xeNPyzg8rXqNGNQlS00qOI3HCo7WbtHSNXq/exec";
+const WA_PHONE = "529841234567"; // ← CAMBIAR al número de ventas iMexico
+
+/* Header del Sheet → campo en el JSON de la unidad (refleja normalizeUnidad
+   del Apps Script). Si el Apps Script cambia el mapeo, se ajusta aquí. */
+const HEADER_TO_FIELD = {
+  "PRECIO_30-60-10":"precio","PRECIO_306010":"precio",
+  "PRECIO_20-60-10":"precio","PRECIO_206010":"precio",
+  "PRECIO_20-60-20":"precio","PRECIO_206020":"precio",
+  "PRECIO_90-10":"precio","PRECIO_9010":"precio",
+  "PRECIO_80-20":"precio","PRECIO_8020":"precio",
+  "PRECIO_LISTA":"precio_lista",
+  "PRECIO_30-70":"precio2","PRECIO_3070":"precio2",
+  "PRECIO_50-50":"precio2","PRECIO_5050":"precio2",
+  "PRECIO_30-20-50":"precio2","PRECIO_302050":"precio2",
+  "PRECIO_70-20-10":"precio2","PRECIO_702010":"precio2",
+  "PRECIO_MXN":"precio2",
+  "PRECIO_20-80":"precio3","PRECIO_2080":"precio3",
+  "PRECIO_50-40-10":"precio3","PRECIO_504010":"precio3",
+  "PRECIO_30-35-35":"precio3","PRECIO_303535":"precio3",
+  "PRECIO_SER_30-60-10":"precio4","PRECIO_SER_306010":"precio4",
+  "PRECIO_30-50-20":"precio4","PRECIO_305020":"precio4",
+  "PRECIO_30-40-30":"precio5","PRECIO_304030":"precio5",
+  "PRECIO_30-25-45":"precio6","PRECIO_302545":"precio6",
+  "PRECIO_9PCT":"precio_desc9","PRECIO_15PCT":"precio_desc15",
+};
+
+/* ── MOTOR DE DERIVACIÓN: header → descripción del esquema ── */
+function derivarEsquema(header){
+  const h=header.trim().toUpperCase();
+  let core=h.replace(/^PRECIO_?/,"").replace(/^SER_/,"");
+
+  const mPct=core.match(/^(\d+)PCT$/);
+  if(mPct)return{tipo:"descuento",pct:parseInt(mPct[1]),label:`Precio con ${mPct[1]}% de descuento`};
+  if(core==="LISTA")return{tipo:"lista",label:"Precio de Lista"};
+  if(core==="MXN"||core==="")return{tipo:"contado",label:"Precio de Lista"};
+
+  let pares=null;
+  if(core.includes("-")) pares=core.split("-").map(Number);
+  else if(/^\d+$/.test(core)&&core.length%2===0){
+    pares=[];for(let i=0;i<core.length;i+=2)pares.push(parseInt(core.substr(i,2)));
+  }
+  if(pares&&pares.length>=2&&pares.length<=3&&pares.every(n=>n>0)&&pares.reduce((a,b)=>a+b,0)===100)
+    return{tipo:"etapas",pares,label:"Plan "+pares.join(" / ")};
+
+  return{tipo:"contado",label:core.replace(/-/g," / ")};
+}
+
+/* ── Estado ── */
+const params=new URLSearchParams(location.search);
+let projKey=params.get("proyecto")||null;
+let PROYECTOS=[], projMeta=null, units=[], selected=null, activeTipo="";
+
+const fmt =v=>"$"+new Intl.NumberFormat("es-MX",{maximumFractionDigits:0}).format(Math.round(v));
+const fmtM=v=>"$"+(v/1e6).toFixed(2)+"M";
+const $   =id=>document.getElementById(id);
+
+/* ═══ PASO 1: lista de proyectos desde el servidor ═══ */
+async function loadProjectList(){
+  try{
+    const res=await fetch(`${API}?listar=proyectos`);
+    if(!res.ok)throw new Error("HTTP "+res.status);
+    const json=await res.json();
+    if(!json.proyectos?.length)throw new Error("Sin proyectos");
+    PROYECTOS=json.proyectos;
+    if(!projKey||!PROYECTOS.find(p=>p.key===projKey)) projKey=PROYECTOS[0].key;
+    buildProjectSelect();
+    loadProject();
+  }catch(e){
+    console.error("Lista de proyectos falló:",e);
+    if(projKey){buildProjectSelectFallback();loadProject();}
+    else showFatal("No se pudo cargar la lista de proyectos.");
+  }
+}
+
+function buildProjectSelect(){
+  const byCity={};
+  for(const p of PROYECTOS){(byCity[p.ciudad]=byCity[p.ciudad]||[]).push(p);}
+  $("projSelect").innerHTML=Object.entries(byCity).map(([ciudad,arr])=>
+    `<optgroup label="${ciudad}" style="color:#1a1d2e;">${
+      arr.map(p=>`<option value="${p.key}" ${p.key===projKey?"selected":""} style="color:#1a1d2e;">${p.nombre}</option>`).join("")
+    }</optgroup>`).join("");
+}
+function buildProjectSelectFallback(){
+  $("projSelect").innerHTML=`<option value="${projKey}" selected style="color:#1a1d2e;">${projKey}</option>`;
+}
+
+function changeProject(newKey){
+  if(newKey===projKey)return;
+  projKey=newKey;
+  const url=new URL(location);url.searchParams.set("proyecto",projKey);history.replaceState(null,"",url);
+  loadProject();
+}
+
+/* ═══ PASO 2: inventario del proyecto ═══ */
+async function loadProject(){
+  projMeta=PROYECTOS.find(p=>p.key===projKey)||{key:projKey,nombre:projKey,ciudad:"",preciosHeaders:[]};
+  selected=null;activeTipo="";units=[];
+  $("hTitle").innerHTML=projMeta.nombre.toUpperCase()+" <em>· Cotizador</em>";
+  $("hSub").textContent=(projMeta.ciudad||"iMexico")+" · Planes de pago en vivo";
+  $("backLink").href=projKey+".html";
+  document.title="Cotizador — "+projMeta.nombre+" · iMexico";
+  $("sbSearch").value="";$("tipoFilters").innerHTML="";$("unitList").innerHTML="";
+  $("stateError").style.display="none";$("stateEmpty").style.display="none";$("quoteArea").style.display="none";
+  $("stateLoading").style.display="flex";
+  $("liveTxt").textContent="Conectando...";$("liveDot").style.background="#f59e0b";
+
+  try{
+    const res=await fetch(`${API}?proyecto=${projKey}`);
+    if(!res.ok)throw new Error("HTTP "+res.status);
+    const json=await res.json();
+    if(json.error)throw new Error(json.error);
+    if(!json.unidades?.length)throw new Error("Sin unidades");
+
+    const nsOk=s=>["DISP","DISPONIBLE"].includes(String(s||"").trim().toUpperCase());
+    units=json.unidades.filter(u=>nsOk(u.status)).map(u=>({
+      n:String(u.numero||""),p:String(u.piso||""),
+      t:String(u.tipo||u.tipologia||"").trim(),
+      ubi:String(u.ubicacion||""),m2:Number(u.m2)||0,raw:u,
+    }));
+
+    projMeta.esquemas=(projMeta.preciosHeaders||[]).map(h=>({
+      header:h,campo:HEADER_TO_FIELD[h.toUpperCase()]||null,...derivarEsquema(h)
+    })).filter(e=>e.campo);
+
+    units=units.filter(u=>projMeta.esquemas.some(e=>Number(u.raw[e.campo])>0));
+
+    $("liveTxt").textContent="En vivo · "+new Date().toLocaleTimeString("es-MX");
+    $("liveDot").style.background="#22c55e";
+    $("stateLoading").style.display="none";$("stateEmpty").style.display="flex";
+    buildFilters();buildList();
+  }catch(e){
+    console.error(e);
+    $("stateLoading").style.display="none";$("stateEmpty").style.display="none";
+    $("stateError").style.display="flex";
+    $("liveTxt").textContent="Sin conexión";$("liveDot").style.background="var(--secondary)";
+  }
+}
+
+function showFatal(msg){$("stateLoading").style.display="none";$("stateError").style.display="flex";$("stateError").querySelector(".state-t").textContent=msg;}
+
+/* ── Sidebar ── */
+function buildFilters(){
+  const tipos=[...new Set(units.map(u=>u.t).filter(Boolean))].sort();
+  $("tipoFilters").innerHTML=
+    `<span class="sbf ${activeTipo===""?"active":""}" onclick="setTipo('')">Todos</span>`+
+    tipos.map(t=>`<span class="sbf ${activeTipo===t?"active":""}" onclick="setTipo('${t}')">${t}</span>`).join("");
+}
+function setTipo(t){activeTipo=t;buildFilters();buildList();}
+
+function precioRef(u){
+  const vals=projMeta.esquemas.filter(e=>e.tipo!=="lista").map(e=>Number(u.raw[e.campo])||0).filter(v=>v>0);
+  return vals.length?Math.min(...vals):0;
+}
+
+function buildList(){
+  const q=($("sbSearch").value||"").toLowerCase();
+  const list=units.filter(u=>(!activeTipo||u.t===activeTipo)&&(!q||u.n.toLowerCase().includes(q)||u.p.toLowerCase().includes(q)));
+  $("unitCount").textContent=list.length;
+  $("unitList").innerHTML=list.map(u=>`
+    <div class="ul-item ${selected?.n===u.n?"selected":""}" onclick="selectUnit('${u.n}')">
+      <div class="ul-top"><span class="ul-num">${u.n}</span><span class="ul-price">${fmtM(precioRef(u))}</span></div>
+      <div class="ul-meta">${u.p?"Piso "+u.p:""}${u.t?" · "+u.t:""}${u.m2?" · "+u.m2+" m²":""}${u.ubi?" · "+u.ubi:""}</div>
+    </div>`).join("");
+}
+function selectUnit(n){selected=units.find(u=>u.n===n);buildList();renderQuote();}
+
+/* ── Cálculo plan por etapas ── */
+function calcEtapas(total,pares,ci){
+  const rows=[];let step=1;
+  rows.push({n:step++,t:"Apartado",s:"Asegura la unidad — se descuenta del enganche",amt:ci.apartado});
+  if(pares.length===3){
+    rows.push({n:step++,t:"Enganche",s:`A firma de contrato (${pares[0]}% − apartado)`,amt:total*pares[0]/100-ci.apartado,pct:pares[0]});
+    rows.push({n:step++,t:`${ci.meses} mensualidades`,s:"Durante obra, sin intereses",amt:(total*pares[1]/100)/ci.meses,pct:pares[1],mensual:true});
+    rows.push({n:step++,t:"Contra entrega",s:"Al recibir tu unidad",amt:total*pares[2]/100,pct:pares[2]});
+  }else{
+    rows.push({n:step++,t:"Enganche",s:`A firma de contrato (${pares[0]}% − apartado)`,amt:total*pares[0]/100-ci.apartado,pct:pares[0]});
+    rows.push({n:step++,t:"Contra entrega",s:"Al recibir tu unidad — liquidación",amt:total*pares[1]/100,pct:pares[1]});
+  }
+  return rows;
+}
+function getCfgInputs(){return{apartado:parseFloat($("cfgApartado")?.value)||50000,meses:parseInt($("cfgMeses")?.value)||18};}
+
+function buildCards(u,ci){
+  const esquemas=projMeta.esquemas.filter(e=>Number(u.raw[e.campo])>0&&e.tipo!=="lista");
+  const pl=projMeta.esquemas.find(e=>e.tipo==="lista");
+  const plVal=pl?Number(u.raw[pl.campo])||0:0;
+  const cards=esquemas.map(e=>{
+    const total=Number(u.raw[e.campo]);
+    if(e.tipo==="etapas")return{e,total,rows:calcEtapas(total,e.pares,ci),kind:"etapas"};
+    if(e.tipo==="descuento")return{e,total,kind:"descuento",base:plVal};
+    return{e,total,kind:"contado"};
+  });
+  return{cards,plVal};
+}
+
+function renderQuote(){
+  if(!selected)return;
+  $("stateEmpty").style.display="none";
+  const area=$("quoteArea");area.style.display="block";
+  const ci=getCfgInputs(),u=selected;
+  const {cards,plVal}=buildCards(u,ci);
+  if(!cards.length){area.innerHTML='<div class="state"><div class="state-t">Esta unidad no tiene precios cargados.</div></div>';return;}
+
+  const minTotal=Math.min(...cards.map(c=>c.total));
+  const tieneMensualidades=cards.some(c=>c.kind==="etapas"&&c.e.pares.length===3);
+  const hayEtapas=cards.some(c=>c.kind==="etapas");
+
+  area.innerHTML=`
+    <div class="us-card">
+      <div><div class="us-num">Unidad ${u.n}</div>
+        <div class="us-meta">${u.p?"Piso "+u.p+" · ":""}${u.t?u.t+" · ":""}${u.ubi?u.ubi+" · ":""}${u.m2?u.m2+" m²":""}</div></div>
+      <div class="us-right"><div class="us-plabel">Desde</div><div class="us-price">${fmt(minTotal)}</div>
+        ${u.m2?`<div class="us-m2">${fmt(minTotal/u.m2)}/m² · MXN</div>`:""}</div>
+    </div>
+
+    ${hayEtapas?`
+    <div class="config">
+      <div class="cfg"><label>Apartado (MXN)</label>
+        <input type="number" id="cfgApartado" value="${ci.apartado}" step="10000" min="10000" onchange="renderQuote()"></div>
+      ${tieneMensualidades?`<div class="cfg"><label>Mensualidades</label>
+        <select id="cfgMeses" onchange="renderQuote()">
+          ${[12,15,18,24,30,36].map(m=>`<option value="${m}" ${m===ci.meses?"selected":""}>${m} meses</option>`).join("")}
+        </select></div>`:""}
+      <div class="cfg-note">La cotización se recalcula al ajustar. El apartado se descuenta del enganche.</div>
+    </div>`:""}
+
+    ${plVal>0&&cards.some(c=>c.kind==="descuento")?`
+    <div style="margin-bottom:14px;padding:10px 16px;background:var(--white);border:1px solid var(--border-2);border-radius:var(--radius-sm);font-size:12px;color:var(--text-2);">
+      Precio de lista: <strong style="color:var(--text);text-decoration:line-through;">${fmt(plVal)}</strong></div>`:""}
+
+    <div class="plans">
+      ${cards.map(c=>{
+        const isBest=c.total===minTotal&&cards.length>1;
+        if(c.kind==="descuento"){
+          const ahorro=c.base>0?c.base-c.total:0;
+          return`<div class="plan ${isBest?"featured":""}">
+            <div class="plan-head"><span class="plan-name">${c.e.label}</span>${isBest?'<span class="plan-tag">Mejor precio</span>':""}</div>
+            <div class="plan-body"><div class="plan-total"><div class="pt-label">Precio final</div><div class="pt-val">${fmt(c.total)}</div>
+              ${ahorro>0?`<div class="pt-diff save">Ahorras ${fmt(ahorro)} vs lista</div>`:""}</div>
+              <div class="prow"><div class="prow-l"><div class="prow-n">✓</div><div><div class="prow-t">Pago de contado con descuento</div><div class="prow-s">Condiciones con tu asesor</div></div></div>
+              <div class="prow-v"><div class="prow-amt">${fmt(c.total)}</div></div></div></div></div>`;
+        }
+        if(c.kind==="contado"){
+          return`<div class="plan ${isBest?"featured":""}">
+            <div class="plan-head"><span class="plan-name">${c.e.label}</span>${isBest&&cards.length>1?'<span class="plan-tag">Mejor precio</span>':""}</div>
+            <div class="plan-body"><div class="plan-total"><div class="pt-label">Precio</div><div class="pt-val">${fmt(c.total)}</div></div>
+              <div class="prow"><div class="prow-l"><div class="prow-n">1</div><div><div class="prow-t">Pago según acuerdo</div><div class="prow-s">Consulta condiciones con tu asesor</div></div></div>
+              <div class="prow-v"><div class="prow-amt">${fmt(c.total)}</div></div></div></div></div>`;
+        }
+        const dif=c.total-minTotal;
+        return`<div class="plan ${isBest?"featured":""}">
+          <div class="plan-head"><span class="plan-name">${c.e.label}</span>
+            ${isBest?'<span class="plan-tag">Mejor precio</span>':(cards.length>1?'<span class="plan-tag alt">Alternativa</span>':"")}</div>
+          <div class="plan-body"><div class="plan-total"><div class="pt-label">Precio total</div><div class="pt-val">${fmt(c.total)}</div>
+            ${cards.length>1?(isBest?`<div class="pt-diff save">El plan más conveniente</div>`:`<div class="pt-diff">+${fmt(dif)} vs mejor plan</div>`):""}</div>
+            ${c.rows.map(r=>`<div class="prow"><div class="prow-l"><div class="prow-n">${r.n}</div>
+              <div><div class="prow-t">${r.t}</div><div class="prow-s">${r.s}</div></div></div>
+              <div class="prow-v"><div class="prow-amt">${fmt(r.amt)}${r.mensual?'<span style="font-size:10px;color:var(--text-3)">/mes</span>':""}</div>
+              ${r.pct?`<div class="prow-pct">${r.pct}% total</div>`:""}</div></div>`).join("")}
+          </div></div>`;
+      }).join("")}
+    </div>
+
+    <div class="actions">
+      <a class="act-btn act-wa" target="_blank" href="${waLink(u,cards,plVal)}">💬 Enviar por WhatsApp</a>
+      <button class="act-btn act-copy" onclick="copyQuote()">📋 Copiar cotización</button>
+      <button class="act-btn act-print" onclick="window.print()">🖨 Imprimir / PDF</button>
+    </div>
+
+    <div class="disclaimer">
+      Precios en MXN, en vivo desde el sistema de inventario iMexico. Cotización informativa sujeta a disponibilidad
+      y cambios sin previo aviso. Montos formalizados en contrato. Apartado aplicable al enganche.
+      ${projMeta.nombre} · ${projMeta.ciudad} · iMexico Real Estate.
+    </div>`;
+}
+
+/* ── Texto WhatsApp / copy ── */
+function quoteText(u,cards,plVal){
+  let t=`*COTIZACIÓN — ${projMeta.nombre.toUpperCase()}*\n${projMeta.ciudad} · iMexico Real Estate\n\n*Unidad ${u.n}*${u.p?" · Piso "+u.p:""}${u.t?" · "+u.t:""}\n${u.m2?u.m2+" m²":""}\n`;
+  if(plVal>0&&cards.some(c=>c.kind==="descuento"))t+=`\nPrecio de lista: ${fmt(plVal)}\n`;
+  for(const c of cards){
+    t+=`\n━━━━━━━━━━━━━━━\n*${c.e.label.toUpperCase()}* — ${fmt(c.total)}\n`;
+    if(c.kind==="etapas"){for(const r of c.rows)t+=`• ${r.t}: ${fmt(r.amt)}${r.mensual?"/mes":""}\n`;}
+    else if(c.kind==="descuento"){const a=plVal-c.total;t+=`• Pago de contado${a>0?" · Ahorras "+fmt(a):""}\n`;}
+    else t+=`• Precio: ${fmt(c.total)}\n`;
+  }
+  t+=`━━━━━━━━━━━━━━━\n\nPrecios MXN en vivo, sujetos a disponibilidad.\n¿Agendamos una visita? 🏝`;
+  return t;
+}
+function waLink(u,cards,pl){return"https://wa.me/"+WA_PHONE+"?text="+encodeURIComponent(quoteText(u,cards,pl));}
+function copyQuote(){
+  if(!selected)return;
+  const {cards,plVal}=buildCards(selected,getCfgInputs());
+  navigator.clipboard.writeText(quoteText(selected,cards,plVal)).then(()=>alert("Cotización copiada — lista para WhatsApp, correo o CRM"));
+}
+
+/* ═══ ARRANQUE ═══ */
+loadProjectList();
+</script>
+</body>
+</html>
