@@ -313,16 +313,25 @@ async function load() {
     const json = await res.json();
     if (json.error) throw new Error(json.error);
     if (json.unidades && json.unidades.length > 0) {
+      // Deriva recámaras: 1) del texto de tipologia si trae un número (ej. "1 Recamara Tipo A"),
+      // 2) si no, del patrón de letra de tipo (A=1 rec., B1/B2/C=2 rec.) como respaldo.
+      const recDeTipologia = tip => {
+        const m = String(tip||'').match(/(\d+)\s*Rec/i);
+        return m ? Number(m[1]) : null;
+      };
+      const recDeTipo = t => (String(t||'').toUpperCase().startsWith('A') ? 1 : 2);
+
       data = json.unidades.map(u => ({
         n:      String(u.numero||''),
         p:      String(u.piso||''),
         s:      String(u.status||''),
         t:      String(u.tipo||''),
-        rec:    0,
+        rec:    recDeTipologia(u.tipologia) ?? recDeTipo(u.tipo),
         m2i:    Number(u.m2i)||0,
         m2e:    Number(u.m2e)||0,
         tot:    Number(u.m2)||0,
-        precio: Number(u.precio)||0
+        // Altra usa esquema PRECIO_3070 → el Apps Script lo mapea a precio2, no a precio1
+        precio: Number(u.precio2)||Number(u.precio)||0
       }));
     }
     const now = new Date().toLocaleTimeString('es-MX');
