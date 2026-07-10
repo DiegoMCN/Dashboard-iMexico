@@ -351,11 +351,14 @@ async function loadProject(){
     if(!json.unidades?.length)throw new Error("Sin unidades");
 
     const nsOk=s=>["DISP","DISPONIBLE"].includes(String(s||"").trim().toUpperCase());
-    units=json.unidades.filter(u=>nsOk(u.status)).map(u=>({
-      n:String(u.numero||""),p:String(u.piso||""),
-      t:String(u.tipo||u.tipologia||"").trim(),
-      ubi:String(u.ubicacion||""),m2:Number(u.m2)||0,raw:u,
-    }));
+    // En estos proyectos el número se repite entre torres (torre en TIPO):
+    // la identidad de la unidad es "TORRE NÚMERO"
+    const LLAVE_CON_TIPO={alux33:true,xunik:true};
+    units=json.unidades.filter(u=>nsOk(u.status)).map(u=>{
+      const n=String(u.numero||""), t=String(u.tipo||u.tipologia||"").trim();
+      const uid=(LLAVE_CON_TIPO[projKey]&&t)?(t.toUpperCase()+" "+n):n;
+      return {n,uid,p:String(u.piso||""),t,ubi:String(u.ubicacion||""),m2:Number(u.m2)||0,raw:u};
+    });
 
     projMeta.esquemas=(projMeta.preciosHeaders||[]).map(h=>({
       header:h,campo:HEADER_TO_FIELD[h.toUpperCase()]||null,...derivarEsquema(h)
@@ -393,15 +396,15 @@ function precioRef(u){
 
 function buildList(){
   const q=($("sbSearch").value||"").toLowerCase();
-  const list=units.filter(u=>(!activeTipo||u.t===activeTipo)&&(!q||u.n.toLowerCase().includes(q)||u.p.toLowerCase().includes(q)));
+  const list=units.filter(u=>(!activeTipo||u.t===activeTipo)&&(!q||u.uid.toLowerCase().includes(q)||u.p.toLowerCase().includes(q)));
   $("unitCount").textContent=list.length;
   $("unitList").innerHTML=list.map(u=>`
-    <div class="ul-item ${selected?.n===u.n?"selected":""}" onclick="selectUnit('${u.n}')">
-      <div class="ul-top"><span class="ul-num">${u.n}</span><span class="ul-price">${fmtM(precioRef(u))}</span></div>
+    <div class="ul-item ${selected?.uid===u.uid?"selected":""}" onclick="selectUnit('${u.uid}')">
+      <div class="ul-top"><span class="ul-num">${u.uid!==u.n?u.uid:u.n}</span><span class="ul-price">${fmtM(precioRef(u))}</span></div>
       <div class="ul-meta">${u.p?"Piso "+u.p:""}${u.t?" · "+u.t:""}${u.m2?" · "+u.m2+" m²":""}${u.ubi?" · "+u.ubi:""}</div>
     </div>`).join("");
 }
-function selectUnit(n){selected=units.find(u=>u.n===n);buildList();renderQuote();}
+function selectUnit(id){selected=units.find(u=>u.uid===id);buildList();renderQuote();}
 
 /* ── Cálculo plan por etapas ── */
 function calcEtapas(total,pares,ci){
@@ -450,7 +453,7 @@ function renderQuote(){
 
   area.innerHTML=`
     <div class="us-card">
-      <div><div class="us-num">Unidad ${u.n}</div>
+      <div><div class="us-num">Unidad ${u.uid}</div>
         <div class="us-meta">${u.p?"Piso "+u.p+" · ":""}${u.t?u.t+" · ":""}${u.ubi?u.ubi+" · ":""}${u.m2?u.m2+" m²":""}</div></div>
       <div class="us-right"><div class="us-plabel">Desde</div><div class="us-price">${fmt(minTotal)}</div>
         ${u.m2?`<div class="us-m2">${fmt(minTotal/u.m2)}/m² · MXN</div>`:""}</div>
@@ -526,7 +529,7 @@ function renderQuote(){
 
 /* ── Texto WhatsApp / copy ── */
 function quoteText(u,cards,plVal){
-  let t=`*COTIZACIÓN — ${projMeta.nombre.toUpperCase()}*\n${projMeta.ciudad} · iMexico Real Estate\n\n*Unidad ${u.n}*${u.p?" · Piso "+u.p:""}${u.t?" · "+u.t:""}\n${u.m2?u.m2+" m²":""}\n`;
+  let t=`*COTIZACIÓN — ${projMeta.nombre.toUpperCase()}*\n${projMeta.ciudad} · iMexico Real Estate\n\n*Unidad ${u.uid}*${u.p?" · Piso "+u.p:""}${u.t?" · "+u.t:""}\n${u.m2?u.m2+" m²":""}\n`;
   if(plVal>0&&cards.some(c=>c.kind==="descuento"))t+=`\nPrecio de lista: ${fmt(plVal)}\n`;
   for(const c of cards){
     t+=`\n━━━━━━━━━━━━━━━\n*${c.e.label.toUpperCase()}* — ${fmt(c.total)}\n`;
@@ -569,7 +572,7 @@ function sendWhatsApp(){
 async function shareQuote(){
   if(!selected)return;
   const text=currentQuoteText();
-  const title=`Cotización ${projMeta.nombre} · Unidad ${selected.n}`;
+  const title=`Cotización ${projMeta.nombre} · Unidad ${selected.uid}`;
   if(navigator.share){
     try{ await navigator.share({title,text}); }
     catch(e){ /* usuario canceló, no hacer nada */ }
