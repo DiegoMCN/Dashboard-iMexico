@@ -10,159 +10,208 @@
 :root{
   --primary:#202845;--primary-80:#4b5577;--primary-40:#a5aabb;--primary-10:#eceef4;
   --secondary:#E73B39;--gold:#c9a96e;--gold-dark:#8a6d3a;
-  --neutral:#F4F5F8;--white:#ffffff;
-  --text:#1a1d2e;--text-2:#4a4d5e;--text-3:#8a8d9e;
-  --border:#e4e6ed;--border-2:#f0f1f5;
-  --green:#1a7a4a;--green-bg:#e8f5ee;
-  --yellow:#b8860b;--yellow-bg:#fdf6e3;
-  --red:#c0292a;--red-bg:#fce8e8;
-  --blue:#2563eb;--blue-bg:#eff4ff;
-  --shadow-sm:0 1px 3px rgba(32,40,69,.06),0 1px 2px rgba(32,40,69,.04);
-  --shadow-md:0 4px 12px rgba(32,40,69,.08),0 2px 4px rgba(32,40,69,.05);
-  --shadow-lg:0 12px 32px rgba(32,40,69,.14),0 4px 8px rgba(32,40,69,.06);
-  --radius:14px;--radius-sm:9px;
+  --neutral:#eef0f7;--white:#ffffff;
+  --text:#171a2b;--text-2:#464a5e;--text-3:#7d8196;
+  --border:rgba(32,40,69,.10);--border-2:rgba(32,40,69,.06);
+  --green:#178a4c;--green-bg:rgba(23,138,76,.12);
+  --yellow:#a97b08;--yellow-bg:rgba(212,160,23,.14);
+  --red:#c0292a;--red-bg:rgba(192,41,42,.10);
+  --blue:#2563eb;--blue-bg:rgba(37,99,235,.10);
+  --glass:rgba(255,255,255,.55);
+  --glass-strong:rgba(255,255,255,.72);
+  --glass-border:rgba(255,255,255,.65);
+  --shadow-sm:0 2px 8px rgba(32,40,69,.06);
+  --shadow-md:0 8px 28px rgba(32,40,69,.10);
+  --shadow-lg:0 24px 60px rgba(32,40,69,.18);
+  --radius:20px;--radius-sm:12px;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--neutral);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;-webkit-font-smoothing:antialiased;}
+html{scroll-behavior:smooth;}
+body{background:var(--neutral);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;-webkit-font-smoothing:antialiased;min-height:100vh;}
+
+/* ═══ Fondo mesh — la luz detrás del vidrio ═══ */
+.bg-mesh{position:fixed;inset:0;z-index:-1;background:
+  radial-gradient(620px 420px at 85% -5%, rgba(201,169,110,.32), transparent 60%),
+  radial-gradient(700px 520px at -10% 20%, rgba(32,40,69,.20), transparent 62%),
+  radial-gradient(560px 420px at 70% 90%, rgba(37,99,235,.14), transparent 60%),
+  radial-gradient(420px 320px at 25% 100%, rgba(201,169,110,.16), transparent 55%),
+  linear-gradient(180deg,#f2f3f9 0%,#e9ecf5 100%);}
+
+/* ═══ Vidrio base ═══ */
+.glass{background:var(--glass);backdrop-filter:blur(28px) saturate(160%);-webkit-backdrop-filter:blur(28px) saturate(160%);border:1px solid var(--glass-border);box-shadow:var(--shadow-md);}
 
 /* ═══ LOGIN ═══ */
-.login-wrap{position:fixed;inset:0;background:var(--primary);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;}
-.login-wrap::before{content:'';position:absolute;top:-10%;right:-5%;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(201,169,110,.12) 0%,transparent 70%);}
-.login-card{background:var(--white);border-radius:20px;padding:44px 40px;width:100%;max-width:400px;box-shadow:var(--shadow-lg);position:relative;z-index:2;}
-.login-logo{font-family:'Manrope',sans-serif;font-size:20px;font-weight:800;color:var(--primary);letter-spacing:-.02em;margin-bottom:4px;}
-.login-logo span{font-weight:400;color:var(--text-3);}
-.login-sub{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:8px;}
-.login-lock{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--text-3);background:var(--neutral);padding:6px 12px;border-radius:20px;margin-bottom:28px;}
-.login-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px;display:block;}
-.login-input{width:100%;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:13px 16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:var(--primary);outline:none;transition:border-color .2s;margin-bottom:16px;}
-.login-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,169,110,.15);}
-.login-btn{width:100%;background:var(--primary);color:var(--white);border:none;border-radius:var(--radius-sm);padding:14px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:background .2s;}
-.login-btn:hover{background:#2a3454;}
-.login-err{font-size:12px;color:var(--red);margin-top:14px;text-align:center;font-weight:600;display:none;}
+.login-wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;background:
+  radial-gradient(700px 500px at 80% 10%, rgba(201,169,110,.35), transparent 60%),
+  radial-gradient(800px 600px at 10% 90%, rgba(32,40,69,.45), transparent 65%),
+  linear-gradient(160deg,#232b4d,#1a2038);}
+.login-card{background:rgba(255,255,255,.14);backdrop-filter:blur(34px) saturate(170%);-webkit-backdrop-filter:blur(34px) saturate(170%);border:1px solid rgba(255,255,255,.30);border-radius:26px;padding:44px 40px;width:100%;max-width:400px;box-shadow:var(--shadow-lg);color:var(--white);}
+.login-logo{font-family:'Manrope',sans-serif;font-size:20px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px;}
+.login-logo span{font-weight:400;opacity:.65;}
+.login-sub{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.login-lock{display:inline-flex;align-items:center;gap:6px;font-size:11px;opacity:.75;background:rgba(255,255,255,.12);padding:6px 12px;border-radius:20px;margin-bottom:28px;}
+.login-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.7;margin-bottom:8px;display:block;}
+.login-input{width:100%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.14);border-radius:14px;padding:13px 16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:var(--white);outline:none;transition:all .2s;margin-bottom:16px;}
+.login-input::placeholder{color:rgba(255,255,255,.4);}
+.login-input:focus{border-color:var(--gold);background:rgba(255,255,255,.20);box-shadow:0 0 0 3px rgba(201,169,110,.25);}
+.login-btn{width:100%;background:var(--gold);color:#1a1508;border:none;border-radius:14px;padding:14px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:all .2s;box-shadow:0 8px 24px rgba(201,169,110,.35);}
+.login-btn:hover{transform:translateY(-1px);box-shadow:0 12px 32px rgba(201,169,110,.45);}
+.login-err{font-size:12px;color:#ffb4b4;margin-top:14px;text-align:center;font-weight:600;display:none;}
 .login-err.show{display:block;}
 
-/* ═══ APP ═══ */
+/* ═══ SHELL: sidebar + main ═══ */
 .app{display:none;}
 .app.active{display:block;}
-.nav{display:flex;align-items:center;padding:0 44px;height:62px;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm);gap:16px;}
-.nav-brand{font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;color:var(--primary);flex:1;}
-.nav-brand span{font-weight:400;color:var(--text-3);}
-.nav-badge{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-dark);background:#faf6ee;padding:5px 12px;border-radius:20px;border:1px solid rgba(201,169,110,.25);}
-.nav-live{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-3);}
+.shell{display:flex;gap:22px;max-width:1560px;margin:0 auto;padding:22px;min-height:100vh;align-items:flex-start;}
+
+.sidebar{width:230px;flex-shrink:0;border-radius:24px;padding:24px 16px;position:sticky;top:22px;display:flex;flex-direction:column;gap:4px;max-height:calc(100vh - 44px);}
+.side-logo{font-family:'Manrope',sans-serif;font-size:17px;font-weight:800;color:var(--primary);letter-spacing:-.02em;padding:0 10px;margin-bottom:2px;}
+.side-logo span{font-weight:400;color:var(--text-3);}
+.side-badge{display:inline-flex;align-items:center;gap:6px;font-size:9.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--gold-dark);background:rgba(201,169,110,.16);padding:5px 11px;border-radius:16px;margin:8px 10px 20px;width:fit-content;}
+.side-sec{font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);padding:12px 12px 6px;}
+.side-link{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:13px;font-size:12.5px;font-weight:600;color:var(--text-2);text-decoration:none;transition:all .18s;}
+.side-link .ic{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;background:rgba(32,40,69,.06);transition:all .18s;}
+.side-link:hover{background:rgba(255,255,255,.55);color:var(--primary);}
+.side-link.active{background:var(--primary);color:var(--white);box-shadow:0 8px 20px rgba(32,40,69,.30);}
+.side-link.active .ic{background:rgba(255,255,255,.16);}
+.side-foot{margin-top:auto;padding:14px 12px 4px;border-top:1px solid var(--border);}
+.side-market{font-size:10px;color:var(--text-3);line-height:1.55;margin-bottom:12px;}
+.side-market strong{color:var(--gold-dark);}
+.nav-logout{display:block;text-align:center;font-size:11px;font-weight:700;color:var(--text-3);cursor:pointer;text-decoration:none;padding:9px;border-radius:11px;border:1px solid var(--border);transition:all .2s;background:rgba(255,255,255,.4);}
+.nav-logout:hover{background:var(--primary);color:var(--white);border-color:var(--primary);}
+
+.main-col{flex:1;min-width:0;display:flex;flex-direction:column;gap:22px;}
+.topbar{border-radius:22px;padding:18px 26px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.topbar h1{font-family:'Manrope',sans-serif;font-size:21px;font-weight:800;letter-spacing:-.02em;color:var(--primary);flex:1;min-width:200px;}
+.topbar h1 em{font-style:normal;font-weight:300;color:var(--text-3);}
+.topbar-sub{font-size:11px;color:var(--text-3);width:100%;margin-top:-6px;}
+.nav-live{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-2);background:rgba(255,255,255,.55);border:1px solid var(--glass-border);padding:8px 14px;border-radius:20px;}
 .nav-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
-.nav-logout{font-size:11px;font-weight:600;color:var(--text-3);cursor:pointer;text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .2s;}
-.nav-logout:hover{background:var(--neutral);color:var(--primary);}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.45;}}
 
-.hero{padding:32px 44px 26px;background:var(--primary);position:relative;overflow:hidden;}
-.hero::after{content:'';position:absolute;top:-100px;right:-60px;width:440px;height:440px;background:radial-gradient(circle,rgba(201,169,110,.14) 0%,transparent 70%);pointer-events:none;}
-.hero-eyebrow{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
-.hero-eyebrow::before{content:'';width:22px;height:2px;background:var(--gold);}
-.hero h1{font-family:'Manrope',sans-serif;font-size:30px;font-weight:800;line-height:1.05;color:var(--white);letter-spacing:-.03em;}
-.hero h1 em{font-style:normal;font-weight:300;opacity:.5;}
-.hero-sub{font-size:13px;color:rgba(255,255,255,.55);margin-top:8px;max-width:520px;line-height:1.6;}
-
-.main{padding:32px 44px 60px;}
-.section-title{font-family:'Manrope',sans-serif;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);margin:0 0 16px;display:flex;align-items:center;gap:10px;}
-.section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+.main{display:block;}
+.section-title{font-family:'Manrope',sans-serif;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);margin:30px 0 16px;display:flex;align-items:center;gap:10px;scroll-margin-top:20px;}
+.section-title:first-child{margin-top:0;}
+.section-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);}
 .section-title .hint{font-family:'Inter',sans-serif;font-size:10px;font-weight:500;letter-spacing:.02em;text-transform:none;color:var(--text-3);}
 
-/* KPIs */
-.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:36px;}
-.kpi{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;position:relative;overflow:hidden;box-shadow:var(--shadow-sm);transition:box-shadow .2s;}
-.kpi:hover{box-shadow:var(--shadow-md);}
-.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
-.kpi.k1::before{background:var(--green);}
-.kpi.k2::before{background:var(--blue);}
-.kpi.k3::before{background:var(--yellow);}
-.kpi.k4::before{background:var(--gold);}
-.kpi-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;margin-bottom:14px;}
+/* ═══ Spotlights ═══ */
+.spot-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:8px;}
+.spot{border-radius:22px;padding:22px 24px;position:relative;overflow:hidden;color:var(--white);box-shadow:var(--shadow-lg);border:1px solid rgba(255,255,255,.22);}
+.spot.estrella{background:linear-gradient(140deg,rgba(21,58,38,.92),rgba(23,138,76,.88));}
+.spot.oportunidad{background:linear-gradient(140deg,rgba(28,35,66,.94),rgba(58,74,125,.88));}
+.spot.congelado{background:linear-gradient(140deg,rgba(58,58,66,.92),rgba(107,107,117,.85));}
+.spot::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,rgba(255,255,255,.18) 0%,transparent 32%);pointer-events:none;}
+.spot::after{content:'';position:absolute;top:-50px;right:-50px;width:190px;height:190px;border-radius:50%;background:rgba(255,255,255,.09);backdrop-filter:blur(4px);}
+.spot-tag{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.22);padding:5px 12px;border-radius:20px;margin-bottom:14px;}
+.spot-name{font-family:'Manrope',sans-serif;font-size:21px;font-weight:800;letter-spacing:-.02em;line-height:1.1;margin-bottom:4px;position:relative;}
+.spot-city{font-size:10px;opacity:.65;font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:14px;}
+.spot-metric{font-family:'Manrope',sans-serif;font-size:31px;font-weight:800;line-height:1;position:relative;}
+.spot-metric small{font-size:13px;font-weight:600;opacity:.72;}
+.spot-why{font-size:11px;opacity:.8;margin-top:6px;line-height:1.55;position:relative;}
+.spot-action{margin-top:14px;font-size:11px;font-weight:700;background:rgba(255,255,255,.15);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:9px 13px;line-height:1.45;position:relative;}
+
+/* ═══ KPIs ═══ */
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:16px;margin-bottom:8px;}
+.kpi{background:var(--glass);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);border:1px solid var(--glass-border);border-radius:20px;padding:20px 22px;position:relative;box-shadow:var(--shadow-sm);transition:transform .2s,box-shadow .2s;}
+.kpi:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);}
+.kpi-icon{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;margin-bottom:14px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.5);}
 .kpi.k1 .kpi-icon{background:var(--green-bg);}
 .kpi.k2 .kpi-icon{background:var(--blue-bg);}
 .kpi.k3 .kpi-icon{background:var(--yellow-bg);}
-.kpi.k4 .kpi-icon{background:#faf6ee;}
+.kpi.k4 .kpi-icon{background:rgba(201,169,110,.16);}
 .kpi-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;}
-.kpi-val{font-family:'Manrope',sans-serif;font-size:32px;font-weight:800;letter-spacing:-.03em;color:var(--primary);line-height:1;}
+.kpi-val{font-family:'Manrope',sans-serif;font-size:31px;font-weight:800;letter-spacing:-.03em;color:var(--primary);line-height:1;}
 .kpi-val small{font-size:14px;font-weight:600;color:var(--text-3);}
 .kpi-delta{font-size:11px;font-weight:600;margin-top:7px;display:flex;align-items:center;gap:4px;}
 .kpi-delta.up{color:var(--green);}
 .kpi-delta.down{color:var(--red);}
 .kpi-delta.flat{color:var(--text-3);}
 
-/* Semáforo */
-.traffic-list{display:flex;flex-direction:column;gap:10px;margin-bottom:36px;}
-.tf{display:flex;align-items:center;gap:16px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px 22px;box-shadow:var(--shadow-sm);transition:box-shadow .2s,transform .15s;}
-.tf:hover{box-shadow:var(--shadow-md);transform:translateX(2px);}
+/* ═══ Semáforo ═══ */
+.traffic-list{display:flex;flex-direction:column;gap:10px;margin-bottom:8px;}
+.tf{display:flex;align-items:center;gap:16px;background:var(--glass);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);border:1px solid var(--glass-border);border-radius:18px;padding:16px 22px;box-shadow:var(--shadow-sm);transition:transform .18s,box-shadow .18s;}
+.tf:hover{transform:translateX(3px);box-shadow:var(--shadow-md);}
 .tf-light{width:12px;height:12px;border-radius:50%;flex-shrink:0;position:relative;}
-.tf-light::after{content:'';position:absolute;inset:-4px;border-radius:50%;opacity:.25;}
-.tf-light.red{background:var(--red);}.tf-light.red::after{background:var(--red);}
-.tf-light.yellow{background:var(--yellow);}.tf-light.yellow::after{background:var(--yellow);}
-.tf-light.green{background:var(--green);}.tf-light.green::after{background:var(--green);}
+.tf-light::after{content:'';position:absolute;inset:-5px;border-radius:50%;opacity:.28;filter:blur(2px);}
+.tf-light.red{background:var(--red);box-shadow:0 0 12px rgba(192,41,42,.5);}.tf-light.red::after{background:var(--red);}
+.tf-light.yellow{background:#d4a017;box-shadow:0 0 12px rgba(212,160,23,.5);}.tf-light.yellow::after{background:#d4a017;}
+.tf-light.green{background:var(--green);box-shadow:0 0 12px rgba(23,138,76,.45);}.tf-light.green::after{background:var(--green);}
 .tf-light.gray{background:var(--text-3);}
 .tf-info{flex:1;min-width:0;}
 .tf-name{font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;color:var(--primary);}
-.tf-meta{font-size:11px;color:var(--text-3);margin-top:2px;}
-.tf-city{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text-3);background:var(--neutral);padding:2px 8px;border-radius:10px;margin-left:8px;}
-.tf-velocity{text-align:center;padding:0 20px;border-left:1px solid var(--border-2);border-right:1px solid var(--border-2);}
+.tf-meta{font-size:11px;color:var(--text-3);margin-top:3px;}
+.tf-city{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text-2);background:rgba(32,40,69,.07);padding:2px 8px;border-radius:10px;margin-left:8px;}
+.tf-velocity{text-align:center;padding:0 20px;border-left:1px solid var(--border);border-right:1px solid var(--border);}
 .tf-velocity-val{font-family:'Manrope',sans-serif;font-size:18px;font-weight:800;color:var(--primary);line-height:1;}
 .tf-velocity-lbl{font-size:9px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text-3);margin-top:3px;}
-.tf-proj{text-align:right;min-width:120px;}
-.tf-proj-val{font-family:'Manrope',sans-serif;font-size:17px;font-weight:800;line-height:1;}
+.tf-proj{text-align:right;min-width:150px;}
+.tf-proj-val{font-family:'Manrope',sans-serif;font-size:21px;font-weight:800;line-height:1;letter-spacing:-.02em;}
 .tf-proj-val.red{color:var(--red);}
 .tf-proj-val.yellow{color:var(--yellow);}
 .tf-proj-val.green{color:var(--green);}
 .tf-proj-val.gray{color:var(--text-3);}
-.tf-action{font-size:10px;font-weight:600;color:var(--text-3);margin-top:3px;}
+.tf-action{font-size:10px;font-weight:600;color:var(--text-3);margin-top:4px;max-width:230px;margin-left:auto;}
 
-/* Charts grid */
-.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:36px;}
-.chart-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow-sm);}
+/* ═══ Charts ═══ */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:8px;}
+.chart-card{background:var(--glass);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);border:1px solid var(--glass-border);border-radius:20px;padding:22px 24px;box-shadow:var(--shadow-sm);}
 .chart-card.full{grid-column:1/-1;}
 .chart-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
 .chart-title{font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;color:var(--primary);}
 .chart-hint{font-size:10px;color:var(--text-3);}
 .chart-box{position:relative;height:240px;}
-.chart-select{border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:11px;font-weight:600;color:var(--primary);outline:none;cursor:pointer;font-family:'Inter',sans-serif;}
 
-/* Event log */
+/* ═══ Bitácora ═══ */
 .log-controls{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
-.log-filter{padding:6px 14px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:var(--white);color:var(--text-3);transition:all .15s;}
-.log-filter.active{background:var(--primary);color:var(--white);border-color:var(--primary);}
-.log-table-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);}
+.log-filter{padding:7px 15px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid var(--glass-border);background:rgba(255,255,255,.45);backdrop-filter:blur(10px);color:var(--text-2);transition:all .18s;}
+.log-filter:hover{background:rgba(255,255,255,.75);}
+.log-filter.active{background:var(--primary);color:var(--white);border-color:var(--primary);box-shadow:0 6px 16px rgba(32,40,69,.28);}
+.log-table-wrap{background:var(--glass);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);border:1px solid var(--glass-border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm);}
 .log-table{width:100%;border-collapse:collapse;}
-.log-table thead th{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);padding:14px 18px;text-align:left;border-bottom:2px solid var(--border);background:var(--neutral);}
-.log-table tbody tr{border-bottom:1px solid var(--border-2);transition:background .1s;}
-.log-table tbody tr:hover{background:var(--neutral);}
+.log-table thead th{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);padding:14px 18px;text-align:left;border-bottom:1px solid var(--border);background:rgba(255,255,255,.35);}
+.log-table tbody tr{border-bottom:1px solid var(--border-2);transition:background .12s;}
+.log-table tbody tr:hover{background:rgba(255,255,255,.5);}
 .log-table tbody td{padding:12px 18px;font-size:12px;}
 .log-date{color:var(--text-3);font-size:11px;white-space:nowrap;}
 .ev-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;font-size:10px;font-weight:700;letter-spacing:.03em;border-radius:20px;white-space:nowrap;}
 .ev-venta{background:var(--green-bg);color:var(--green);}
 .ev-reserva{background:var(--blue-bg);color:var(--blue);}
 .ev-caida{background:var(--red-bg);color:var(--red);}
-.ev-precio-sube{background:#f0f9f0;color:var(--green);}
+.ev-precio-sube{background:rgba(23,138,76,.10);color:var(--green);}
 .ev-precio-baja{background:var(--yellow-bg);color:var(--yellow);}
-.ev-alta,.ev-alta-inicial{background:var(--neutral);color:var(--text-3);}
-.ev-otro{background:var(--neutral);color:var(--text-2);}
+.ev-alta,.ev-alta-inicial{background:rgba(32,40,69,.06);color:var(--text-3);}
+.ev-otro{background:rgba(32,40,69,.06);color:var(--text-2);}
 .log-empty{padding:60px 20px;text-align:center;color:var(--text-3);}
 .log-empty-icon{font-size:40px;opacity:.3;margin-bottom:12px;}
 
-/* Empty / loading states */
-.state-box{background:var(--white);border:1px dashed var(--border);border-radius:var(--radius);padding:48px 24px;text-align:center;color:var(--text-3);}
+/* ═══ Estados ═══ */
+.state-box{background:var(--glass);backdrop-filter:blur(24px);border:1px dashed rgba(32,40,69,.18);border-radius:20px;padding:48px 24px;text-align:center;color:var(--text-3);}
 .state-box .big{font-size:36px;opacity:.35;margin-bottom:14px;}
 .state-box .t{font-size:14px;font-weight:600;color:var(--text-2);margin-bottom:6px;}
 .state-box .s{font-size:12px;max-width:420px;margin:0 auto;line-height:1.6;}
-.spinner{width:30px;height:30px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px;}
+.state-box .retry,.state-box button{margin-top:12px;padding:9px 20px;border-radius:12px;background:var(--primary);color:var(--white);border:none;font-weight:700;font-size:12px;cursor:pointer;}
+.spinner{width:30px;height:30px;border:3px solid rgba(32,40,69,.12);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
-@media(max-width:900px){
-  .kpi-row{grid-template-columns:1fr 1fr;}
+/* details metodología */
+details.metodo{margin:8px 0 8px;background:var(--glass);backdrop-filter:blur(24px);border:1px solid var(--glass-border);border-radius:18px;padding:16px 22px;box-shadow:var(--shadow-sm);}
+
+@media(max-width:1020px){
+  .shell{flex-direction:column;padding:14px;gap:14px;}
+  .sidebar{width:100%;position:static;max-height:none;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px;padding:16px;border-radius:18px;}
+  .side-sec,.side-foot,.side-market{display:none;}
+  .side-badge{margin:0;}
+  .side-logo{margin:0;}
+  .side-link{padding:8px 12px;}
   .charts-grid{grid-template-columns:1fr;}
   .tf-velocity{display:none;}
-  .nav,.hero,.main{padding-left:20px;padding-right:20px;}
+  .kpi-row{grid-template-columns:1fr 1fr;}
 }
 </style>
 </head>
 <body>
+<div class="bg-mesh"></div>
 
 <!-- ═══════════════ LOGIN ═══════════════ -->
 <div class="login-wrap" id="loginWrap">
@@ -179,21 +228,31 @@ body{background:var(--neutral);color:var(--text);font-family:'Inter',sans-serif;
 
 <!-- ═══════════════ APP ═══════════════ -->
 <div class="app" id="app">
+  <div class="shell">
 
-  <nav class="nav">
-    <div class="nav-brand">iMexico <span>Real Estate</span></div>
-    <span class="nav-badge">🔒 Vista Dirección</span>
-    <div class="nav-live"><span class="nav-dot"></span><span id="navUpdate">—</span></div>
-    <a class="nav-logout" onclick="doLogout()">Cerrar sesión</a>
-  </nav>
+    <aside class="sidebar glass">
+      <div class="side-logo">iMexico <span>Real Estate</span></div>
+      <span class="side-badge">🔒 Vista Dirección</span>
+      <div class="side-sec">Panel</div>
+      <a class="side-link active" href="#focos"><span class="ic">🔭</span>Focos de Atención</a>
+      <a class="side-link" href="#kpis"><span class="ic">📊</span>Indicadores</a>
+      <a class="side-link" href="#semaforo"><span class="ic">🚦</span>Semáforo v2</a>
+      <a class="side-link" href="#analisis"><span class="ic">📈</span>Análisis</a>
+      <a class="side-link" href="#bitacora"><span class="ic">📋</span>Bitácora</a>
+      <div class="side-foot">
+        <div class="side-market"><strong>Mercado RM:</strong> 3.3 uds/mes por proyecto · 2026 en ajuste (AMII) · fuentes Tasvalúo/Softec</div>
+        <a class="nav-logout" onclick="doLogout()">Cerrar sesión</a>
+      </div>
+    </aside>
 
-  <div class="hero">
-    <div class="hero-eyebrow">Panel Ejecutivo</div>
-    <h1>Inteligencia de <em>Absorción</em></h1>
-    <div class="hero-sub">Velocidad de venta, proyección de agotamiento y bitácora de movimientos en tiempo real a lo largo del portafolio.</div>
-  </div>
+    <div class="main-col">
+      <header class="topbar glass">
+        <h1>Inteligencia de <em>Absorción</em></h1>
+        <div class="nav-live"><span class="nav-dot"></span><span id="navUpdate">—</span></div>
+        <div class="topbar-sub">Velocidad de venta, proyección de agotamiento y bitácora de movimientos del portafolio.</div>
+      </header>
 
-  <div class="main">
+<div class="main">
 
     <!-- Global loading -->
     <div id="globalLoading" class="state-box">
@@ -212,7 +271,12 @@ body{background:var(--neutral);color:var(--text);font-family:'Inter',sans-serif;
     <!-- Content (hidden until loaded) -->
     <div id="content" style="display:none;">
 
+      <!-- Spotlights: lo primero que ve dirección -->
+      <div class="section-title" id="focos">Focos de Atención <span class="hint">· el que vuela, el empujable y el congelado</span></div>
+      <div class="spot-row" id="spotRow"></div>
+
       <!-- KPIs -->
+      <div class="section-title" id="kpis" style="margin-top:30px;">Indicadores del Mes</div>
       <div class="kpi-row">
         <div class="kpi k1">
           <div class="kpi-icon">📈</div>
@@ -225,6 +289,12 @@ body{background:var(--neutral);color:var(--text);font-family:'Inter',sans-serif;
           <div class="kpi-label">Velocidad global</div>
           <div class="kpi-val" id="kVelocidad">—<small>/sem</small></div>
           <div class="kpi-delta flat">unidades vendidas por semana</div>
+        </div>
+        <div class="kpi k4">
+          <div class="kpi-icon">💰</div>
+          <div class="kpi-label">Inventario disponible</div>
+          <div class="kpi-val" id="kValor">—</div>
+          <div class="kpi-delta flat" id="kValorSub">valor estimado por vender</div>
         </div>
         <div class="kpi k3">
           <div class="kpi-icon">⚠️</div>
@@ -241,11 +311,24 @@ body{background:var(--neutral);color:var(--text);font-family:'Inter',sans-serif;
       </div>
 
       <!-- Semáforo -->
-      <div class="section-title">Semáforo de Proyección <span class="hint">· ¿cuándo se agota cada desarrollo al ritmo actual?</span></div>
+      <div class="section-title" id="semaforo">Semáforo de Proyección v2 <span class="hint">· motor de absorción con benchmark de mercado Riviera Maya</span></div>
       <div class="traffic-list" id="trafficList"></div>
 
+      <!-- Metodología -->
+      <details class="metodo">
+        <summary style="cursor:pointer;font-family:'Manrope',sans-serif;font-size:12px;font-weight:800;color:var(--primary);letter-spacing:.04em;">📐 ¿Cómo se calcula la proyección? (metodología)</summary>
+        <div style="font-size:12px;color:var(--text-2);line-height:1.7;margin-top:12px;">
+          <p style="margin-bottom:8px;"><strong>1. Velocidad ponderada:</strong> la última semana pesa 35% y el mes completo 65% — detecta cambios de ritmo sin sobre-reaccionar a una sola venta. Con menos de 3 ventas al mes se usa el promedio simple de 30 días.</p>
+          <p style="margin-bottom:8px;"><strong>2. Curva de agotamiento:</strong> cuando un proyecto supera el 70% vendido, la velocidad se ajusta ×0.8; sobre 85%, ×0.6. Las últimas unidades siempre tardan más (quedan las menos deseables). Estos factores son estándar de industria y se calibrarán con los datos propios al acumular 3+ meses de histórico.</p>
+          <p style="margin-bottom:8px;"><strong>3. Rango, no cifra única:</strong> el intervalo (ej. "6–11 sem") es estadístico (Poisson, 80% de confianza). Con pocas ventas el rango es amplio — el sistema muestra su propia incertidumbre en vez de fingir precisión.</p>
+          <p style="margin-bottom:8px;"><strong>4. Chip "×mercado" (IRM):</strong> tu velocidad mensual dividida entre las <strong>3.3</strong> uds/mes promedio por proyecto en la Riviera Maya (Tasvalúo, análisis semestral de 85 proyectos). 1.4× = vendes 40% más rápido que el proyecto promedio de la región.</p>
+          <p style="margin-bottom:8px;"><strong>5. Momentum:</strong> compara el ritmo de los últimos 7 días vs los últimos 30. Salud de demanda: % de reservas que se caen — arriba de 25% enciende alerta.</p>
+          <p style="margin-bottom:0;"><strong>6. Confianza:</strong> alta = 8+ ventas/mes de muestra; media = 3-7; muestra chica = interpretar con cautela.</p>
+        </div>
+      </details>
+
       <!-- Charts -->
-      <div class="section-title">Análisis de Absorción</div>
+      <div class="section-title" id="analisis">Análisis de Absorción</div>
       <div class="charts-grid">
         <div class="chart-card">
           <div class="chart-head">
@@ -271,7 +354,7 @@ body{background:var(--neutral);color:var(--text);font-family:'Inter',sans-serif;
       </div>
 
       <!-- Event log -->
-      <div class="section-title">Bitácora de Movimientos <span class="hint">· cada venta, reserva, caída y ajuste de precio</span></div>
+      <div class="section-title" id="bitacora">Bitácora de Movimientos <span class="hint">· cada venta, reserva, caída y ajuste de precio</span></div>
       <div class="log-controls" id="logFilters"></div>
       <div class="log-table-wrap">
         <table class="log-table">
@@ -281,8 +364,11 @@ body{background:var(--neutral);color:var(--text);font-family:'Inter',sans-serif;
       </div>
 
     </div><!-- /content -->
-  </div>
-</div>
+    </div>
+
+    </div><!-- /main-col -->
+  </div><!-- /shell -->
+</div><!-- /app -->
 
 <script>
 // ═══════════════════════════════════════════════════════════════════════
@@ -303,6 +389,144 @@ const META = {
 };
 const nombreDe = k => META[k]?.n || k;
 const ciudadDe = k => META[k]?.c || "";
+
+// ═══════════════════════════════════════════════════════════════════════
+// FECHA DE ALTA EN CARTERA — ⚠ AJUSTAR CON LAS FECHAS REALES
+// Cuándo empezó iMexico a comercializar cada proyecto (YYYY-MM).
+// Habilita el análisis de FATIGA: velocidad actual vs velocidad promedio
+// de toda la vida del proyecto. Si un proyecto está null, no se calcula.
+// ═══════════════════════════════════════════════════════════════════════
+const FECHA_ALTA = {
+  landmark: "2024-09", macondo: "2023-11", macondo_pe: "2024-05",
+  macondo_5f3: "2023-06", baga: "2025-01", macondo_playacar: "2024-02",
+  altra: "2025-03", terra: "2025-08", paramar_black: "2024-07",
+  pink_riad: "2024-01", seremonia: "2023-09", samsara: "2024-11",
+  xunik: "2025-05", macondo_tulum_f2: "2023-04", alux33: "2024-10", hama: "2025-06",
+};
+const mesesEnCartera = key => {
+  const f = FECHA_ALTA[key]; if(!f) return null;
+  const [y,m] = f.split("-").map(Number);
+  return Math.max((Date.now() - new Date(y, m-1, 1).getTime()) / (30.44*864e5), 1);
+};
+
+// ═══════════════════════════════════════════════════════════════════════
+// BENCHMARK DE MERCADO — Riviera Maya
+// Fuentes públicas; ACTUALIZAR TRIMESTRALMENTE (buscar reportes nuevos de
+// Tasvalúo, Softec DIME, AMII y ajustar estos valores):
+//  · Tasvalúo (análisis semestral, 85 proyectos / 16,752 uds): absorción
+//    promedio 3.3 uds/mes por proyecto; éxito comercial 2.1%/mes promedio
+//    (segmento Medio 6.2%).
+//  · AMII 2026: desaceleración del residencial turístico ~-15% vs 2025;
+//    desplazamiento regional ~150 deptos/mes.
+//  · Softec: PDC ~167 proyectos / 13,453 unidades (referencia de oferta).
+// ═══════════════════════════════════════════════════════════════════════
+const MERCADO = {
+  actualizado: "Jul 2026",
+  absorcion_prom_mes: 3.3,      // uds/mes por proyecto (Tasvalúo)
+  exito_mensual_pct: 2.1,       // % del inventario vendido/mes, promedio regional
+  exito_medio_pct: 6.2,         // % segmento Medio (el mejor)
+  contexto: "2026: mercado en ajuste — residencial turístico ~-15% vs 2025 (AMII), exceso de oferta en PDC y Tulum. Vender al ritmo del mercado ya es defender posición.",
+};
+
+// ═══════════════════════════════════════════════════════════════════════
+// MOTOR DE PROYECCIÓN v2
+// 1) Velocidad ponderada por recencia (blend 30d/7d)
+// 2) Factor de cola (curva S de agotamiento inmobiliario)
+// 3) Rango de proyección por intervalo Poisson (80%)
+// 4) IRM: índice relativo al mercado (vs benchmark Tasvalúo)
+// 5) Momentum (7d vs 30d) y salud de demanda (ratio de caídas)
+// 6) Etiqueta de confianza según tamaño de muestra
+// Los factores de cola son supuestos estándar de industria, calibrables
+// con datos propios cuando haya 3+ meses de histórico.
+// ═══════════════════════════════════════════════════════════════════════
+function motorProyeccion(key){
+  const r = DATOS.resumen[key]||{};
+  const inv = DATOS.inventario[key]?.stats||{};
+  const disp = inv.disponibles ?? null;
+  const vendidos = inv.vendidos||0;
+  const total = inv.total||0;
+
+  const v30 = r.ventas_30d||0, v7 = r.ventas_7d||0;
+  const res30 = r.reservas_30d||0, ca30 = r.caidas_30d||0;
+
+  // 1. Velocidad blend (solo con muestra mínima de 3 ventas)
+  const vel30 = v30/4.3, vel7 = v7/1;
+  let vel = v30>=3 ? (0.65*vel30 + 0.35*vel7) : vel30;
+
+  // 2. Factor de cola
+  const pctVend = total>0 ? vendidos/total : 0;
+  const factorCola = pctVend>=0.85 ? 0.6 : pctVend>=0.70 ? 0.8 : 1.0;
+  const velAjust = vel*factorCola;
+
+  // 3. Rango Poisson 80% (z=1.28)
+  let rango = null;
+  if(disp!==null && v30>0){
+    const z = 1.28, raiz = Math.sqrt(v30);
+    const velLo = Math.max((v30 - z*raiz), 0.35)/4.3*factorCola;
+    const velHi = (v30 + z*raiz)/4.3*factorCola;
+    rango = { optimista: disp/velHi, pesimista: disp/velLo, central: velAjust>0 ? disp/velAjust : null };
+  }
+
+  // 4. IRM vs mercado
+  const velMes = velAjust*4.3;
+  const irm = velMes>0 ? velMes/MERCADO.absorcion_prom_mes : 0;
+  // tasa de éxito propia: ventas del mes / inventario al inicio del mes
+  const invInicio = disp!==null ? disp+v30 : null;
+  const exitoPct = invInicio>0 ? (v30/invInicio)*100 : null;
+
+  // 5. Momentum y salud
+  let momentum = null; // "acelerando" | "estable" | "frenando"
+  if(v30>=3){
+    const ratio = vel30>0 ? vel7/vel30 : 0;
+    momentum = ratio>1.3 ? "acelerando" : ratio<0.7 ? "frenando" : "estable";
+  }
+  const totalMov = res30+v30+ca30;
+  const caidaRatio = totalMov>0 ? ca30/totalMov : 0;
+
+  // 6. Confianza
+  const confianza = v30>=8 ? "alta" : v30>=3 ? "media" : "baja";
+
+  // 7. FATIGA DE PROYECTO: velocidad actual vs promedio de toda su vida.
+  //    Separa "el equipo ya no lo empuja" (fatiga) de "quedan las unidades
+  //    difíciles" (eso ya lo corrige el factor de cola).
+  const meses = mesesEnCartera(key);
+  let fatiga = null, velVidaMes = null;
+  if(meses && vendidos>0){
+    velVidaMes = vendidos/meses;                    // ritmo promedio histórico
+    const ratio = velVidaMes>0 ? velMes/velVidaMes : null;
+    if(ratio!==null){
+      fatiga = ratio>=1.2 ? "renaciendo" : ratio>=0.7 ? "normal" : ratio>=0.3 ? "fatiga" : "fatiga_severa";
+    }
+  }
+
+  // 8. Valor del inventario disponible (MXN)
+  const precioProm = inv.precio_prom || precioPromDeEventos(key) || 0;
+  const valorInventario = disp!==null && precioProm>0 ? disp*precioProm : null;
+
+  return {key,disp,vendidos,total,pctVend,factorCola,vel:velAjust,velMes,rango,irm,exitoPct,momentum,caidaRatio,confianza,v30,v7,res30,ca30,meses,velVidaMes,fatiga,valorInventario,precioProm};
+}
+
+// Precio promedio de respaldo desde los eventos del proyecto (si el
+// inventario vivo no trae precio_prom)
+function precioPromDeEventos(key){
+  const precios = DATOS.eventos.filter(e=>e.proyecto===key && Number(e.precio_despues)>0).map(e=>Number(e.precio_despues));
+  return precios.length ? precios.reduce((a,b)=>a+b,0)/precios.length : 0;
+}
+
+// Recomendación en lenguaje de negocio a partir del motor
+function recomendacion(m, luz){
+  if(m.disp===0) return "Agotado — documentar caso de éxito y plusvalía";
+  if(m.v30===0) return m.res30>0 ? "Sin ventas pero con reservas — empujar cierres" : "Sin movimiento — revisar precio, producto o pauta";
+  if(luz==="red"  && m.momentum==="acelerando") return "Acelera y escasea → subir precio ya";
+  if(luz==="red") return "Escasez alta → subir precio / campaña de última oportunidad";
+  if(luz==="yellow" && m.irm>=1.2) return "Vende arriba del mercado → mantener empuje, preparar ajuste de precio";
+  if(luz==="yellow" && m.irm<0.8) return "Debajo del mercado → revisar precio o reforzar pauta";
+  if(luz==="yellow") return "Ritmo sano → empujar equipo para acelerar";
+  if(m.momentum==="frenando" && m.irm<0.8) return "Estancado vs mercado → acción de marketing o revisión de precio";
+  if(m.momentum==="acelerando") return "Despegando → preparar siguiente fase de precios";
+  if(m.caidaRatio>0.25) return "⚠ 1 de 4 reservas se cae → revisar proceso de cierre/apartado";
+  return "Hay margen de tiempo → optimizar mezcla y precio por tipología";
+}
 
 let PASS = "";
 let DATOS = { eventos:[], resumen:{}, inventario:{} };
@@ -398,10 +622,73 @@ function eventosReales(){
 }
 
 function render(){
+  renderSpotlights();
   renderKPIs();
   renderTraffic();
   renderCharts();
   renderLog();
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// SPOTLIGHTS — el que vuela, el empujable, el congelado
+// ═══════════════════════════════════════════════════════════════════════
+function renderSpotlights(){
+  const motores = Object.keys(META).map(k=>motorProyeccion(k)).filter(m=>m.disp!==null);
+  const activos = motores.filter(m=>m.disp>0);
+  if(!activos.length){ $("spotRow").innerHTML=estadoVacio("🔭","Sin datos aún","Los focos aparecen cuando haya actividad registrada."); return; }
+
+  // 🏆 ESTRELLA: mayor velocidad ajustada (con al menos 1 venta)
+  const conVentas = activos.filter(m=>m.v30>0);
+  const estrella = conVentas.length ? conVentas.reduce((a,b)=>b.vel>a.vel?b:a) : null;
+
+  // 🎯 EMPUJABLE: mayor inventario en valor entre los que venden DEBAJO del mercado
+  // (donde más dinero se libera si aceleramos)
+  const rezagados = activos.filter(m=>m.v30>0 && m.irm<1 && m.key!==estrella?.key);
+  const empujable = rezagados.length ? rezagados.reduce((a,b)=>(b.valorInventario||0)>(a.valorInventario||0)?b:a)
+    : activos.filter(m=>m.key!==estrella?.key).sort((a,b)=>(b.valorInventario||0)-(a.valorInventario||0))[0]||null;
+
+  // 🧊 CONGELADO: sin ventas en 30d, con inventario, el de más disponibles
+  const congelados = activos.filter(m=>m.v30===0 && m.key!==estrella?.key && m.key!==empujable?.key);
+  const congelado = congelados.length ? congelados.reduce((a,b)=>b.disp>a.disp?b:a) : null;
+
+  const cards=[];
+  if(estrella){
+    const extra = estrella.fatiga==="renaciendo" ? " Además vende más rápido que su promedio histórico." : "";
+    cards.push(`
+    <div class="spot estrella">
+      <div class="spot-tag">🏆 Proyecto Estrella</div>
+      <div class="spot-name">${nombreDe(estrella.key)}</div>
+      <div class="spot-city">${ciudadDe(estrella.key)}</div>
+      <div class="spot-metric">${estrella.vel.toFixed(1)}<small> uds/sem</small></div>
+      <div class="spot-why">${estrella.irm>=1?estrella.irm.toFixed(1)+"× el ritmo del mercado regional.":"El más rápido de la cartera."} ${estrella.disp} unidades restantes.${extra}</div>
+      <div class="spot-action">→ ${estrella.rango&&estrella.rango.central<=4?"Se agota en semanas: subir precio y capitalizar la escasez.":"Estudiar qué está funcionando aquí (precio, pauta, producto) y replicarlo en el resto."}</div>
+    </div>`);
+  }
+  if(empujable){
+    const mdp = empujable.valorInventario ? (empujable.valorInventario/1e6).toFixed(0) : null;
+    cards.push(`
+    <div class="spot oportunidad">
+      <div class="spot-tag">🎯 El Empujable</div>
+      <div class="spot-name">${nombreDe(empujable.key)}</div>
+      <div class="spot-city">${ciudadDe(empujable.key)}</div>
+      <div class="spot-metric">${mdp?"$"+mdp+"<small> MDP</small>":empujable.disp+"<small> uds</small>"}</div>
+      <div class="spot-why">${mdp?"en inventario por vender.":""} Vende a ${empujable.vel>0?empujable.vel.toFixed(1)+"/sem":"ritmo bajo"}${empujable.irm>0&&empujable.irm<1?" — "+empujable.irm.toFixed(1)+"× del mercado":""}. Es donde acelerar libera más dinero.</div>
+      <div class="spot-action">→ ${empujable.fatiga==="fatiga"||empujable.fatiga==="fatiga_severa"?"Muestra fatiga comercial: refresh de marketing e incentivo especial al equipo.":"Concentrar empuje comercial y pauta aquí este mes."}</div>
+    </div>`);
+  }
+  if(congelado){
+    const mesesTxt = congelado.meses ? Math.round(congelado.meses)+" meses en cartera" : "";
+    cards.push(`
+    <div class="spot congelado">
+      <div class="spot-tag">🧊 Congelado</div>
+      <div class="spot-name">${nombreDe(congelado.key)}</div>
+      <div class="spot-city">${ciudadDe(congelado.key)}</div>
+      <div class="spot-metric">0<small> ventas / 30 días</small></div>
+      <div class="spot-why">${congelado.disp} unidades detenidas${congelado.valorInventario?" ($"+(congelado.valorInventario/1e6).toFixed(0)+" MDP)":""}. ${mesesTxt}${congelado.res30>0?" · Hay "+congelado.res30+" reservas sin cerrar.":""}</div>
+      <div class="spot-action">→ ${congelado.res30>0?"Primero: cerrar las reservas abiertas.":"Diagnóstico urgente: ¿precio, producto o abandono comercial? Decidir intervención o reposicionamiento."}</div>
+    </div>`);
+  }
+  $("spotRow").innerHTML = cards.join("") || estadoVacio("🔭","Sin focos por ahora","Cuando haya actividad, aquí aparecen el proyecto estrella, el empujable y el congelado.");
 }
 
 function renderKPIs(){
@@ -429,51 +716,113 @@ function renderKPIs(){
   $("kVelocidad").innerHTML = velocidad+'<small>/sem</small>';
   $("kCaidas").textContent = caidas30;
   $("kPlusvalia").textContent = alzas30;
+
+  // Valor total del inventario disponible (MXN → MDP)
+  const motores = Object.keys(META).map(k=>motorProyeccion(k));
+  const valorTotal = motores.reduce((s,m)=>s+(m.valorInventario||0),0);
+  if(valorTotal>0){
+    $("kValor").innerHTML = "$"+(valorTotal/1e6).toFixed(0)+'<small> MDP</small>';
+    const velGlobalMes = ventas30>0 ? valorTotal/(motores.reduce((s,m)=>s+(m.velMes*(m.precioProm||0)),0)||1) : null;
+    $("kValorSub").textContent = velGlobalMes && velGlobalMes<120 ? "se convierte en ~"+Math.round(velGlobalMes)+" meses al ritmo actual" : "valor estimado por vender";
+  } else {
+    $("kValor").textContent = "—";
+  }
 }
 
 function renderTraffic(){
-  // Combina velocidad (histórico) + disponibles (inventario vivo) → proyección
   const filas = Object.keys(META).map(key=>{
-    const r = DATOS.resumen[key]||{};
-    const inv = DATOS.inventario[key]?.stats||{};
-    const disp = inv.disponibles ?? null;
-    const vel = r.velocidad_sem||0;
-    // Semanas para agotar: disponibles / velocidad
-    let semanas = null, luz="gray", proj="Sin datos", accion="esperando historial";
-    if(disp!==null && vel>0){
-      semanas = disp/vel;
-      if(semanas<=3){luz="red";proj="~"+Math.round(semanas)+" sem";accion="subir precio / última oportunidad";}
-      else if(semanas<=10){luz="yellow";proj="~"+Math.round(semanas)+" sem";accion="empujar equipo de ventas";}
-      else{luz="green";proj=semanas>52?"~"+Math.round(semanas/4.3)+" meses":"~"+Math.round(semanas)+" sem";accion="hay margen de tiempo";}
-    } else if(disp!==null && vel===0){
-      luz="gray";proj=disp+" disp.";accion=disp===0?"agotado":"sin ventas aún";
-    }
-    return {key,disp,vel,semanas,luz,proj,accion};
-  }).filter(f=>f.disp!==null);
+    const m = motorProyeccion(key);
+    if(m.disp===null) return null;
 
-  // Orden: rojo → amarillo → verde → gris; dentro, por menos semanas
+    // Semáforo sobre la proyección CENTRAL del motor v2
+    let luz="gray", proj="Sin datos", sub="esperando historial";
+    if(m.rango && m.rango.central){
+      const s = m.rango.central;
+      const fmtSem = x => x>52 ? "~"+Math.round(x/4.3)+" meses" : "~"+Math.round(x)+" sem";
+      if(s<=3) luz="red";
+      else if(s<=10) luz="yellow";
+      else luz="green";
+      // Rango honesto: optimista–pesimista
+      const lo=Math.max(Math.round(m.rango.optimista),1), hi=Math.round(m.rango.pesimista);
+      proj = (lo===hi) ? fmtSem(s) : `${lo}–${hi} sem`;
+      if(m.rango.pesimista>52) proj = fmtSem(s);
+      sub = recomendacion(m,luz);
+    } else if(m.disp===0){
+      luz="gray"; proj="Agotado"; sub=recomendacion(m,luz);
+    } else {
+      luz="gray"; proj=m.disp+" disp."; sub=recomendacion(m,luz);
+    }
+    return {...m, luz, proj, sub};
+  }).filter(Boolean);
+
   const orden={red:0,yellow:1,green:2,gray:3};
-  filas.sort((a,b)=> orden[a.luz]-orden[b.luz] || (a.semanas??1e9)-(b.semanas??1e9));
+  filas.sort((a,b)=> orden[a.luz]-orden[b.luz] || (a.rango?.central??1e9)-(b.rango?.central??1e9));
 
   if(!filas.length){
     $("trafficList").innerHTML = estadoVacio("🚦","Aún sin proyección","El semáforo necesita al menos unos días de historial de ventas para calcular velocidad. Vuelve en unos días.");
     return;
   }
 
-  $("trafficList").innerHTML = filas.map(f=>`
+  // Tarjeta de contexto de mercado (arriba del semáforo)
+  const ctx = `
+    <div style="background:#faf6ee;border:1px solid rgba(201,169,110,.35);border-radius:var(--radius);padding:14px 20px;margin-bottom:6px;display:flex;gap:14px;align-items:flex-start;">
+      <div style="font-size:20px;">🌎</div>
+      <div style="flex:1;">
+        <div style="font-family:'Manrope',sans-serif;font-size:12px;font-weight:800;color:var(--gold-dark);letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px;">Contexto de mercado · Riviera Maya</div>
+        <div style="font-size:11.5px;color:var(--text-2);line-height:1.55;">${MERCADO.contexto} Benchmark regional: <strong>${MERCADO.absorcion_prom_mes} uds/mes</strong> por proyecto y <strong>${MERCADO.exito_mensual_pct}%</strong> del inventario vendido al mes (Tasvalúo). El chip <strong>“×mercado”</strong> de cada proyecto compara tu ritmo contra ese promedio.</div>
+        <div style="font-size:10px;color:var(--text-3);margin-top:5px;">Benchmarks actualizados: ${MERCADO.actualizado} · Fuentes: Tasvalúo (semestral), AMII, Softec · Actualizar trimestralmente en el bloque MERCADO del código.</div>
+      </div>
+    </div>`;
+
+  const momIcon = m => m==="acelerando" ? '<span style="color:var(--green);font-weight:800;">▲ acelerando</span>'
+    : m==="frenando" ? '<span style="color:var(--red);font-weight:800;">▼ frenando</span>'
+    : m==="estable" ? '<span style="color:var(--text-3);font-weight:700;">— estable</span>' : '';
+
+  const irmChip = m => {
+    if(!m.irm || m.v30===0) return '';
+    const x = m.irm.toFixed(1);
+    const bien = m.irm>=1;
+    return `<span style="display:inline-block;margin-left:8px;padding:2px 9px;border-radius:12px;font-size:9.5px;font-weight:800;background:${bien?'var(--green-bg)':'var(--yellow-bg)'};color:${bien?'var(--green)':'var(--yellow)'};" title="Tu velocidad vs el proyecto promedio de la Riviera Maya (${MERCADO.absorcion_prom_mes} uds/mes)">${x}× mercado</span>`;
+  };
+
+  const confChip = c => {
+    const map={alta:["var(--green-bg)","var(--green)","confianza alta"],media:["var(--blue-bg)","var(--blue)","confianza media"],baja:["var(--neutral)","var(--text-3)","muestra chica"]};
+    const [bg,col,txt]=map[c];
+    return `<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:9px;font-weight:700;background:${bg};color:${col};">${txt}</span>`;
+  };
+
+  const fatigaChip = f => {
+    if(!f.fatiga || f.fatiga==="normal") return '';
+    const map={
+      renaciendo:['var(--green-bg)','var(--green)','⚡ renaciendo','Vende más rápido que su promedio histórico'],
+      fatiga:['var(--yellow-bg)','var(--yellow)','😴 fatiga','Vende más lento que su promedio de vida — posible pérdida de atención comercial'],
+      fatiga_severa:['var(--red-bg)','var(--red)','🥱 fatiga severa','Muy por debajo de su ritmo histórico — requiere intervención'],
+    };
+    const [bg,col,txt,tip]=map[f.fatiga];
+    return `<span style="display:inline-block;margin-left:6px;padding:2px 9px;border-radius:12px;font-size:9.5px;font-weight:800;background:${bg};color:${col};" title="${tip} (${Math.round(f.meses)} meses en cartera, promedio de vida ${f.velVidaMes.toFixed(1)}/mes)">${txt}</span>`;
+  };
+
+  $("trafficList").innerHTML = ctx + filas.map(f=>`
     <div class="tf">
       <div class="tf-light ${f.luz}"></div>
       <div class="tf-info">
-        <div class="tf-name">${nombreDe(f.key)}<span class="tf-city">${ciudadDe(f.key)}</span></div>
-        <div class="tf-meta">${f.disp} disponibles${f.vel>0?" · vendiendo "+f.vel+"/sem":" · sin ventas recientes"}</div>
+        <div class="tf-name">${nombreDe(f.key)}<span class="tf-city">${ciudadDe(f.key)}</span>${irmChip(f)}${fatigaChip(f)}</div>
+        <div class="tf-meta">
+          ${f.disp} disponibles · ${f.vendidos}/${f.total} vendidas (${Math.round(f.pctVend*100)}%)
+          ${f.vel>0?" · "+f.vel.toFixed(1)+"/sem":""}
+          ${f.momentum?" · "+momIcon(f.momentum):""}
+          ${f.caidaRatio>0.25?' · <span style="color:var(--red);font-weight:700;">⚠ caídas altas</span>':''}
+          ${f.factorCola<1?` · <span title="Proyección ajustada: las últimas unidades se venden más lento (curva de agotamiento)">ajuste de cola ×${f.factorCola}</span>`:""}
+        </div>
       </div>
       <div class="tf-velocity">
-        <div class="tf-velocity-val">${f.vel||"—"}</div>
+        <div class="tf-velocity-val">${f.vel>0?f.vel.toFixed(1):"—"}</div>
         <div class="tf-velocity-lbl">uds/sem</div>
       </div>
       <div class="tf-proj">
         <div class="tf-proj-val ${f.luz}">${f.proj}</div>
-        <div class="tf-action">${f.accion}</div>
+        <div class="tf-action">${f.sub}</div>
+        <div style="margin-top:4px;">${confChip(f.confianza)}</div>
       </div>
     </div>`).join("");
 }
@@ -600,6 +949,16 @@ function detalleEvento(e){
 }
 
 function setLogFiltro(k){logFiltroActivo=k;renderLog();}
+</script>
+<script>
+// Sidebar: marcar sección activa al hacer scroll
+const secciones=["focos","kpis","semaforo","analisis","bitacora"];
+const links=document.querySelectorAll(".side-link");
+window.addEventListener("scroll",()=>{
+  let actual=secciones[0];
+  for(const s of secciones){const el=document.getElementById(s);if(el&&el.getBoundingClientRect().top<140)actual=s;}
+  links.forEach(l=>l.classList.toggle("active",l.getAttribute("href")==="#"+actual));
+},{passive:true});
 </script>
 </body>
 </html>
