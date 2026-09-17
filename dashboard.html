@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — iMexico Real Estate</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="imx.css">
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="back">← Volver al Portfolio</a>
+  <div class="brand">iMexico Real Estate</div>
+  <div class="live"><span class="dot"></span><span id="upd">Cargando...</span></div>
+</nav>
+<div class="header">
+  <div><h1 id="hTitle">—</h1><div class="sub" id="hSub">—</div></div>
+  <div class="header-r">Auto-refresco cada <span style="color:var(--ac)">5</span> min</div>
+</div>
+<div class="main">
+  <div class="krow">
+    <div class="kpi kg"><div class="klb">Disponibles</div><div class="kv" id="kD">—</div><div class="ks">unidades</div></div>
+    <div class="kpi ky"><div class="klb">Reservados</div><div class="kv" id="kR">—</div><div class="ks">unidades</div></div>
+    <div class="kpi kr"><div class="klb">Vendidos</div><div class="kv" id="kV">—</div><div class="ks">unidades</div></div>
+    <div class="kpi ka"><div class="klb">Precio Mínimo</div><div class="kv" id="kMn">—</div><div class="ks">MXN</div></div>
+    <div class="kpi ka"><div class="klb">Precio Máximo</div><div class="kv" id="kMx">—</div><div class="ks">MXN</div></div>
+  </div>
+  <div class="filters" id="filters"></div>
+  <div class="g3">
+    <div class="pb">
+      <div class="pt">Estado del Inventario</div>
+      <div class="dw">
+        <svg width="96" height="96" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="38" fill="none" stroke="var(--border)" stroke-width="14"/>
+          <circle id="cD" cx="50" cy="50" r="38" fill="none" stroke="#22c55e" stroke-width="14" stroke-dasharray="0 239" stroke-dashoffset="60" transform="rotate(-90 50 50)" style="transition:stroke-dasharray 1s"/>
+          <circle id="cR" cx="50" cy="50" r="38" fill="none" stroke="#eab308" stroke-width="14" stroke-dasharray="0 239" stroke-dashoffset="60" transform="rotate(-90 50 50)" style="transition:stroke-dasharray 1s"/>
+          <circle id="cV" cx="50" cy="50" r="38" fill="none" stroke="#ef4444" stroke-width="14" stroke-dasharray="0 239" stroke-dashoffset="60" transform="rotate(-90 50 50)" style="transition:stroke-dasharray 1s"/>
+          <text x="50" y="47" text-anchor="middle" fill="var(--primary)" font-family="Cormorant Garamond" font-size="16" font-weight="600" id="cT">—</text>
+          <text x="50" y="59" text-anchor="middle" fill="var(--text-3)" font-family="DM Mono" font-size="7">TOTAL</text>
+        </svg>
+        <div class="dl">
+          <div class="li"><div class="ld" style="background:#22c55e"></div><span style="font-size:11px">Disponible</span><div class="lc" id="lD">—</div></div>
+          <div class="li"><div class="ld" style="background:#eab308"></div><span style="font-size:11px">Reservado</span><div class="lc" id="lR">—</div></div>
+          <div class="li"><div class="ld" style="background:#ef4444"></div><span style="font-size:11px">Vendido</span><div class="lc" id="lV">—</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="pb"><div class="pt">Unidades por Tipo</div><div class="bc" id="bT"></div></div>
+    <div class="pb"><div class="pt">Rango de Precios (MXN)</div><div class="prc" id="pR"></div></div>
+  </div>
+  <div class="g2">
+    <div class="pb">
+      <div class="pt">Disponibilidad por Piso</div>
+      <div style="display:flex;gap:14px;margin-bottom:12px;font-size:10px;letter-spacing:.1em;">
+        <span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;background:#22c55e;display:inline-block;"></span>DISP</span>
+        <span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;background:#eab308;display:inline-block;"></span>RESERVADO</span>
+        <span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;background:#ef4444;display:inline-block;"></span>VENDIDO</span>
+      </div>
+      <div class="hm" id="hM"></div>
+    </div>
+    <div class="pb"><div class="pt">Precio Promedio por Nivel (MXN)</div><div class="bc" id="bP"></div></div>
+  </div>
+  <div class="pb">
+    <div class="pt">Inventario Detallado</div>
+    <div class="ri">Mostrando <span id="cnt">—</span> unidades</div>
+    <div class="tw"><table id="tbl"><thead id="th"></thead><tbody id="tb"></tbody></table></div>
+  </div>
+</div>
+<div class="tip" id="tip"></div>
+<script src="proyectos.js"></script>
+<script src="imx-core.js"></script>
+</body>
+</html>
