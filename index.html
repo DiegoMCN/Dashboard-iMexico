@@ -98,7 +98,35 @@ body{background:var(--neutral);color:var(--text);font-family:'Inter',sans-serif;
   .nav,.hero,.main,.footer{padding-left:24px;padding-right:24px;}
   .hero h1{font-size:36px;}
   .stats-bar{grid-template-columns:repeat(2,1fr);}
+  .filter-bar{flex-direction:column;align-items:stretch;}
+  .filter-bar .fb-group{width:100%;}
+  .price-slider{width:100%;}
 }
+
+/* Barra de filtros del index */
+.filter-bar{display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;background:var(--white);border-bottom:1px solid var(--border);padding:20px 60px;box-shadow:var(--shadow-sm);}
+.fb-group{display:flex;flex-direction:column;gap:7px;}
+.fb-label{font-size:9.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#9497a8;}
+.fb-group select{border:1.5px solid transparent;border-radius:10px;padding:9px 14px;font-family:'Inter',sans-serif;font-size:12.5px;font-weight:700;color:var(--primary);outline:none;background:#f2f3f8;cursor:pointer;transition:all .15s;min-width:150px;}
+.fb-group select:hover{background:#e9ebf3;}
+.fb-group select:focus{border-color:var(--primary);background:#fff;box-shadow:0 0 0 3px rgba(32,40,69,.08);}
+.fb-clear{align-self:flex-end;display:inline-flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:9px 16px;font-size:12px;font-weight:700;color:#6b6f80;cursor:pointer;transition:all .15s;}
+.fb-clear:hover{background:var(--primary);color:#fff;border-color:var(--primary);}
+.fb-count{align-self:flex-end;font-size:11.5px;color:#8a8d9e;margin-left:auto;padding-bottom:11px;}
+.fb-count strong{color:var(--primary);}
+
+/* Slider de rango de precio: dos <input type=range> superpuestos */
+.fb-group-price{min-width:220px;}
+.price-slider{position:relative;height:30px;width:190px;}
+.ps-track{position:absolute;top:13px;left:0;right:0;height:4px;background:#e5e7ee;border-radius:4px;}
+.ps-fill{position:absolute;top:13px;height:4px;background:var(--primary);border-radius:4px;}
+.ps-range{position:absolute;top:0;left:0;width:100%;height:30px;margin:0;background:transparent;-webkit-appearance:none;appearance:none;pointer-events:none;}
+.ps-range::-webkit-slider-runnable-track{background:transparent;height:4px;}
+.ps-range::-moz-range-track{background:transparent;height:4px;border:none;}
+.ps-range::-webkit-slider-thumb{-webkit-appearance:none;pointer-events:auto;width:16px;height:16px;border-radius:50%;background:var(--primary);border:2.5px solid #fff;box-shadow:0 1px 5px rgba(32,40,69,.4);cursor:pointer;margin-top:-6px;}
+.ps-range::-moz-range-thumb{pointer-events:auto;width:16px;height:16px;border-radius:50%;background:var(--primary);border:2.5px solid #fff;box-shadow:0 1px 5px rgba(32,40,69,.4);cursor:pointer;}
+.ps-range:focus::-webkit-slider-thumb{box-shadow:0 0 0 4px rgba(32,40,69,.15);}
+.ps-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--primary);margin-top:6px;font-weight:700;}
 </style>
 </head>
 <body>
@@ -125,6 +153,33 @@ body{background:var(--neutral);color:var(--text);font-family:'Inter',sans-serif;
   <div class="sbi"><div class="sbi-val y" id="gRes">—</div><div class="sbi-lbl">Reservados</div></div>
   <div class="sbi"><div class="sbi-val r" id="gVend">—</div><div class="sbi-lbl">Vendidos</div></div>
   <div class="sbi"><div class="sbi-val" id="gProy">16</div><div class="sbi-lbl">Desarrollos Activos</div></div>
+</div>
+
+<div class="filter-bar">
+  <div class="fb-group">
+    <label class="fb-label" for="fbCiudad">Ciudad</label>
+    <select id="fbCiudad" onchange="aplicarFiltros()"><option value="">Todas</option></select>
+  </div>
+  <div class="fb-group fb-group-price">
+    <label class="fb-label">Rango de precio</label>
+    <div class="price-slider" id="priceSlider">
+      <div class="ps-track"></div>
+      <div class="ps-fill" id="psFill"></div>
+      <input type="range" id="fbPrecioMin" class="ps-range" min="0" max="20" step="0.5" value="0" oninput="onPriceSlide()">
+      <input type="range" id="fbPrecioMax" class="ps-range" min="0" max="20" step="0.5" value="20" oninput="onPriceSlide()">
+    </div>
+    <div class="ps-labels"><span id="psMinLbl">Sin mínimo</span><span id="psMaxLbl">Sin máximo</span></div>
+  </div>
+  <div class="fb-group">
+    <label class="fb-label">Entrega desde</label>
+    <select id="fbEntregaDesde" onchange="aplicarFiltros()"><option value="">Cualquiera</option></select>
+  </div>
+  <div class="fb-group">
+    <label class="fb-label">Entrega hasta</label>
+    <select id="fbEntregaHasta" onchange="aplicarFiltros()"><option value="">Cualquiera</option></select>
+  </div>
+  <button class="fb-clear" onclick="limpiarFiltros()">↺ Limpiar</button>
+  <div class="fb-count" id="fbCount"></div>
 </div>
 
 <div class="main">
@@ -334,16 +389,130 @@ const cacheGet = k => { try{ const o = JSON.parse(localStorage.getItem(k)); retu
 const cacheSet = (k,data) => { try{ localStorage.setItem(k, JSON.stringify({t:Date.now(), data})); }catch(e){} };
 const keysDe = arr => arr.map(p=>p.key).sort().join(',');
 
+function fillCards(proyectos, resumen){
+  proyectos.forEach(p=>{ fillCard(p.key, resumen[p.key]?.stats || {}); });
+}
 function aplicarStats(proyectos, resumen){
   let totDisp=0, totRes=0, totVend=0;
   proyectos.forEach(p=>{
     const s = resumen[p.key]?.stats || {};
-    fillCard(p.key, s);
     totDisp+=s.disponibles||0; totRes+=s.reservados||0; totVend+=s.vendidos||0;
   });
+  fillCards(proyectos, resumen);
   document.getElementById('gDisp').textContent = totDisp||'—';
   document.getElementById('gRes').textContent  = totRes||'—';
   document.getElementById('gVend').textContent = totVend||'—';
+}
+
+/* ═══ Barra de filtros: ciudad, rango de precio, rango de fecha de entrega ═══
+   Todo client-side, sobre lo que ya llegó de ?listar=proyectos + ?proyecto=todos.
+   Un proyecto sin fecha_entrega definida (PROYECTOS_META en el Apps Script)
+   nunca se oculta por el filtro de fecha — solo se excluye si el dato que
+   falta es el que el usuario pidió filtrar y de verdad no existe (precio). */
+let ALL_PROYECTOS = [];
+let RESUMEN = {};
+let PRICE_DOMAIN = {min:0, max:20};
+let precioTocado = false;
+
+/* Ajusta el rango del slider a los precios reales de la cartera (una vez
+   que llegan las stats). Si el usuario ya movió el slider, no le pisa su
+   selección; si sigue en su default (todo el rango), lo mantiene abierto. */
+function poblarSliderPrecio(){
+  const maxes = Object.values(RESUMEN).map(r=>(r?.stats?.precio_max||0)/1e6).filter(v=>v>0);
+  if(!maxes.length) return;
+  const domMax = Math.max(1, Math.ceil(Math.max(...maxes)/0.5)*0.5);
+  const minEl=document.getElementById('fbPrecioMin'), maxEl=document.getElementById('fbPrecioMax');
+  const eraFull = !precioTocado || (Number(minEl.value)<=PRICE_DOMAIN.min && Number(maxEl.value)>=PRICE_DOMAIN.max);
+  PRICE_DOMAIN = {min:0, max:domMax};
+  [minEl,maxEl].forEach(el=>{ el.min=0; el.max=domMax; el.step=0.5; });
+  if(eraFull){ minEl.value=0; maxEl.value=domMax; }
+  syncSliderVisual();
+}
+function syncSliderVisual(){
+  const minEl=document.getElementById('fbPrecioMin'), maxEl=document.getElementById('fbPrecioMax');
+  let vMin=parseFloat(minEl.value), vMax=parseFloat(maxEl.value);
+  const dom=PRICE_DOMAIN, span=(dom.max-dom.min)||1;
+  const pct1=(vMin-dom.min)/span*100, pct2=(vMax-dom.min)/span*100;
+  const fill=document.getElementById('psFill');
+  fill.style.left=pct1+'%'; fill.style.width=Math.max(pct2-pct1,0)+'%';
+  document.getElementById('psMinLbl').textContent = vMin<=dom.min ? 'Sin mínimo' : '$'+vMin.toFixed(1)+'M';
+  document.getElementById('psMaxLbl').textContent = vMax>=dom.max ? 'Sin máximo' : '$'+vMax.toFixed(1)+'M';
+}
+function onPriceSlide(){
+  precioTocado = true;
+  const minEl=document.getElementById('fbPrecioMin'), maxEl=document.getElementById('fbPrecioMax');
+  let vMin=parseFloat(minEl.value), vMax=parseFloat(maxEl.value);
+  if(vMin>vMax){
+    if(document.activeElement===minEl){ maxEl.value=vMin; } else { minEl.value=vMax; }
+  }
+  syncSliderVisual();
+  aplicarFiltros();
+}
+
+function parseFechaEntrega(str){
+  const m = String(str||'').match(/^(\d{4})(?:-(\d{1,2}))?$/);
+  return m ? { year:Number(m[1]), month:m[2]?Number(m[2]):null } : null;
+}
+
+function poblarFiltros(proyectos){
+  const ciudades = [...new Set(proyectos.map(p=>p.ciudad).filter(Boolean))].sort();
+  const selC = document.getElementById('fbCiudad');
+  const curC = selC.value;
+  selC.innerHTML = '<option value="">Todas</option>' + ciudades.map(c=>`<option value="${c}">${c}</option>`).join('');
+  selC.value = ciudades.includes(curC) ? curC : '';
+
+  const anios = [...new Set(proyectos.map(p=>parseFechaEntrega(p.fecha_entrega)).filter(Boolean).map(f=>f.year))].sort();
+  ['fbEntregaDesde','fbEntregaHasta'].forEach(id=>{
+    const sel=document.getElementById(id); const cur=sel.value;
+    sel.innerHTML = '<option value="">Cualquiera</option>' + anios.map(a=>`<option value="${a}">${a}</option>`).join('');
+    sel.value = anios.includes(Number(cur)) ? cur : '';
+  });
+}
+
+function aplicarFiltros(){
+  const ciudad = document.getElementById('fbCiudad').value;
+  const pMin = parseFloat(document.getElementById('fbPrecioMin').value);
+  const pMax = parseFloat(document.getElementById('fbPrecioMax').value);
+  const eDesde = document.getElementById('fbEntregaDesde').value;
+  const eHasta = document.getElementById('fbEntregaHasta').value;
+  const hayFiltroPrecio = precioTocado && (pMin>PRICE_DOMAIN.min || pMax<PRICE_DOMAIN.max);
+
+  const filtrados = ALL_PROYECTOS.filter(p=>{
+    if(ciudad && p.ciudad!==ciudad) return false;
+    if(hayFiltroPrecio){
+      const s = RESUMEN[p.key]?.stats;
+      const min=(s?.precio_min||0)/1e6, max=(s?.precio_max||0)/1e6;
+      if(!max) return false; // sin precios cargados: no se puede evaluar el rango pedido
+      if(!isNaN(pMin) && max<pMin) return false;
+      if(!isNaN(pMax) && min>pMax) return false;
+    }
+    if(eDesde || eHasta){
+      const f = parseFechaEntrega(p.fecha_entrega);
+      if(f){
+        if(eDesde && f.year<Number(eDesde)) return false;
+        if(eHasta && f.year>Number(eHasta)) return false;
+      }
+      // sin fecha_entrega definida en PROYECTOS_META: nunca se oculta por este filtro
+    }
+    return true;
+  });
+
+  renderCiudades(filtrados);
+  injectQuoteButtons();
+  fillCards(filtrados, RESUMEN);
+  const cnt=document.getElementById('fbCount');
+  cnt.innerHTML = filtrados.length===ALL_PROYECTOS.length
+    ? `<strong>${ALL_PROYECTOS.length}</strong> desarrollos`
+    : `<strong>${filtrados.length}</strong> de ${ALL_PROYECTOS.length} desarrollos`;
+}
+
+function limpiarFiltros(){
+  ['fbCiudad','fbEntregaDesde','fbEntregaHasta'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fbPrecioMin').value = PRICE_DOMAIN.min;
+  document.getElementById('fbPrecioMax').value = PRICE_DOMAIN.max;
+  precioTocado = false;
+  syncSliderVisual();
+  aplicarFiltros();
 }
 
 function setLive(txt){
@@ -358,6 +527,9 @@ async function loadAll(){
     renderCiudades(proyectos);
     injectQuoteButtons();
     if(cT) aplicarStats(proyectos, cT.data);
+    ALL_PROYECTOS = proyectos; if(cT) RESUMEN = cT.data;
+    poblarFiltros(ALL_PROYECTOS);
+    if(cT) poblarSliderPrecio();
     setLive('Actualizando…');
   }
 
@@ -378,11 +550,15 @@ async function loadAll(){
       if(cT) aplicarStats(frescos, cT.data);
     }
     proyectos = frescos;
+    ALL_PROYECTOS = proyectos;
+    poblarFiltros(ALL_PROYECTOS);
   } else if(!proyectos.length){
     // Sin servidor ni caché: fallback a INDEX_META local
     proyectos = Object.keys(INDEX_META).map(k=>({key:k, nombre:INDEX_META[k].nombre, ciudad:INDEX_META[k].ciudad}));
     renderCiudades(proyectos);
     injectQuoteButtons();
+    ALL_PROYECTOS = proyectos;
+    poblarFiltros(ALL_PROYECTOS);
   }
 
   // 2) STATS frescos (los números se actualizan en su lugar, sin parpadeo)
@@ -392,12 +568,17 @@ async function loadAll(){
     const resumen = json.resumen || {};
     aplicarStats(proyectos, resumen);
     cacheSet('imx_todos', resumen);
+    RESUMEN = resumen;
+    poblarSliderPrecio();
     setLive(new Date().toLocaleTimeString('es-MX'));
     const fu=document.getElementById('footerUpdate'); if(fu)fu.textContent='Actualizado: '+new Date().toLocaleTimeString('es-MX');
   }catch(e){
     console.warn('stats fallaron:', e.message);
     setLive(cT ? 'Sin conexión · datos de '+new Date(cT.t).toLocaleTimeString('es-MX') : 'Sin conexión');
   }
+
+  // 3) Re-aplica el estado actual de la barra de filtros sobre los datos ya frescos
+  if(ALL_PROYECTOS.length) aplicarFiltros();
 }
 
 function injectQuoteButtons(){
